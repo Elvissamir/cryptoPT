@@ -1,0 +1,85 @@
+
+//JSON PortfolioCryptos responses TESTS
+
+GET
+- test_gets_list_of_cryptos_in_portfolio ------------ READY
+- test_guests_can_not_get_crypto_list --------------- READY
+- test_a_user_can_only_get_crypto_list_for_his_portfolio ---------------- READY
+
+POST
+- test_adds_crypto_in_portfolio --------------------- READY 
+- test_guests_can_not_add_cryptos_in_portfolio ----------- READY
+- test_a_user_can_only_add_cryptos_in_his_portfolio ------------------- READY
+- test_user_can_only_add_existing_cryptos_to_portfolio ---------------- READY
+- test_can_not_add_crypto_to_portfolio_if_it_has_been_already_added -------- READY
+- test_id_of_crypto_to_add_is_required ---------------READY
+- test_id_must_be_an_integer ------------------- READY
+- test_amount_of_crypto_to_add_is_required ------------- READY
+- test_amount_of_crypto_to_add_must_be_a_number ----------- READY
+- test_min_amount_of_crypto_to_add_is_one_satoshi ----------------- READY
+- test_max_amount_of_crypto_to_add_is_ten_million --------------- READY
+
+PUT
+- test_updates_crypto_amount_in_portfolio ---------------- READY
+- test_can_only_update_amount_of_cryptos_that_exist ---------------- READY
+- test_can_only_update_amount_of_cryptos_that_are_already_in_portfolio ------------ READY
+- test_guests_can_not_update_crypto_amount_in_portfolio -------------------- READY
+- test_a_user_can_only_update_crypto_amount_in_his_portfolio --------------- READY 
+- test_id_of_crypto_to_update_is_required ------------ READY
+- test_id_of_crypto_must_be_an_integer ------------ READY
+- test_amount_of_crypto_to_update_is_required ---------- READY
+- test_amount_of_crypto_to_update_must_be_a_number --------------- READY
+- test_min_amount_to_update_is_one_satoshi --------------------- READY
+- test_max_amount_to_update_is_ten_million -------------------- READY
+
+DELETE
+- test_removes_crypto_from_portfolio -------------------- READY
+- test_the_crypto_id_must_be_an_integer
+- test_can_only_remove_cryptos_that_exist --------------- READY
+- test_guests_can_not_remove_cryptos_from_portfolio ---------------- READY
+- test_a_user_can_only_remove_cryptos_from_his_portfolio --------------- READY
+- test_can_only_remove_existing_cryptos_from_portfolio ----------- READY
+
+
+//Vue Component Tests 
+
+Portfolio show view
+
+--Portfolio Component
+
+Data: 
+- list of cryptos
+    - crypto id (backend)
+    - crypto name (backend)
+    - crypto symbol (backend)
+    - crypto image (frontend)
+    - crypto rank (frontend)
+    - crypto price (frontend)
+    - crypto amount (backend)
+- portfolio
+    - portfolio creation date (backend)
+    - portfolio worth in USD (frontend)
+    - portfolio pie chart (frontend)
+    - portfolio growth in USD since creation date (frontend)
+
+Actions: 
+> Add crypto to portfolio
+> Remove crypto from portolio
+
+Tests
+
+- test_page_structure_has_all_sections ------------ READY
+- test_shows_created_at_date_in_human_format --------- READY
+- test_shows_cryptos_list
+- test_removes_crypto_from_portfolio 
+- test_add_button_redirects_to_cryptos_list 
+- test_shows_numbers_of_cryptos_in_portfolio
+- test_calculates_portfolio_value_in_usd
+- test_shows_growth_percentage_from_previous_day
+- test_shows_growth_in_usd_from_previous_day
+- test_shows_portfolio_diversification_chart
+- test_shows_list_of_best_performing_cryptos
+
+
+
+

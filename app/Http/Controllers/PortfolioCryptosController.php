@@ -45,16 +45,11 @@ class PortfolioCryptosController extends Controller
     {
         $portfolio = auth()->user()->portfolio;
 
-        $this->abortWIthStatusIf(!$portfolio->hasCrypto($crypto->name), 404, $this->cryptoNotInPortfolioMessage);
+        abort_if(! $portfolio->hasCrypto($crypto->name), 404);
 
         $portfolio->updateCryptoAmount($crypto->id, $request->amount);
 
-        return response()->json([
-            'data' => [
-                'id' => $crypto->id,
-                'amount' => $request->amount
-            ]
-        ], 201);
+        return back();
     }
 
     public function destroy(Crypto $crypto)

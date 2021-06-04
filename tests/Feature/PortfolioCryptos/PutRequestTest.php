@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class JsonPutRequestTest extends TestCase
+class PutRequestTest extends TestCase
 {
     //use RefreshDatabase;
     use RefreshDatabase;
@@ -33,7 +33,9 @@ class JsonPutRequestTest extends TestCase
 
         $updatedAmount = rand(1, 1000);
 
-        $response = $this->actingAs($portfolio->user)->putJson(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->actingAs($portfolio->user)
+                         ->from(route('portfolioCryptos.show'))
+                         ->put(route('portfolioCryptos.update', $crypto->id), [
             'amount' => $updatedAmount,
         ]);
 
@@ -43,13 +45,7 @@ class JsonPutRequestTest extends TestCase
             'amount' => $updatedAmount
         ]);
 
-        $response->assertStatus(201);
-        $response->assertJson([
-            'data' => [
-                'id' => $crypto->id,
-                'amount' => $updatedAmount
-            ]
-        ]);
+        $response->assertRedirect(route('portfolioCryptos.show'));
     }
 
     public function test_can_only_update_amount_of_cryptos_that_exist()
@@ -85,7 +81,7 @@ class JsonPutRequestTest extends TestCase
         $crypto = Crypto::factory()->create();
         $updateAmount = rand(1, 1000);
 
-        $response = $this->actingAs($portfolio->user)->putJson(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->id), [
             'amount' => $updateAmount
         ]);
 
@@ -96,9 +92,6 @@ class JsonPutRequestTest extends TestCase
         ]);
 
         $response->assertStatus(404);
-        $response->assertJson([
-            'message' => 'The crypto hasnt been added to the portfolio.'
-        ]);
     }
 
     public function test_guests_can_not_update_crypto_amount_in_portfolio()
@@ -112,7 +105,7 @@ class JsonPutRequestTest extends TestCase
 
         $updatedAmount = rand(1, 1000);
 
-        $response = $this->putJson(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->put(route('portfolioCryptos.update', $crypto->id), [
             'amount' => $updatedAmount,
         ]);
 
@@ -122,10 +115,7 @@ class JsonPutRequestTest extends TestCase
             'amount' => $updatedAmount
         ]);
 
-        $response->assertStatus(401);
-        $response->assertJson([
-            'message' => 'Unauthenticated.'
-        ]);
+        $response->assertRedirect(route('login'));
     }
 
     public function test_a_user_can_only_update_crypto_amount_in_his_portfolio()
@@ -148,7 +138,7 @@ class JsonPutRequestTest extends TestCase
         $updatedAmount = rand(1, 1000);
 
         // The owner of portfolio B can only update the amount of crypto in his portfolio
-        $response = $this->actingAs($portfolioB->user)->putJson(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->actingAs($portfolioB->user)->put(route('portfolioCryptos.update', $crypto->id), [
             'amount' => $updatedAmount,
         ]);
 
@@ -158,13 +148,7 @@ class JsonPutRequestTest extends TestCase
             'amount' => $updatedAmount
         ]);
 
-        $response->assertStatus(201);
-        $response->assertJson([
-            'data' => [
-                'id' => $crypto->id,
-                'amount' => $updatedAmount
-            ]
-        ]);
+        $response->assertRedirect();
     }
 
     public function test_id_of_crypto_to_update_is_required()
@@ -179,7 +163,7 @@ class JsonPutRequestTest extends TestCase
 
         $updatedAmount = rand(1, 1000);
 
-        $response = $this->actingAs($portfolio->user)->putJson(route('portfolioCryptos.update', ''), [
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', ''), [
             'amount' => $updatedAmount,
         ]);
 
@@ -190,6 +174,7 @@ class JsonPutRequestTest extends TestCase
         ]);
 
         $response->assertStatus(405);
+        //$response->assertRedirect(route('portfolioCryptos.show'));
     }
 
     public function test_id_of_crypto_must_be_an_integer()
@@ -204,7 +189,7 @@ class JsonPutRequestTest extends TestCase
 
         $updatedAmount = rand(1, 1000);
 
-        $response = $this->actingAs($portfolio->user)->putJson(route('portfolioCryptos.update', Str::random(4)), [
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', Str::random(4)), [
             'amount' => $updatedAmount,
         ]);
 
@@ -229,15 +214,10 @@ class JsonPutRequestTest extends TestCase
 
         $updatedAmount = rand(1, 1000);
 
-        $response = $this->actingAs($portfolio->user)->putJson(route('portfolioCryptos.update', $crypto->id), []);
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->id), []);
 
-        $response->assertStatus(422);
-        $response->assertJson([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'amount' => ['The amount field is required.']
-            ]
-        ]);
+        $response->assertRedirect();
+        $response->assertSessionHasErrors(['amount']);
     }
 
     public function test_amount_of_crypto_to_update_must_be_a_number()
@@ -252,7 +232,7 @@ class JsonPutRequestTest extends TestCase
 
         $updatedAmount = Str::random(4);
 
-        $response = $this->actingAs($portfolio->user)->putJson(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->id), [
             'amount' => $updatedAmount,
         ]);
 
@@ -262,13 +242,8 @@ class JsonPutRequestTest extends TestCase
             'amount' => $initialAmount
         ]);
 
-        $response->assertStatus(422);
-        $response->assertJson([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'amount' => ['The amount must be a number.']
-            ]
-        ]);
+        $response->assertRedirect();
+        $response->assertSessionHasErrors(['amount']);
     }
 
     public function test_min_amount_to_update_is_one_satoshi()
@@ -283,7 +258,7 @@ class JsonPutRequestTest extends TestCase
 
         $updatedAmount = 0.000000001;
 
-        $response = $this->actingAs($portfolio->user)->putJson(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->id), [
             'amount' => $updatedAmount,
         ]);
 
@@ -293,13 +268,8 @@ class JsonPutRequestTest extends TestCase
             'amount' => $initialAmount
         ]);
 
-        $response->assertStatus(422);
-        $response->assertJson([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'amount' => ['The amount must be at least 0.00000001.']
-            ]
-        ]);
+        $response->assertRedirect();
+        $response->assertSessionHasErrors(['amount']);
     }
 
     public function test_max_amount_to_update_is_ten_million()
@@ -314,7 +284,7 @@ class JsonPutRequestTest extends TestCase
  
         $updatedAmount = 10000001;
  
-        $response = $this->actingAs($portfolio->user)->putJson(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->id), [
             'amount' => $updatedAmount,
         ]);
  
@@ -324,12 +294,7 @@ class JsonPutRequestTest extends TestCase
             'amount' => $initialAmount
         ]);
  
-        $response->assertStatus(422);
-        $response->assertJson([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'amount' => ['The amount must not be greater than 10000000.']
-            ]
-        ]);
+        $response->assertRedirect();
+        $response->assertSessionHasErrors(['amount']);
     }
 }

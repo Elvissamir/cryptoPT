@@ -39,6 +39,10 @@ Route::post('/portfolio/cryptos', [PortfolioCryptosController::class, 'store'])
      ->middleware(['auth:sanctum'])
      ->name('portfolioCryptos.store');
 
+Route::put('/portfolio/cryptos/{crypto}', [PortfolioCryptosController::class, 'update'])
+     ->middleware(['auth:sanctum'])
+     ->name('portfolioCryptos.update');
+
 Route::delete('/portfolio/cryptos/{crypto}', [PortfolioCryptosController::class, 'destroy'])
      ->middleware(['auth:sanctum'])
      ->name('portfolioCryptos.destroy');

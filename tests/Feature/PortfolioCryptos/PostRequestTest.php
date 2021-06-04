@@ -83,7 +83,7 @@ class PostRequestTest extends TestCase
             'amount' => $amountA
         ]);
 
-        $response = $this->actingAs($portfolioB->user)->postJson(route('portfolioCryptos.store'), [
+        $response = $this->actingAs($portfolioB->user)->post(route('portfolioCryptos.store'), [
             'id' => $cryptoB->id,
             'amount' => $amountB
         ]);
@@ -103,7 +103,7 @@ class PostRequestTest extends TestCase
         $amount = rand(1, 1000);
         $randomId = rand(1,10);
 
-        $response = $this->actingAs($portfolio->user)->postJson(route('portfolioCryptos.store'), [
+        $response = $this->actingAs($portfolio->user)->post(route('portfolioCryptos.store'), [
             'id' => $randomId,
             'amount' => $amount,
         ]);
@@ -127,7 +127,7 @@ class PostRequestTest extends TestCase
 
         $this->attachToPortfolio($portfolio, $crypto->id);
 
-        $response = $this->actingAs($portfolio->user)->postJson(route('portfolioCryptos.store'), [
+        $response = $this->actingAs($portfolio->user)->post(route('portfolioCryptos.store'), [
             'id' => $crypto->id,
             'amount' => $amount,
         ]);
@@ -150,7 +150,9 @@ class PostRequestTest extends TestCase
         $crypto = Crypto::factory()->create();
         $amount = rand(1, 1000);
 
-        $response = $this->actingAs($portfolio->user)->postJson(route('portfolioCryptos.store'), [
+        $response = $this->actingAs($portfolio->user)
+                         ->from(route('portfolioCryptos.show'))
+                         ->post(route('portfolioCryptos.store'), [
             'amount' => $amount,
         ]);
 
@@ -167,20 +169,14 @@ class PostRequestTest extends TestCase
         $crypto = Crypto::factory()->create();
         $amount = rand(1, 1000);
 
-        $response = $this->actingAs($portfolio->user)->postJson(route('portfolioCryptos.store'), [
+        $response = $this->actingAs($portfolio->user)->post(route('portfolioCryptos.store'), [
             'id' => Str::random(4),
             'amount' => $amount,
         ]);
 
         $this->assertDatabaseCount('crypto_portfolio', 0);
 
-        $response->assertStatus(422);
-        $response->assertJson([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'id' => ['The id must be an integer.']
-            ]
-        ]);
+        $response->assertRedirect();
     }
 
     public function test_amount_of_crypto_to_add_is_required()
@@ -190,19 +186,13 @@ class PostRequestTest extends TestCase
         $portfolio = $this->createPortfolio();
         $crypto = Crypto::factory()->create();
  
-        $response = $this->actingAs($portfolio->user)->postJson(route('portfolioCryptos.store'), [
+        $response = $this->actingAs($portfolio->user)->post(route('portfolioCryptos.store'), [
             'id' => $crypto->id,
         ]);
  
         $this->assertDatabaseCount('crypto_portfolio', 0);
  
-        $response->assertStatus(422);
-        $response->assertJson([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'amount' => ['The amount field is required.']
-            ]
-        ]);
+        $response->assertRedirect();
     }
 
     public function test_amount_of_crypto_to_add_must_be_a_number()
@@ -213,20 +203,14 @@ class PostRequestTest extends TestCase
         $crypto = Crypto::factory()->create();
         $amount = "non numeric";
 
-        $response = $this->actingAs($portfolio->user)->postJson(route('portfolioCryptos.store'), [
+        $response = $this->actingAs($portfolio->user)->post(route('portfolioCryptos.store'), [
             'id' => $crypto->id,
             'amount' => $amount,
         ]);
 
         $this->assertDatabaseCount('crypto_portfolio', 0);
 
-        $response->assertStatus(422);
-        $response->assertJson([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'amount' => ['The amount must be a number.']
-            ]
-        ]);
+        $response->assertRedirect();
     }
 
     public function test_min_amount_of_crypto_to_add_is_one_satoshi()
@@ -238,20 +222,14 @@ class PostRequestTest extends TestCase
         //RIght amount is 0.00000001
         $amount = 0.000000001;
 
-        $response = $this->actingAs($portfolio->user)->postJson(route('portfolioCryptos.store'), [
+        $response = $this->actingAs($portfolio->user)->post(route('portfolioCryptos.store'), [
             'id' => $crypto->id,
             'amount' => $amount,
         ]);
 
         $this->assertDatabaseCount('crypto_portfolio', 0);
 
-        $response->assertStatus(422);
-        $response->assertJson([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'amount' => ['The amount must be at least 0.00000001.']
-            ]
-        ]);
+        $response->assertRedirect();
     }
 
     public function test_max_amount_of_crypto_to_add_is_ten_million()
@@ -263,20 +241,14 @@ class PostRequestTest extends TestCase
         //Right amount is 10 000 000
         $amount = 10000001;
 
-        $response = $this->actingAs($portfolio->user)->postJson(route('portfolioCryptos.store'), [
+        $response = $this->actingAs($portfolio->user)->post(route('portfolioCryptos.store'), [
             'id' => $crypto->id,
             'amount' => $amount,
         ]);
 
         $this->assertDatabaseCount('crypto_portfolio', 0);
 
-        $response->assertStatus(422);
-        $response->assertJson([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'amount' => ['The amount must not be greater than 10000000.']
-            ]
-        ]);
+        $response->assertRedirect();
     }
 
 }

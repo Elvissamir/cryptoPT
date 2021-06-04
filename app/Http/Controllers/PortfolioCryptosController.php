@@ -38,7 +38,7 @@ class PortfolioCryptosController extends Controller
 
         $portfolio->addCrypto($crypto->id, $request->amount);
 
-        return back();
+        return redirect()->back()->with('success', $crypto->name.' has been added to your portfolio.');
     }
 
     public function update(Crypto $crypto, UpdateCryptoInPortfolioRequest $request)
@@ -60,6 +60,6 @@ class PortfolioCryptosController extends Controller
 
         $portfolio->removeCrypto($crypto->id);
 
-        return back();
+        return redirect()->back()->with('success', $crypto->name.' was removed from your portfolio.');
     }
 }

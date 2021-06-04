@@ -36,6 +36,7 @@ class PostRequestTest extends TestCase
         ]);
 
         $response->assertRedirect(route('portfolioCryptos.show'));
+        $response->assertSessionHas('success', $crypto->name.' has been added to your portfolio.');
     }
 
     public function test_guests_can_not_add_cryptos_to_portfolio()

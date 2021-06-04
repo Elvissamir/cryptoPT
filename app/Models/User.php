@@ -58,4 +58,11 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    //Methods
+    public function portfolio()
+    {
+        return $this->hasOne(Portfolio::class);
+    }
 }

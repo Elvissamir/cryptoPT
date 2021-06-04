@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
 
-class JsonPostRequestTest extends TestCase
+class PostRequestTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -22,7 +22,9 @@ class JsonPostRequestTest extends TestCase
 
         $amount = rand(1, 1000);
 
-        $response = $this->actingAs($portfolio->user)->postJson(route('portfolioCryptos.store'), [
+        $response = $this->actingAs($portfolio->user)
+                         ->from(route('portfolioCryptos.show'))
+                         ->post(route('portfolioCryptos.store'), [
             'id' => $crypto->id,
             'amount' => $amount,
         ]);
@@ -33,16 +35,10 @@ class JsonPostRequestTest extends TestCase
             'amount' => $amount
         ]);
 
-        $response->assertStatus(201);
-        $response->assertJson([
-            'data' => [
-                'id' => $crypto->id,
-                'amount' => $amount
-            ]
-        ]);
+        $response->assertRedirect(route('portfolioCryptos.show'));
     }
 
-    public function test_guests_can_not_add_cryptos_in_portfolio()
+    public function test_guests_can_not_add_cryptos_to_portfolio()
     {
         //$this->withoutExceptionHandling();
 
@@ -50,7 +46,7 @@ class JsonPostRequestTest extends TestCase
         $crypto = Crypto::factory()->create();
         $amount = rand(1, 1000);
 
-        $response = $this->postJson(route('portfolioCryptos.store'), [
+        $response = $this->post(route('portfolioCryptos.store'), [
             'id' => $crypto->id,
             'amount' => $amount,
         ]);
@@ -61,10 +57,7 @@ class JsonPostRequestTest extends TestCase
             'amount' => $amount
         ]);
 
-        $response->assertStatus(401);
-        $response->assertJson([
-           'message' => 'Unauthenticated.'
-        ]);
+        $response->assertRedirect(route('login'));
     }
 
     public function test_a_user_can_only_add_cryptos_to_his_portfolio()
@@ -79,7 +72,7 @@ class JsonPostRequestTest extends TestCase
         $cryptoB = Crypto::factory()->create();
         $amountB = rand(1, 1000);
 
-        $response = $this->actingAs($portfolioA->user)->postJson(route('portfolioCryptos.store'), [
+        $response = $this->actingAs($portfolioA->user)->post(route('portfolioCryptos.store'), [
             'id' => $cryptoA->id,
             'amount' => $amountA
         ]);
@@ -146,9 +139,6 @@ class JsonPostRequestTest extends TestCase
         ]);
 
         $response->assertStatus(409);
-        $response->assertJson([
-            'message' => 'The crypto has already been added to the portfolio of current user.'
-        ]);
     }
 
 
@@ -166,13 +156,7 @@ class JsonPostRequestTest extends TestCase
 
         $this->assertDatabaseCount('crypto_portfolio', 0);
 
-        $response->assertStatus(422);
-        $response->assertJson([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'id' => ['The id field is required.']
-            ]
-        ]);
+        $response->assertRedirect();
     }
 
     public function test_id_must_be_an_integer()

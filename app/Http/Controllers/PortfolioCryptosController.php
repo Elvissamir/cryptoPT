@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Crypto;
-use Illuminate\Http\Request;
-use App\Http\Resources\CryptoResource;
 use App\Http\Requests\StoreCryptoInPortfolioRequest;
 use App\Http\Requests\UpdateCryptoInPortfolioRequest;
+use App\Http\Resources\CryptoResource;
+use App\Models\Crypto;
+use App\Models\Portfolio;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PortfolioCryptosController extends Controller
 {
@@ -16,13 +18,14 @@ class PortfolioCryptosController extends Controller
     private $cryptoInPortfolioMessage = 'The crypto has already been added to the portfolio of current user.';
     private $cryptoNotInPortfolioMessage = 'The crypto hasnt been added to the portfolio.';
 
-    //Handling methods
-    public function index()
-    {
-        $user = auth()->user();
-        $cryptos = $user->portfolio->cryptos;
+    //Handling methods 
+    public function show() { 
 
-        return CryptoResource::collection($cryptos);
+        $portfolio = auth()->user()->portfolio;
+
+        return Inertia::render('Portfolio/Show', [
+            'cryptos' => json_encode(CryptoResource::collection($portfolio->cryptos)),
+        ]); 
     }
 
     public function store(StoreCryptoInPortfolioRequest $request)
@@ -31,16 +34,11 @@ class PortfolioCryptosController extends Controller
 
         $crypto = Crypto::findOrFail($request->id);
 
-        $this->abortWIthStatusIf($portfolio->hasCrypto($crypto->name), 409, $this->cryptoInPortfolioMessage);
+        abort_if($portfolio->hasCrypto($crypto->name), 409);
 
         $portfolio->addCrypto($crypto->id, $request->amount);
 
-        return response()->json([
-            'data' => [
-                'id' => $request->id,
-                'amount' => $request->amount
-            ]
-        ], 201);
+        return back();
     }
 
     public function update(Crypto $crypto, UpdateCryptoInPortfolioRequest $request)
@@ -63,36 +61,10 @@ class PortfolioCryptosController extends Controller
     {
         $portfolio = auth()->user()->portfolio;
 
-        $this->abortWithStatusIf(!$portfolio->hasCrypto($crypto->name), 404, $this->cryptoNotInPortfolioMessage);
+        abort_if(! $portfolio->hasCrypto($crypto->name), 404);
 
         $portfolio->removeCrypto($crypto->id);
 
-        return new CryptoResource($crypto);
-    }
-
-    private function abortWithStatusIf($condition, $status, $message)
-    {
-        return abort_if($condition, $status, $message, $this->jsonHeaders);
-    }
-
-    private function checkIntegerId($id)
-    {
-        $message = 'The crypto id must be an integer.';
-        $headers = ['Content-Type' => 'application/json'];
-
-        return abort_if(!ctype_digit(strval($id)), 422, $message, $headers);
-    }
-
-    private function tryToFindCrypto($id)
-    {
-        try {
-            return Crypto::findOrFail($cryptoId);
-        }
-        catch(\Exception $e)
-        {
-            return response()->json([
-                'message' => "The crypto with the given id doesnt exist."
-            ], 404);
-        }
+        return back();
     }
 }

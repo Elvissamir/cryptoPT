@@ -13,18 +13,19 @@ use Inertia\Inertia;
 
 class PortfolioCryptosController extends Controller
 {
-    //Properties
-    private $jsonHeaders = ['Content-Type' => 'application/json'];
-    private $cryptoInPortfolioMessage = 'The crypto has already been added to the portfolio of current user.';
-    private $cryptoNotInPortfolioMessage = 'The crypto hasnt been added to the portfolio.';
-
     //Handling methods 
     public function show() { 
 
         $portfolio = auth()->user()->portfolio;
 
+        $json = [];
+
         return Inertia::render('Portfolio/Show', [
-            'cryptos' => json_encode(CryptoResource::collection($portfolio->cryptos)),
+            'portfolio' => [
+                'created_at' => $portfolio->created_at->diffForHumans(),
+                'updated_at' => $portfolio->updated_at->diffForHumans()
+            ],
+            'cryptos' => CryptoResource::collection($portfolio->cryptos),
         ]); 
     }
 

@@ -16,7 +16,8 @@ class CreateCryptosTable extends Migration
         Schema::create('cryptos', function (Blueprint $table) {
             $table->id();
             $table->string('symbol', 8);
-            $table->string('name', 15);
+            $table->string('name', 25);
+            $table->string('cg_id', 25);
         });
     }
 

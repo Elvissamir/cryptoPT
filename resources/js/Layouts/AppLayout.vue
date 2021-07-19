@@ -225,6 +225,11 @@
             <main>
                 <slot></slot>
             </main>
+
+            <!-- FOOTER -->
+            <footer>
+                Layout footer
+            </footer>
         </div>
     </div>
 </template>

@@ -4,6 +4,7 @@ namespace Tests\Feature\PortfolioCryptos;
 
 use App\Http\Resources\CryptoResource;
 use App\Models\Crypto;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -45,6 +46,31 @@ class GetPortfolioTest extends TestCase
         $response->assertInertia(fn (Assert $page) => 
             $page->has('cryptos')
                  ->where('cryptos', json_encode(CryptoResource::collection($portfolio->cryptos)))
+        );
+    }
+
+    public function test_portfolio_show_component_has_the_portfolio_created_and_updated_at_data()
+    {
+        $this->withoutExceptionHandling();
+
+        $portfolio = $this->createPortfolio();
+
+        $portfolio->created_at = Carbon::now()->subDays(1);
+        $portfolio->save();
+
+        $cryptoA = Crypto::factory()->create();
+        $cryptoB = Crypto::factory()->create();
+        $cryptoC = Crypto::factory()->create();
+
+        $this->attachToPortfolio($portfolio, $cryptoA->id);
+        $this->attachToPortfolio($portfolio, $cryptoB->id);
+
+        $response = $this->actingAs($portfolio->user)->get(route('portfolioCryptos.show'));
+
+        $response->assertInertia(fn (Assert $page) => 
+            $page->has('cryptos')
+                 ->where('portfolio.created_at', $portfolio->created_at->diffForHumans())
+                 ->where('portfolio.updated_at', $portfolio->updated_at->diffForHumans())
         );
     }
 

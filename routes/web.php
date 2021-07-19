@@ -30,6 +30,11 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 
+//STYLES
+Route::get('/styles', function() {
+     return view('layout');
+});
+
 //Portfolio Routes
 Route::get('/portfolio', [PortfolioCryptosController::class, 'show'])
      ->middleware(['auth:sanctum'])

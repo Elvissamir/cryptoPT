@@ -32,7 +32,6 @@
 
                      <div class="ml-2">
                         <button>Add +</button>
-                        <button>|</button>
                      </div>
                   </div>
 
@@ -42,6 +41,7 @@
                         <div>
                            <p>{{ crypto.symbol }}</p>
                            <p>{{ crypto.name }}</p>
+                           <p>{{ crypto.created_at }}</p>
                         </div>
                      </div>
                   </div>

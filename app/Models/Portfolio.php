@@ -58,7 +58,7 @@ class Portfolio extends Model
 
     public function cryptos()
     {
-        return $this->belongsToMany(Crypto::class)->withPivot('amount');
+        return $this->belongsToMany(Crypto::class)->withPivot('amount')->withTimestamps();
     }
 
 

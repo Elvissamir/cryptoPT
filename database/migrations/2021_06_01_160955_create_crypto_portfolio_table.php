@@ -26,6 +26,7 @@ class CreateCryptoPortfolioTable extends Migration
                   ->on('cryptos');
 
             $table->decimal('amount', 16, 8);
+            $table->timestamps();
         });
     }
 

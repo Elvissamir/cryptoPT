@@ -45,7 +45,7 @@ class GetPortfolioTest extends TestCase
 
         $response->assertInertia(fn (Assert $page) => 
             $page->has('cryptos')
-                 ->where('cryptos', json_encode(CryptoResource::collection($portfolio->cryptos)))
+                 ->where('cryptos', CryptoResource::collection($portfolio->cryptos))
         );
     }
 
@@ -105,19 +105,19 @@ class GetPortfolioTest extends TestCase
         $this->attachToPortfolio($portfolioB, $cryptoB);
 
         //Owner of portfolioA can only get his cryptos data
-        $response = $this->actingAs($portfolioA->user)->getJson(route('portfolioCryptos.show'));
+        $response = $this->actingAs($portfolioA->user)->get(route('portfolioCryptos.show'));
 
         $response->assertInertia(fn (Assert $page) => 
             $page->has('cryptos')
-                 ->where('cryptos', json_encode(CryptoResource::collection($portfolioA->cryptos)))
+                 ->where('cryptos', CryptoResource::collection($portfolioA->cryptos))
         );
 
         //Owner of portfolioB can only get his cryptos data
-        $response = $this->actingAs($portfolioB->user)->getJson(route('portfolioCryptos.show'));
+        $response = $this->actingAs($portfolioB->user)->get(route('portfolioCryptos.show'));
 
         $response->assertInertia(fn (Assert $page) => 
             $page->has('cryptos')
-                 ->where('cryptos', json_encode(CryptoResource::collection($portfolioB->cryptos)))
+                 ->where('cryptos', CryptoResource::collection($portfolioB->cryptos))
         );
     }
 }

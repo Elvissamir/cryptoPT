@@ -18,6 +18,7 @@ class CryptoResource extends JsonResource
             'id' => $this->id,
             'symbol' => $this->symbol,
             'name' => $this->name,
+            'cg_id' => $this->cg_id,
             'amount' => $this->whenPivotLoaded('crypto_portfolio', function () {
                 return $this->pivot->amount;
             })

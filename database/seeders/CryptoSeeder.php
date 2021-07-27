@@ -5875,6 +5875,7 @@ class CryptoSeeder extends Seeder
                 'name' => $crypto->name,
                 'symbol' => strtoupper($crypto->symbol),
                 'cg_id' => $crypto->id,
+                'avatar' => $crypto->image,
             ]);
         };
     }

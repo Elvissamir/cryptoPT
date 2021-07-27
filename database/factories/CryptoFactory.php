@@ -26,6 +26,7 @@ class CryptoFactory extends Factory
             'symbol' => Str::random(rand(2, 8)),
             'name' => Str::random(rand(4, 12)),
             'cg_id' => Str::random(rand(5, 25)),
+            'avatar' => Str::random(rand(10, 500)),
         ];
     }
 }

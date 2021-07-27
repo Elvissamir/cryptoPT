@@ -18,6 +18,7 @@ class CreateCryptosTable extends Migration
             $table->string('symbol', 8);
             $table->string('name', 25);
             $table->string('cg_id', 25);
+            $table->string('avatar', 500);
         });
     }
 

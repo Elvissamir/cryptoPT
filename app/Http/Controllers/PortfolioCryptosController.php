@@ -18,8 +18,6 @@ class PortfolioCryptosController extends Controller
 
         $portfolio = auth()->user()->portfolio;
 
-        $json = [];
-
         return Inertia::render('Portfolio/Show', [
             'portfolio' => [
                 'created_at' => $portfolio->created_at->diffForHumans(),
@@ -46,7 +44,7 @@ class PortfolioCryptosController extends Controller
     {
         $portfolio = auth()->user()->portfolio;
 
-        abort_if(! $portfolio->hasCrypto($crypto->name), 404);
+        abort_if(!$portfolio->hasCrypto($crypto->name), 404);
 
         $portfolio->updateCryptoAmount($crypto->id, $request->amount);
 

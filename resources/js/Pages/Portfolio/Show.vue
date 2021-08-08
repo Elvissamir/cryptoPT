@@ -18,7 +18,7 @@
         
                         <div class="w-6/12 flex justify-end items-baseline">
                             <p class="text-xs sm:text-md mr-2">Total: </p>
-                            <p class="sm:text-xl font-bold text-green-300">$120K</p>
+                            <p class="sm:text-xl font-bold text-green-300">${{ portfolioTotalWorth }}</p>
                         </div>
                     </div>
                     <div class="mt-4 flex">
@@ -70,12 +70,12 @@
                         <div class="flex flex-col mt-4 divide-y-2 divide-gray-300 border-b-2 border-t-2 border-gray-300">
     
                             <!-- CRYPTO -->
-                            <div v-for="(crypto, index) in cryptos" :key="index" class="flex flex-wrap sm:max-w-3xl sm:flex-row sm:justify-between w-full py-2">
+                            <div v-for="(crypto, index) in cryptoData" :key="index" class="flex flex-wrap sm:max-w-3xl sm:flex-row sm:justify-between w-full py-2">
                                 <!-- CRYPTO SYMBOL -->
                                 <div class="flex w-8/12 sm:w-2/12">
-                                    <img class="w-9 h-9" :src="crypto.avatar">
+                                    <img class="w-9 h-9" :src="crypto.image">
                                     <div class="flex flex-col ml-2">
-                                        <p class="text-sm font-semibold">{{ crypto.symbol }}</p>
+                                        <p class="text-sm font-semibold">{{ crypto.symbol.toUpperCase() }}</p>
                                         <a class="underline text-xs font-semibold text-indigo-500" href="">{{ crypto.name }}</a>
                                     </div>
                                 </div>
@@ -96,9 +96,7 @@
                                 <!-- PRICE -->
                                 <div class="flex flex-col w-4/12 sm:w-1/12">
                                     <p class="text-xs">Price: </p>
-                                    <p class="text-sm font-bold">
-                                        
-                                    </p>
+                                    <p class="text-sm font-bold">${{ crypto.current_price }}</p>
                                 </div>
     
                                 <!-- AMOUNT -->
@@ -106,14 +104,14 @@
                                     <p class="text-xs">Amount: </p>
                                     <div class="flex">
                                         <p class="text-sm font-bold">{{ Math.trunc(crypto.amount) }}</p>
-                                        <p class="text-sm font-bold ml-1">{{ crypto.symbol.toLowerCase() }}</p>
+                                        <p class="text-sm font-bold ml-1">{{ crypto.symbol.toUpperCase() }}</p>
                                     </div>
                                 </div>
     
                                 <!-- TOTAL -->
                                 <div class="flex flex-col w-4/12 sm:w-1/12">
                                     <p class="text-xs">Total: </p>
-                                    <p class="text-sm font-bold">$100K</p>
+                                    <p class="text-sm font-bold">${{ crypto.total_worth }}</p>
                                 </div>
     
                             </div>
@@ -130,7 +128,7 @@
 
 <script>
 import Layout from '../../Layouts/AppLayout'
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 export default {
   components: {
@@ -147,9 +145,6 @@ export default {
     }
   },
   setup(props) {
-
-        // Extract coingecko id from all cryptos in portfolio
-        const cryptoList = props.cryptos.map(crypto => crypto.cg_id);
         
         // Request Parameters
         let main_url = "https://api.coingecko.com/api/v3/coins/markets?";
@@ -159,44 +154,58 @@ export default {
         let page = 1;
         let sparkline = false;
         let price_change_period = '24h';
-        let ids = cryptoList.reduce((cryptoIds, id, index) => {
+        let ids = props.cryptos.reduce((str, crypto, index) => {
                 if (index == 0)
-                    return cryptoIds + id;
+                    return str + crypto.cg_id;
                 else
-                    return cryptoIds + '%2C%20' + id;
-            });
+                    return str + '%2C%20' + crypto.cg_id;
+            }, '');
 
         // Join request url
         let templateUrl = `${main_url}vs_currency=${currency}&ids=${ids}&order=${order}&per_page=${per_page}&page=${page}&sparkline=${sparkline}&price_change_percentage=${price_change_period}`;
 
-        let cryptoPrices = ref({});
-        
-        onMounted(() => {
+        let tempData = [];
+        let cryptoData = ref([]);
+
+        // Cycle hooks
+        onMounted(() => {    
             axios.get(templateUrl)
                  .then(res => {
-
-                    let cryptosData = {};
-
-                    res.data.forEach(crypto => {  
-                        cryptosData[crypto.id] = {
-                            current_price: crypto.current_price, 
-                            price_change_24h: crypto.price_change_24h,
-                            price_change_percentage: crypto.price_change_percentage,   
-                        };
+                     
+                     res.data.forEach(cgCrypto => { 
+                        props.cryptos.forEach(dbCrypto => {
+                            
+                            if (cgCrypto.id == dbCrypto.cg_id)
+                            {
+                                tempData.push({
+                                    id: dbCrypto.id,
+                                    name: cgCrypto.name,
+                                    image: cgCrypto.image,
+                                    symbol: cgCrypto.symbol,
+                                    amount: dbCrypto.amount,
+                                    total_worth: dbCrypto.amount * cgCrypto.current_price,
+                                    created_at: dbCrypto.created_at,
+                                    current_price: cgCrypto.current_price, 
+                                    price_change_24h: cgCrypto.price_change_24h,
+                                    price_change_percentage: cgCrypto.price_change_percentage,   
+                                });
+                            }
+                        });
                     });
 
-                    cryptoPrices.value = cryptosData;
-
-                    let cr = 'bitcoin';
-
-                    console.log(cryptoPrices.value);
-                    console.log(cryptoPrices.value[cr].current_price);
+                    cryptoData.value = tempData;
                  })
                  .catch(e => console.log(e));
         });
 
+        // Computed
+        const portfolioTotalWorth = computed(() => {
+            return cryptoData.value.reduce((total, crypto) => {
+                return total + (crypto.current_price * crypto.amount)
+            }, 0);
+        });
 
-        return { cryptoPrices }
+        return { cryptoData, portfolioTotalWorth }
   },
 }
 </script>

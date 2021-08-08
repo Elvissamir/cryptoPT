@@ -17926,9 +17926,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
-/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -17945,8 +17943,47 @@ __webpack_require__.r(__webpack_exports__);
       required: true
     }
   },
-  setup: function setup(props) {},
-  mounted: function mounted() {}
+  setup: function setup(props) {
+    // Extract coingecko id from all cryptos in portfolio
+    var cryptoList = props.cryptos.map(function (crypto) {
+      return crypto.cg_id;
+    }); // Request Parameters
+
+    var main_url = "https://api.coingecko.com/api/v3/coins/markets?";
+    var currency = 'usd';
+    var order = "market_cap_desc";
+    var per_page = "100";
+    var page = 1;
+    var sparkline = false;
+    var price_change_period = '24h';
+    var ids = cryptoList.reduce(function (cryptoIds, id, index) {
+      if (index == 0) return cryptoIds + id;else return cryptoIds + '%2C%20' + id;
+    }); // Join request url
+
+    var templateUrl = "".concat(main_url, "vs_currency=").concat(currency, "&ids=").concat(ids, "&order=").concat(order, "&per_page=").concat(per_page, "&page=").concat(page, "&sparkline=").concat(sparkline, "&price_change_percentage=").concat(price_change_period);
+    var cryptoPrices = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({});
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
+      axios.get(templateUrl).then(function (res) {
+        var cryptosData = {};
+        res.data.forEach(function (crypto) {
+          cryptosData[crypto.id] = {
+            current_price: crypto.current_price,
+            price_change_24h: crypto.price_change_24h,
+            price_change_percentage: crypto.price_change_percentage
+          };
+        });
+        cryptoPrices.value = cryptosData;
+        var cr = 'bitcoin';
+        console.log(cryptoPrices.value);
+        console.log(cryptoPrices.value[cr].current_price);
+      })["catch"](function (e) {
+        return console.log(e);
+      });
+    });
+    return {
+      cryptoPrices: cryptoPrices
+    };
+  }
 });
 
 /***/ }),
@@ -21786,69 +21823,167 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "bg-indigo-900 w-12/12 flex text-white"
+  "class": "w-full"
 };
 var _hoisted_2 = {
-  "class": "grid grid-cols-4 mx-auto mt-8 w-11/12"
+  "class": "w-full mx-auto grid grid-cols-2"
 };
 var _hoisted_3 = {
-  "class": "col-span-2"
+  "class": "flex flex-col text-white bg-blue-900"
 };
-var _hoisted_4 = {
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "py-6 w-11/12 mx-auto"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "w-6/12 flex flex-wrap"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
+  "class": "sm:text-xl font-semibold"
+}, "My Portfolio")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "w-6/12 flex justify-end items-baseline"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xs sm:text-md mr-2"
+}, "Total: "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "sm:text-xl font-bold text-green-300"
+}, "$120K")])]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "mt-4 flex"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "ml-auto align-top order-last flex justify-start flex-col"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex justify-end"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "sm:text-sm text-xs my-auto"
+}, "Growth % (from last day): "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "sm:text-sm text-sm font-bold ml-2 text-green-300"
+}, "+15%")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex justify-end"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "sm:text-sm text-xs my-auto"
+}, "Growth (from last day):"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "sm:text-sm text-sm font-bold ml-2 text-green-300"
+}, "+$200")])]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "sm:text-sm text-xs my-auto"
+}, "Number of cryptos in portfolio: "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "sm:text-sm text-sm font-bold ml-2"
+}, "5")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "sm:text-sm text-xs my-auto"
+}, "Created: "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "sm:text-sm text-sm font-bold ml-2"
+}, "12 Months ago")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "sm:text-sm text-xs my-auto"
+}, "Modified: "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "sm:text-md text-sm font-bold ml-2"
+}, "24 hours ago")])])])], -1
+/* HOISTED */
+);
+
+var _hoisted_5 = {
+  "class": "bg-white rounded-t-3xl w-full mt-4 text-black align-bottom"
+};
+var _hoisted_6 = {
+  "class": "py-6 w-11/12 mx-auto"
+};
+
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex justify-between"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": ""
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", {
+  "class": "sm:text-xl font-semibold"
+}, "My Cryptos")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "mb-1"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
+  "class": "px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold",
+  href: ""
+}, " Add + ")])], -1
+/* HOISTED */
+);
+
+var _hoisted_8 = {
+  "class": "flex flex-col mt-4 divide-y-2 divide-gray-300 border-b-2 border-t-2 border-gray-300"
+};
+var _hoisted_9 = {
+  "class": "flex w-8/12 sm:w-2/12"
+};
+var _hoisted_10 = {
+  "class": "flex flex-col ml-2"
+};
+var _hoisted_11 = {
+  "class": "text-sm font-semibold"
+};
+var _hoisted_12 = {
+  "class": "underline text-xs font-semibold text-indigo-500",
+  href: ""
+};
+
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex w-4/12 sm:w-1/12 rounded justify-end sm:my-auto sm:order-6"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  "class": "flex p-2 h-6 w-6 justify-center items-center bg-indigo-900 text-white text-sm font-semibold rounded-full"
+}, " X ")], -1
+/* HOISTED */
+);
+
+var _hoisted_14 = {
+  "class": "flex sm:flex-col sm:w-2/12 items-baseline w-full  mb-2 sm:mb-0"
+};
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xs"
+}, "Added: ", -1
+/* HOISTED */
+);
+
+var _hoisted_16 = {
+  "class": "text-xs font-bold ml-2 sm:text-sm sm:ml-0"
+};
+var _hoisted_17 = {
+  "class": "flex flex-col w-4/12 sm:w-1/12"
+};
+
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xs"
+}, "Price: ", -1
+/* HOISTED */
+);
+
+var _hoisted_19 = {
+  "class": "text-sm font-bold"
+};
+var _hoisted_20 = {
+  "class": "flex flex-col w-4/12 sm:w-1/12"
+};
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xs"
+}, "Amount: ", -1
+/* HOISTED */
+);
+
+var _hoisted_22 = {
   "class": "flex"
 };
-
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-lg font-bold mr-1"
-}, "My Portfolio", -1
-/* HOISTED */
-);
-
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "col-span-2 text-right"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-lg font-bold"
-}, "10 000 USD"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "flex flex-row"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "mr-1"
-}, "Since Yesterday: "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "mr-1"
-}, "56%"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": ""
-}, "+120 USD")])], -1
-/* HOISTED */
-);
-
-var _hoisted_7 = {
-  "class": "col-span-4"
+var _hoisted_23 = {
+  "class": "text-sm font-bold"
+};
+var _hoisted_24 = {
+  "class": "text-sm font-bold ml-1"
 };
 
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "flex mt-2"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "My Cryptos"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "ml-2"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", null, "Add +")])], -1
-/* HOISTED */
-);
-
-var _hoisted_9 = {
-  "class": ""
-};
-
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "col-span-2"
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex flex-col w-4/12 sm:w-1/12"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": ""
-}, "Portfolio Diversification")], -1
-/* HOISTED */
-);
-
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "col-span-2"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": ""
-}, "Cryptos Performance")], -1
+  "class": "text-xs"
+}, "Total: "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-sm font-bold"
+}, "$100K")], -1
 /* HOISTED */
 );
 
@@ -21857,24 +21992,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_layout, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CONTENT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" My portfolio top left "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "(Created " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.portfolio.created_at) + ")", 1
-      /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Number of cryptos in portfolio: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.cryptos.length), 1
-      /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" My portfolio top right "), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" My cryptos "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Section name & buttons "), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Crypto list "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.cryptos, function (crypto, index) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MY PORTFOLIO & CRYPTOS SECTION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PORTFOLIO INFO "), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MY CRYPTOS SECTION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" LIST OF CRYPTOS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.cryptos, function (crypto, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
           key: index,
-          "class": "flex"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
+          "class": "flex flex-wrap sm:max-w-3xl sm:flex-row sm:justify-between w-full py-2"
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO SYMBOL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+          "class": "w-9 h-9",
+          src: crypto.avatar
+        }, null, 8
+        /* PROPS */
+        , ["src"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.name), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.name), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.created_at), 1
+        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" DELETE BUTTON"), _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ADDED AT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.created_at), 1
         /* TEXT */
-        )])]);
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_17, [_hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_19, "$ " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.cryptoPrices["".concat(crypto.cg_id)].current_price), 1
+        /* TEXT */
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AMOUNT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_20, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.trunc(crypto.amount)), 1
+        /* TEXT */
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol.toLowerCase()), 1
+        /* TEXT */
+        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TOTAL "), _hoisted_25]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Portfolio diversification chart "), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cryptos performance "), _hoisted_11])])];
+      ))])])])])])])];
     }),
     _: 1
     /* STABLE */

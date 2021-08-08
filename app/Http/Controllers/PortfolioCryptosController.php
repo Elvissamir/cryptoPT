@@ -33,18 +33,18 @@ class PortfolioCryptosController extends Controller
 
         $crypto = Crypto::findOrFail($request->id);
 
-        abort_if($portfolio->hasCrypto($crypto->name), 409);
+        abort_if($portfolio->hasCrypto($crypto->cg_id), 409);
 
         $portfolio->addCrypto($crypto->id, $request->amount);
 
-        return redirect()->back()->with('success', $crypto->name.' has been added to your portfolio.');
+        return redirect()->back()->with('success', $crypto->cg_id.' has been added to your portfolio.');
     }
 
     public function update(Crypto $crypto, UpdateCryptoInPortfolioRequest $request)
     {
         $portfolio = auth()->user()->portfolio;
 
-        abort_if(!$portfolio->hasCrypto($crypto->name), 404);
+        abort_if(!$portfolio->hasCrypto($crypto->cg_id), 404);
 
         $portfolio->updateCryptoAmount($crypto->id, $request->amount);
 
@@ -55,10 +55,10 @@ class PortfolioCryptosController extends Controller
     {
         $portfolio = auth()->user()->portfolio;
 
-        abort_if(! $portfolio->hasCrypto($crypto->name), 404);
+        abort_if(! $portfolio->hasCrypto($crypto->cg_id), 404);
 
         $portfolio->removeCrypto($crypto->id);
 
-        return redirect()->back()->with('success', $crypto->name.' was removed from your portfolio.');
+        return redirect()->back()->with('success', $crypto->cg_id.' was removed from your portfolio.');
     }
 }

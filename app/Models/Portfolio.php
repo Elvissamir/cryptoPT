@@ -15,17 +15,17 @@ class Portfolio extends Model
     protected $fillable = ['user_id'];
 
     //Methods
-    public function hasCrypto($name)
+    public function hasCrypto($cg_id)
     {
-        if ($this->cryptos()->where('name', $name)->first() == NULL)
+        if ($this->cryptos()->where('cg_id', $cg_id)->first() == NULL)
             return false;
         else 
             return true;
     }
 
-    public function findCrypto($cryptoName)
+    public function findCrypto($cg_id)
     {
-        return $this->cryptos()->where('name', $cryptoName)->first();
+        return $this->cryptos()->where('cg_id', $cg_id)->first();
     }
 
     public function addCrypto($id, $amount)
@@ -60,6 +60,4 @@ class Portfolio extends Model
     {
         return $this->belongsToMany(Crypto::class)->withPivot('amount')->withTimestamps();
     }
-
-
 }

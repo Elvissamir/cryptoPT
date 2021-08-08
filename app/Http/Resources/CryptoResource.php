@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CryptoResource extends JsonResource
@@ -16,14 +17,12 @@ class CryptoResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'symbol' => $this->symbol,
-            'name' => $this->name,
             'cg_id' => $this->cg_id,
             'amount' => $this->whenPivotLoaded('crypto_portfolio', function () {
                 return $this->pivot->amount;
             }),
             'created_at' => $this->whenPivotLoaded('crypto_portfolio', function () {
-                return $this->pivot->created_at;
+                return $this->pivot->created_at->diffForHumans();
             })
         ];
     }

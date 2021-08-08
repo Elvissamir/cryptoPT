@@ -15,7 +15,7 @@ class DeleteRequestTest extends TestCase
 
     public function test_removes_crypto_from_portfolio()
     {
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
 
         $portfolio = $this->createPortfolio();
         $crypto = Crypto::factory()->create();
@@ -40,7 +40,7 @@ class DeleteRequestTest extends TestCase
         ]);
 
         $response->assertRedirect(route('portfolioCryptos.show'));
-        $response->assertSessionHas('success', $crypto->name.' was removed from your portfolio.');
+        $response->assertSessionHas('success', $crypto->cg_id.' was removed from your portfolio.');
     }
 
    public function test_can_only_remove_cryptos_that_exist()

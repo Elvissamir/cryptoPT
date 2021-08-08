@@ -26,9 +26,9 @@ class UserSeeder extends Seeder
 
         Portfolio::create(['user_id' => $user->id]);
 
-        $cryptoA = Crypto::where('symbol', 'btc')->get()->toArray();
-        $cryptoB = Crypto::where('symbol', 'theta')->get()->toArray();
-        $cryptoC = Crypto::where('symbol', 'tfuel')->get()->toArray();
+        $cryptoA = Crypto::where('cg_id', 'bitcoin')->get()->toArray();
+        $cryptoB = Crypto::where('cg_id', 'theta-token')->get()->toArray();
+        $cryptoC = Crypto::where('cg_id', 'theta-fuel')->get()->toArray();
 
         $user->portfolio->addCrypto($cryptoA[0]['id'], 1);
         $user->portfolio->addCrypto($cryptoB[0]['id'], 100);

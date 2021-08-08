@@ -5872,10 +5872,7 @@ class CryptoSeeder extends Seeder
         
         foreach($cryptosData as $crypto) {
             Crypto::create([
-                'name' => $crypto->name,
-                'symbol' => strtoupper($crypto->symbol),
                 'cg_id' => $crypto->id,
-                'avatar' => $crypto->image,
             ]);
         };
     }

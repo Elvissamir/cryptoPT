@@ -82,8 +82,8 @@ class PortfolioModelTest extends TestCase
 
         $this->attachToPortfolio($portfolio, $cryptoA->id);
 
-        $this->assertTrue($portfolio->hasCrypto($cryptoA->name));
-        $this->assertFalse($portfolio->hasCrypto($cryptoB->name));
+        $this->assertTrue($portfolio->hasCrypto($cryptoA->cg_id));
+        $this->assertFalse($portfolio->hasCrypto($cryptoB->cg_id));
     }
 
     public function test_find_crypto_method_finds_the_crypto_by_name()
@@ -95,8 +95,8 @@ class PortfolioModelTest extends TestCase
         $nameA = 'CryptoA';
         $nameB = 'CryptoB';
 
-        $cryptoA = Crypto::factory()->create(['name' => $nameA]);
-        $cryptoB = Crypto::factory()->create(['name' => $nameB]);
+        $cryptoA = Crypto::factory()->create(['cg_id' => $nameA]);
+        $cryptoB = Crypto::factory()->create(['cg_id' => $nameB]);
 
         $this->attachToPortfolio($portfolio, $cryptoA->id);
         $this->attachToPortfolio($portfolio, $cryptoB->id);
@@ -111,14 +111,14 @@ class PortfolioModelTest extends TestCase
 
         $portfolio = $this->createPortfolio();
 
-        $nameB = 'CryptoB';
+        $cg_idB = 'CryptoB';
 
         $cryptoA = Crypto::factory()->create();
-        $cryptoB = Crypto::factory()->create(['name' => $nameB]);
+        $cryptoB = Crypto::factory()->create(['cg_id' => $cg_idB]);
 
         $this->attachToPortfolio($portfolio, $cryptoA->id);
 
-        $this->assertEquals(NULL, $portfolio->findCrypto($nameB));
+        $this->assertEquals(NULL, $portfolio->findCrypto($cg_idB));
     }
 
 
@@ -133,7 +133,7 @@ class PortfolioModelTest extends TestCase
     
         $portfolio->addCrypto($crypto->id, $amount);
     
-        $this->assertTrue($portfolio->hasCrypto($crypto->name));
+        $this->assertTrue($portfolio->hasCrypto($crypto->cg_id));
     }
 
     public function test_removeCrypto()
@@ -149,7 +149,7 @@ class PortfolioModelTest extends TestCase
 
         $portfolio->removeCrypto($crypto->id);
 
-        $this->assertFalse($portfolio->hasCrypto($crypto->name));
+        $this->assertFalse($portfolio->hasCrypto($crypto->cg_id));
     }
     
     public function test_updateCryptoAmount()
@@ -166,6 +166,6 @@ class PortfolioModelTest extends TestCase
         $amountB = rand(1,1000);
         $portfolio->updateCryptoAmount($crypto->id, $amountB);
         
-        $this->assertEquals($amountB, $portfolio->findCrypto($crypto->name)->pivot->amount);
+        $this->assertEquals($amountB, $portfolio->findCrypto($crypto->cg_id)->pivot->amount);
     }
 }

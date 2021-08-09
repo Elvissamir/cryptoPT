@@ -24,29 +24,29 @@
                     <div class="mt-4 flex">
                         <div class="ml-auto align-top order-last flex justify-start flex-col">
                             <div class="flex justify-end">
-                                <p class="sm:text-sm text-xs my-auto">Growth % (from last day): </p>
-                                <p class="sm:text-sm text-sm font-bold ml-2 text-green-300">+15%</p>
+                                <p class="sm:text-sm text-xs my-auto">Growth % (24h): </p>
+                                <p class="sm:text-sm text-sm font-bold ml-2 text-green-300">{{ portfolioGrowthPercentage }}</p>
                             </div>
 
                             <div class="flex justify-end">
-                                <p class="sm:text-sm text-xs my-auto">Growth (from last day):</p>
-                                <p class="sm:text-sm text-sm font-bold ml-2 text-green-300">+$200</p>
+                                <p class="sm:text-sm text-xs my-auto">Growth (24h):</p>
+                                <p class="sm:text-sm text-sm font-bold ml-2 text-green-300">{{ portfolioGrowth }}</p>
                             </div>
                         </div>
                         <div>
                             <div class="flex">
                                 <p class="sm:text-sm text-xs my-auto">Number of cryptos in portfolio: </p>
-                                <p class="sm:text-sm text-sm font-bold ml-2">5</p>
+                                <p class="sm:text-sm text-sm font-bold ml-2">{{ cryptoData.length }}</p>
                             </div>
 
                             <div class="flex">
                                 <p class="sm:text-sm text-xs my-auto">Created: </p>
-                                <p class="sm:text-sm text-sm font-bold ml-2">12 Months ago</p>
+                                <p class="sm:text-sm text-sm font-bold ml-2">{{ portfolio.created_at }}</p>
                             </div> 
 
                             <div class="flex">
                                 <p class="sm:text-sm text-xs my-auto">Modified: </p>
-                                <p class="sm:text-md text-sm font-bold ml-2">24 hours ago</p>
+                                <p class="sm:text-md text-sm font-bold ml-2">{{ portfolio.updated_at }}</p>
                             </div>
                         </div>
                     </div>
@@ -120,6 +120,14 @@
                 </div>
             </div>
 
+            <!-- Portfolio worth chart -->
+            <div>
+                <canvas id="portfolioLineChart"></canvas>
+            </div>
+
+            <!-- Portfolio Distribution Chart --> 
+            <div></div>
+
         </div>
     </div>
 
@@ -127,8 +135,13 @@
 </template>
 
 <script>
+//Layout
 import Layout from '../../Layouts/AppLayout'
+// Vue
 import { ref, onMounted, computed } from 'vue'
+//Charts
+import {Chart, } from 'chart.js'
+
 
 export default {
   components: {
@@ -167,8 +180,45 @@ export default {
         let tempData = [];
         let cryptoData = ref([]);
 
+        // Charts config & setup
+        const labels = [ 
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+        ];
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                label: 'My first dataset',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [65, 59, 80, 81, 56, 55, 40],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1,
+            }]
+        };
+
+        const config = {
+            type: 'line',
+            data, 
+            options: {}
+        };
+
+        // Create CHART
+        const ctx = document.getElementById("portfolioLineChart");
+        const portfolioGrowthChart = new Chart(ctx, config);
+
+
         // Cycle hooks
         onMounted(() => {    
+
+            // Data Request
             axios.get(templateUrl)
                  .then(res => {
                      
@@ -187,7 +237,7 @@ export default {
                                     created_at: dbCrypto.created_at,
                                     current_price: cgCrypto.current_price, 
                                     price_change_24h: cgCrypto.price_change_24h,
-                                    price_change_percentage: cgCrypto.price_change_percentage,   
+                                    price_change_percentage: cgCrypto.price_change_percentage_24h,   
                                 });
                             }
                         });
@@ -200,12 +250,30 @@ export default {
 
         // Computed
         const portfolioTotalWorth = computed(() => {
+
             return cryptoData.value.reduce((total, crypto) => {
                 return total + (crypto.current_price * crypto.amount)
             }, 0);
         });
 
-        return { cryptoData, portfolioTotalWorth }
+        const portfolioGrowth = computed(() => {
+            
+            return cryptoData.value.reduce((growth, crypto) => {
+                return growth + crypto.price_change_24h
+            }, 0);
+        });
+
+        const portfolioGrowthPercentage = computed(() => { 
+
+            return (portfolioGrowth.value / portfolioTotalWorth.value) * 100;
+        });
+
+        return { 
+            cryptoData, 
+            portfolioTotalWorth, 
+            portfolioGrowth,
+            portfolioGrowthPercentage 
+        }
   },
 }
 </script>

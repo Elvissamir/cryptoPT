@@ -4,7 +4,7 @@
 
     <!-- MAIN -->
     <div class="w-full">
-        <div class="w-full mx-auto grid grid-cols-2">
+        <div class="w-full mx-auto grid grid-cols-1">
             
             <!-- MY PORTFOLIO & CRYPTOS SECTION -->
             <div class="flex flex-col text-white bg-blue-900">
@@ -18,19 +18,19 @@
         
                         <div class="w-6/12 flex justify-end items-baseline">
                             <p class="text-xs sm:text-md mr-2">Total: </p>
-                            <p class="sm:text-xl font-bold text-green-300">${{ portfolioTotalWorth }}</p>
+                            <p class="sm:text-xl font-bold text-green-300">${{ formatNumber(portfolioTotalWorth) }}</p>
                         </div>
                     </div>
                     <div class="mt-4 flex">
                         <div class="ml-auto align-top order-last flex justify-start flex-col">
                             <div class="flex justify-end">
                                 <p class="sm:text-sm text-xs my-auto">Growth % (24h): </p>
-                                <p class="sm:text-sm text-sm font-bold ml-2 text-green-300">{{ portfolioGrowthPercentage }}</p>
+                                <p class="sm:text-sm text-sm font-bold ml-2 text-green-300">{{ formatNumber(portfolioGrowthPercentage) }}%</p>
                             </div>
 
                             <div class="flex justify-end">
                                 <p class="sm:text-sm text-xs my-auto">Growth (24h):</p>
-                                <p class="sm:text-sm text-sm font-bold ml-2 text-green-300">{{ portfolioGrowth }}</p>
+                                <p class="sm:text-sm text-sm font-bold ml-2 text-green-300">{{ formatNumber(portfolioGrowth) }}</p>
                             </div>
                         </div>
                         <div>
@@ -96,7 +96,7 @@
                                 <!-- PRICE -->
                                 <div class="flex flex-col w-4/12 sm:w-1/12">
                                     <p class="text-xs">Price: </p>
-                                    <p class="text-sm font-bold">${{ crypto.current_price }}</p>
+                                    <p class="text-sm font-bold">${{ formatNumber(crypto.current_price) }}</p>
                                 </div>
     
                                 <!-- AMOUNT -->
@@ -111,7 +111,7 @@
                                 <!-- TOTAL -->
                                 <div class="flex flex-col w-4/12 sm:w-1/12">
                                     <p class="text-xs">Total: </p>
-                                    <p class="text-sm font-bold">${{ crypto.total_worth }}</p>
+                                    <p class="text-sm font-bold">${{ formatNumber(crypto.total_worth) }}</p>
                                 </div>
     
                             </div>
@@ -135,13 +135,27 @@
 </template>
 
 <script>
-//Layout
+// Layout
 import Layout from '../../Layouts/AppLayout'
 // Vue
 import { ref, onMounted, computed } from 'vue'
-//Charts
-import {Chart, } from 'chart.js'
 
+// Helpers
+import { formatNumber } from '../../Helpers/FormatNumber'
+
+// Charts
+import {
+    Chart, 
+    LineController, 
+    LineElement, 
+    CategoryScale, 
+    LinearScale, 
+    Tooltip, 
+    PointElement
+    } from 'chart.js'
+
+// Register Chart dependencies
+Chart.register(LineController, LineElement, CategoryScale, LinearScale, Tooltip, PointElement);
 
 export default {
   components: {
@@ -180,40 +194,8 @@ export default {
         let tempData = [];
         let cryptoData = ref([]);
 
-        // Charts config & setup
-        const labels = [ 
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-        ];
-
-        const data = {
-            labels: labels,
-            datasets: [{
-                label: 'My first dataset',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1,
-            }]
-        };
-
-        const config = {
-            type: 'line',
-            data, 
-            options: {}
-        };
-
-        // Create CHART
-        const ctx = document.getElementById("portfolioLineChart");
-        const portfolioGrowthChart = new Chart(ctx, config);
-
+        // Methods
+        //const formatNumber = formatNumber;
 
         // Cycle hooks
         onMounted(() => {    
@@ -246,6 +228,47 @@ export default {
                     cryptoData.value = tempData;
                  })
                  .catch(e => console.log(e));
+
+
+                    // Charts config & setup
+                const labels = [ 
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                    'July',
+                ];
+
+                const data = {
+                    labels: labels,
+                    datasets: [{
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        pointBackgroundColor: 'rgb(0, 150, 220)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: [65, 59, 80, 81, 56, 55, 40],
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1,
+                    }]
+                };
+
+                const config = {
+                    type: 'line',
+                    data, 
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                };
+
+                // Create CHART
+                const ctx = document.getElementById("portfolioLineChart");
+                const portfolioGrowthChart = new Chart(ctx, config);
         });
 
         // Computed
@@ -272,7 +295,8 @@ export default {
             cryptoData, 
             portfolioTotalWorth, 
             portfolioGrowth,
-            portfolioGrowthPercentage 
+            portfolioGrowthPercentage,
+            formatNumber
         }
   },
 }

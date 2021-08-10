@@ -17927,15 +17927,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
+/* harmony import */ var _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Helpers/FormatNumber */ "./resources/js/Helpers/FormatNumber.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//Layout
+// Layout
  // Vue
 
- //Charts
+ // Helpers
 
+ // Charts
 
+ // Register Chart dependencies
+
+chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_3__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_3__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_3__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_3__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_3__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_3__.PointElement);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Layout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__.default
@@ -17951,8 +17956,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   setup: function setup(props) {
-    var _ref;
-
     // Request Parameters
     var main_url = "https://api.coingecko.com/api/v3/coins/markets?";
     var currency = 'usd';
@@ -17967,29 +17970,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     var templateUrl = "".concat(main_url, "vs_currency=").concat(currency, "&ids=").concat(ids, "&order=").concat(order, "&per_page=").concat(per_page, "&page=").concat(page, "&sparkline=").concat(sparkline, "&price_change_percentage=").concat(price_change_period);
     var tempData = [];
-    var cryptoData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]); // Charts config & setup
-
-    var labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-    var data = {
-      labels: labels,
-      datasets: [(_ref = {
-        label: 'My first dataset',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: false
-      }, _defineProperty(_ref, "borderColor", 'rgb(75, 192, 192)'), _defineProperty(_ref, "tension", 0.1), _ref)]
-    };
-    var config = {
-      type: 'line',
-      data: data,
-      options: {}
-    }; // Create CHART
-
-    var ctx = document.getElementById("portfolioLineChart");
-    var portfolioGrowthChart = new chart_js__WEBPACK_IMPORTED_MODULE_2__.Chart(ctx, config); // Cycle hooks
+    var cryptoData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]); // Methods
+    //const formatNumber = formatNumber;
+    // Cycle hooks
 
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
+      var _ref;
+
       // Data Request
       axios.get(templateUrl).then(function (res) {
         res.data.forEach(function (cgCrypto) {
@@ -18013,7 +18000,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         cryptoData.value = tempData;
       })["catch"](function (e) {
         return console.log(e);
-      });
+      }); // Charts config & setup
+
+      var labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+      var data = {
+        labels: labels,
+        datasets: [(_ref = {
+          backgroundColor: 'rgb(255, 99, 132)',
+          pointBackgroundColor: 'rgb(0, 150, 220)',
+          borderColor: 'rgb(255, 99, 132)',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          fill: false
+        }, _defineProperty(_ref, "borderColor", 'rgb(75, 192, 192)'), _defineProperty(_ref, "tension", 0.1), _ref)]
+      };
+      var config = {
+        type: 'line',
+        data: data,
+        options: {
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      }; // Create CHART
+
+      var ctx = document.getElementById("portfolioLineChart");
+      var portfolioGrowthChart = new chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart(ctx, config);
     }); // Computed
 
     var portfolioTotalWorth = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
@@ -18033,7 +18046,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       cryptoData: cryptoData,
       portfolioTotalWorth: portfolioTotalWorth,
       portfolioGrowth: portfolioGrowth,
-      portfolioGrowthPercentage: portfolioGrowthPercentage
+      portfolioGrowthPercentage: portfolioGrowthPercentage,
+      formatNumber: _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_2__.formatNumber
     };
   }
 });
@@ -21878,7 +21892,7 @@ var _hoisted_1 = {
   "class": "w-full"
 };
 var _hoisted_2 = {
-  "class": "w-full mx-auto grid grid-cols-2"
+  "class": "w-full mx-auto grid grid-cols-1"
 };
 var _hoisted_3 = {
   "class": "flex flex-col text-white bg-blue-900"
@@ -22103,11 +22117,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_layout, null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MY PORTFOLIO & CRYPTOS SECTION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PORTFOLIO INFO "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_9, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.portfolioTotalWorth), 1
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MY PORTFOLIO & CRYPTOS SECTION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PORTFOLIO INFO "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_9, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formatNumber($setup.portfolioTotalWorth)), 1
       /* TEXT */
-      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.portfolioGrowthPercentage), 1
+      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formatNumber($setup.portfolioGrowthPercentage)) + "%", 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.portfolioGrowth), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formatNumber($setup.portfolioGrowth)), 1
       /* TEXT */
       )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [_hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.cryptoData.length), 1
       /* TEXT */
@@ -22130,13 +22144,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         /* TEXT */
         )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" DELETE BUTTON"), _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ADDED AT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_36, [_hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.created_at), 1
         /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_41, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.current_price), 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_41, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formatNumber(crypto.current_price)), 1
         /* TEXT */
         )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AMOUNT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_42, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.trunc(crypto.amount)), 1
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol.toUpperCase()), 1
         /* TEXT */
-        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TOTAL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_47, [_hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_49, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.total_worth), 1
+        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TOTAL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_47, [_hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_49, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formatNumber(crypto.total_worth)), 1
         /* TEXT */
         )])]);
       }), 128
@@ -23543,6 +23557,28 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* TEXT */
   )])])]);
 });
+
+/***/ }),
+
+/***/ "./resources/js/Helpers/FormatNumber.js":
+/*!**********************************************!*\
+  !*** ./resources/js/Helpers/FormatNumber.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "formatNumber": () => (/* binding */ formatNumber)
+/* harmony export */ });
+// Format the number to show in the view
+var formatNumber = function formatNumber(value) {
+  if (isNaN(value)) return 0;
+  if (value % 1 != 0) if (value.toString().split(".")[1].length > 2) return Math.round(value * 100) / 100;
+  return value;
+};
+
+
 
 /***/ }),
 

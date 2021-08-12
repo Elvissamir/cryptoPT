@@ -17929,7 +17929,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Helpers/FormatNumber */ "./resources/js/Helpers/FormatNumber.js");
 /* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 // Layout
  // Vue
@@ -17940,7 +17944,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
  // Register Chart dependencies
 
-chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_3__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_3__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_3__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_3__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_3__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_3__.PointElement);
+chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_3__.DoughnutController, chart_js__WEBPACK_IMPORTED_MODULE_3__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_3__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_3__.Legend);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Layout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__.default
@@ -17956,77 +17960,124 @@ chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart.register(chart_js__WEBPACK_IMPORTED_
     }
   },
   setup: function setup(props) {
-    // Request Parameters
-    var main_url = "https://api.coingecko.com/api/v3/coins/markets?";
+    // Properties
+    var tempData = [];
+    var cryptoData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
+    var chartData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]); // Request Parameters
+
+    var main_url = "https://api.coingecko.com/api/v3/coins/";
     var currency = 'usd';
     var order = "market_cap_desc";
     var per_page = "100";
     var page = 1;
+    var days = 7;
+    var interval = 'daily';
     var sparkline = false;
-    var price_change_period = '24h';
-    var ids = props.cryptos.reduce(function (str, crypto, index) {
-      if (index == 0) return str + crypto.cg_id;else return str + '%2C%20' + crypto.cg_id;
-    }, ''); // Join request url
+    var price_change_percentage = '7d%2C%2024h';
+    var ids = props.cryptos.map(function (crypto) {
+      return crypto.cg_id;
+    });
+    var allIds = ids.join('%2C%20'); // Join request url
 
-    var templateUrl = "".concat(main_url, "vs_currency=").concat(currency, "&ids=").concat(ids, "&order=").concat(order, "&per_page=").concat(per_page, "&page=").concat(page, "&sparkline=").concat(sparkline, "&price_change_percentage=").concat(price_change_period);
-    var tempData = [];
-    var cryptoData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]); // Methods
-    //const formatNumber = formatNumber;
+    var cryptosInfoUrl = "".concat(main_url, "markets?vs_currency=").concat(currency, "&ids=").concat(allIds, "&order=").concat(order, "&per_page=").concat(per_page, "&page=").concat(page, "&sparkline=").concat(sparkline, "&price_change_percentage=").concat(price_change_percentage);
+    /*
+     PRICE HISTORY DATA
+     const marketDataUrls = ids.map(id => {
+        return `${main_url}/${id}/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}`;
+    });
+     */
     // Cycle hooks
 
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
-      var _ref;
+      // DATA OF ALL CRYPTOS INFORMATION
+      axios.get(cryptosInfoUrl).then(function (res) {
+        console.log(res.data);
 
-      // Data Request
-      axios.get(templateUrl).then(function (res) {
-        res.data.forEach(function (cgCrypto) {
-          props.cryptos.forEach(function (dbCrypto) {
-            if (cgCrypto.id == dbCrypto.cg_id) {
-              tempData.push({
-                id: dbCrypto.id,
-                name: cgCrypto.name,
-                image: cgCrypto.image,
-                symbol: cgCrypto.symbol,
-                amount: dbCrypto.amount,
-                total_worth: dbCrypto.amount * cgCrypto.current_price,
-                created_at: dbCrypto.created_at,
-                current_price: cgCrypto.current_price,
-                price_change_24h: cgCrypto.price_change_24h,
-                price_change_percentage: cgCrypto.price_change_percentage_24h
-              });
-            }
-          });
-        });
-        cryptoData.value = tempData;
-      })["catch"](function (e) {
-        return console.log(e);
-      }); // Charts config & setup
+        var _iterator = _createForOfIteratorHelper(res.data),
+            _step;
 
-      var labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-      var data = {
-        labels: labels,
-        datasets: [(_ref = {
-          backgroundColor: 'rgb(255, 99, 132)',
-          pointBackgroundColor: 'rgb(0, 150, 220)',
-          borderColor: 'rgb(255, 99, 132)',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false
-        }, _defineProperty(_ref, "borderColor", 'rgb(75, 192, 192)'), _defineProperty(_ref, "tension", 0.1), _ref)]
-      };
-      var config = {
-        type: 'line',
-        data: data,
-        options: {
-          plugins: {
-            legend: {
-              display: false
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var cgCrypto = _step.value;
+
+            var _iterator2 = _createForOfIteratorHelper(props.cryptos),
+                _step2;
+
+            try {
+              for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                var dbCrypto = _step2.value;
+
+                if (cgCrypto.id == dbCrypto.cg_id) {
+                  tempData.push({
+                    id: cgCrypto.id,
+                    name: cgCrypto.name,
+                    image: cgCrypto.image,
+                    symbol: cgCrypto.symbol,
+                    amount: dbCrypto.amount,
+                    total_worth: dbCrypto.amount * cgCrypto.current_price,
+                    created_at: dbCrypto.created_at,
+                    current_price: cgCrypto.current_price,
+                    price_change_24h: cgCrypto.price_change_24h,
+                    price_change_percentage: cgCrypto.price_change_percentage_24h
+                  });
+                  break;
+                }
+              }
+            } catch (err) {
+              _iterator2.e(err);
+            } finally {
+              _iterator2.f();
             }
           }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
         }
-      }; // Create CHART
 
-      var ctx = document.getElementById("portfolioLineChart");
-      var portfolioGrowthChart = new chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart(ctx, config);
+        cryptoData.value = tempData;
+        console.log('crypto data: ', cryptoData.value);
+
+        var generateRandomNumber = function generateRandomNumber(min, max) {
+          return Math.floor(Math.random() * (max - min)) + min;
+        };
+
+        var generateColors = function generateColors(numberOfColors) {
+          var colors = [];
+
+          for (var i = 0; i < numberOfColors; i++) {
+            var min = 0;
+            var max = 256;
+            var x = generateRandomNumber(min, max);
+            var y = generateRandomNumber(min, max);
+            var z = generateRandomNumber(min, max);
+            colors.push("rgba(".concat(x, ", ").concat(y, ", ").concat(z, ", 0.9)"));
+          }
+
+          return colors;
+        };
+
+        var data = {
+          labels: portfolioCryptoDistribution.value.cryptos,
+          datasets: [{
+            data: portfolioCryptoDistribution.value.percentages,
+            backgroundColor: generateColors(),
+            hoverOffset: 4
+          }]
+        };
+        var config = {
+          type: 'doughnut',
+          data: data,
+          options: {
+            plugins: {}
+          }
+        }; // Create CHART
+
+        var ctx = document.getElementById("doughnutChart");
+        var doughnutChart = new chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart(ctx, config);
+      })["catch"](function (e) {
+        return console.log(e);
+      });
     }); // Computed
 
     var portfolioTotalWorth = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
@@ -18042,12 +18093,25 @@ chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart.register(chart_js__WEBPACK_IMPORTED_
     var portfolioGrowthPercentage = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return portfolioGrowth.value / portfolioTotalWorth.value * 100;
     });
+    var portfolioCryptoDistribution = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      var distribution = {
+        percentages: [],
+        cryptos: []
+      };
+      cryptoData.value.forEach(function (crypto) {
+        distribution.percentages.push(crypto.current_price * crypto.amount / portfolioTotalWorth.value * 100);
+        distribution.cryptos.push(crypto.id);
+      });
+      return distribution;
+    });
     return {
       cryptoData: cryptoData,
       portfolioTotalWorth: portfolioTotalWorth,
       portfolioGrowth: portfolioGrowth,
       portfolioGrowthPercentage: portfolioGrowthPercentage,
-      formatNumber: _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_2__.formatNumber
+      portfolioCryptoDistribution: portfolioCryptoDistribution,
+      formatNumber: _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_2__.formatNumber,
+      chartData: chartData
     };
   }
 });
@@ -22102,8 +22166,11 @@ var _hoisted_49 = {
   "class": "text-sm font-bold"
 };
 
-var _hoisted_50 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("canvas", {
-  id: "portfolioLineChart"
+var _hoisted_50 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "bg-white"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("canvas", {
+  "class": "w-3/12 mx-auto",
+  id: "doughnutChart"
 })], -1
 /* HOISTED */
 );
@@ -22155,7 +22222,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         )])]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Portfolio worth chart "), _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Portfolio Distribution Chart "), _hoisted_51])])];
+      ))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PORTFOLIO DISTRIBUTION CHART"), _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Portfolio Distribution Chart "), _hoisted_51])])];
     }),
     _: 1
     /* STABLE */

@@ -120,9 +120,9 @@
                 </div>
             </div>
 
-            <!-- Portfolio worth chart -->
-            <div>
-                <canvas id="portfolioLineChart"></canvas>
+            <!-- PORTFOLIO DISTRIBUTION CHART-->
+            <div class="bg-white" >
+                <canvas class="w-3/12 mx-auto" id="doughnutChart"></canvas>
             </div>
 
             <!-- Portfolio Distribution Chart --> 
@@ -145,17 +145,15 @@ import { formatNumber } from '../../Helpers/FormatNumber'
 
 // Charts
 import {
-    Chart, 
-    LineController, 
-    LineElement, 
-    CategoryScale, 
-    LinearScale, 
-    Tooltip, 
-    PointElement
+    Chart,  
+    DoughnutController, 
+    ArcElement,
+    Tooltip,
+    Legend
     } from 'chart.js'
 
 // Register Chart dependencies
-Chart.register(LineController, LineElement, CategoryScale, LinearScale, Tooltip, PointElement);
+Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
 export default {
   components: {
@@ -172,45 +170,57 @@ export default {
     }
   },
   setup(props) {
+
+        // Properties
+        let tempData = [];
+        let cryptoData = ref([]);
+        let chartData = ref([]);
         
         // Request Parameters
-        let main_url = "https://api.coingecko.com/api/v3/coins/markets?";
+        let main_url = "https://api.coingecko.com/api/v3/coins/";
         let currency = 'usd';
         let order = "market_cap_desc";
         let per_page = "100";
         let page = 1;
+        let days = 7;
+        let interval = 'daily';
         let sparkline = false;
-        let price_change_period = '24h';
-        let ids = props.cryptos.reduce((str, crypto, index) => {
-                if (index == 0)
-                    return str + crypto.cg_id;
-                else
-                    return str + '%2C%20' + crypto.cg_id;
-            }, '');
+        let price_change_percentage = '7d%2C%2024h';
+        let ids = props.cryptos.map(crypto => {
+            return crypto.cg_id
+        });
+
+        let allIds = ids.join('%2C%20');
 
         // Join request url
-        let templateUrl = `${main_url}vs_currency=${currency}&ids=${ids}&order=${order}&per_page=${per_page}&page=${page}&sparkline=${sparkline}&price_change_percentage=${price_change_period}`;
+        let cryptosInfoUrl = `${main_url}markets?vs_currency=${currency}&ids=${allIds}&order=${order}&per_page=${per_page}&page=${page}&sparkline=${sparkline}&price_change_percentage=${price_change_percentage}`;
+        
+        /*
 
-        let tempData = [];
-        let cryptoData = ref([]);
+        PRICE HISTORY DATA
 
-        // Methods
-        //const formatNumber = formatNumber;
+        const marketDataUrls = ids.map(id => {
+            return `${main_url}/${id}/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}`;
+        });
+
+        */
 
         // Cycle hooks
         onMounted(() => {    
 
-            // Data Request
-            axios.get(templateUrl)
+            // DATA OF ALL CRYPTOS INFORMATION
+            axios.get(cryptosInfoUrl)
                  .then(res => {
-                     
-                     res.data.forEach(cgCrypto => { 
-                        props.cryptos.forEach(dbCrypto => {
-                            
+                    
+                    console.log(res.data);
+                    
+                    for (let cgCrypto of res.data) { 
+                        for (let dbCrypto of props.cryptos) {
+
                             if (cgCrypto.id == dbCrypto.cg_id)
                             {
                                 tempData.push({
-                                    id: dbCrypto.id,
+                                    id: cgCrypto.id,
                                     name: cgCrypto.name,
                                     image: cgCrypto.image,
                                     symbol: cgCrypto.symbol,
@@ -221,54 +231,60 @@ export default {
                                     price_change_24h: cgCrypto.price_change_24h,
                                     price_change_percentage: cgCrypto.price_change_percentage_24h,   
                                 });
-                            }
-                        });
-                    });
 
-                    cryptoData.value = tempData;
-                 })
-                 .catch(e => console.log(e));
-
-
-                    // Charts config & setup
-                const labels = [ 
-                    'January',
-                    'February',
-                    'March',
-                    'April',
-                    'May',
-                    'June',
-                    'July',
-                ];
-
-                const data = {
-                    labels: labels,
-                    datasets: [{
-                        backgroundColor: 'rgb(255, 99, 132)',
-                        pointBackgroundColor: 'rgb(0, 150, 220)',
-                        borderColor: 'rgb(255, 99, 132)',
-                        data: [65, 59, 80, 81, 56, 55, 40],
-                        fill: false,
-                        borderColor: 'rgb(75, 192, 192)',
-                        tension: 0.1,
-                    }]
-                };
-
-                const config = {
-                    type: 'line',
-                    data, 
-                    options: {
-                        plugins: {
-                            legend: {
-                                display: false
+                                break;
                             }
                         }
                     }
-                };
 
-                // Create CHART
-                const ctx = document.getElementById("portfolioLineChart");
-                const portfolioGrowthChart = new Chart(ctx, config);
+                    cryptoData.value = tempData;
+                    console.log('crypto data: ', cryptoData.value);
+
+                        const generateRandomNumber = (min, max) => {
+                            return Math.floor(Math.random() * (max - min)) + min;
+                        };
+
+                         const generateColors = (numberOfColors) => {
+                            const colors = [];
+
+                            for (let i = 0; i < numberOfColors; i++) {
+                                let min = 0;
+                                let max = 256;
+                                let x = generateRandomNumber(min, max);
+                                let y = generateRandomNumber(min, max);
+                                let z = generateRandomNumber(min, max);
+
+                                colors.push(`rgba(${x}, ${y}, ${z}, 0.9)`);
+                            }
+                                    
+                            return colors;
+                        };
+
+
+                        const data = {
+                            labels: portfolioCryptoDistribution.value.cryptos,
+                            datasets: [{
+                                data: portfolioCryptoDistribution.value.percentages,
+                                backgroundColor: generateColors(),
+                                hoverOffset: 4
+                            }]
+                        };
+
+                        const config = {
+                            type: 'doughnut',
+                            data: data, 
+                            options: {
+                                plugins: {
+                                    
+                                }
+                            }
+                        };
+
+                        // Create CHART
+                        const ctx = document.getElementById("doughnutChart");
+                        const doughnutChart = new Chart(ctx, config);
+                 })
+                 .catch(e => console.log(e));
         });
 
         // Computed
@@ -291,12 +307,30 @@ export default {
             return (portfolioGrowth.value / portfolioTotalWorth.value) * 100;
         });
 
+        const portfolioCryptoDistribution = computed(() => {
+
+            let distribution = {
+                percentages: [],
+                cryptos: [],
+            };
+
+            cryptoData.value.forEach(crypto => {
+                distribution.percentages.push(((crypto.current_price * crypto.amount) /  portfolioTotalWorth.value) * 100);
+                distribution.cryptos.push(crypto.id);
+            });
+
+            return distribution;
+        });
+
+
         return { 
             cryptoData, 
             portfolioTotalWorth, 
             portfolioGrowth,
             portfolioGrowthPercentage,
-            formatNumber
+            portfolioCryptoDistribution,
+            formatNumber,
+            chartData,
         }
   },
 }

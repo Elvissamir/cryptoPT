@@ -225,8 +225,6 @@ export default {
         // METHODS
         const calculateCryptoDistribution = (cryptoData) => {
 
-            console.log('COMPUTED CRYPTO DISTRIBUTION');
-
             let distribution = {
                 percentages: [],
                 cryptos: [],
@@ -331,7 +329,7 @@ export default {
                     
                     cryptoData.value = joinCryptoData(res.data);
 
-                    console.log('CG DATA: ', cryptoData.value);
+                    // console.log('CG DATA: ', cryptoData.value);
 
                     
                     const cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
@@ -370,14 +368,10 @@ export default {
         // WATCHERS
         watch(() => props.cryptos, (oldval, cryptos) => {
 
-           console.log('WATCHER, FETCH');
-
             axios.get(cryptosInfoUrl)
                  .then((res) => {
 
                     cryptoData.value =  joinCryptoData(res.data);
-
-                    console.log('Fetched data: ', cryptoData.value);
 
                     const cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
                     const topCryptos = calculateTopCryptos(cryptoData.value);

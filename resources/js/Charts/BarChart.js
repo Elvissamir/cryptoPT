@@ -46,7 +46,6 @@ import { maxCryptos } from '../Helpers/MaxChartCryptos';
 
         const barChartColors = chartColors.backgroundColors.map(color => color)
                                                                 .slice(0, max);
-    
         chart.data.datasets.forEach(dataset => {
             dataset.data = topCryptos.percentages;
             dataset.backgroundColor = barChartColors;

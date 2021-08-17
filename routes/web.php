@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PortfolioCryptosController;
+use App\Http\Controllers\CryptoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,7 +31,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 
-//Portfolio Routes
+// PORTFOLIO ROUTES
 Route::get('/portfolio', [PortfolioCryptosController::class, 'show'])
      ->middleware(['auth:sanctum'])
      ->name('portfolioCryptos.show');
@@ -46,3 +47,8 @@ Route::put('/portfolio/cryptos/{crypto:cg_id}', [PortfolioCryptosController::cla
 Route::delete('/portfolio/cryptos/{crypto:cg_id}', [PortfolioCryptosController::class, 'destroy'])
      ->middleware(['auth:sanctum'])
      ->name('portfolioCryptos.destroy');
+
+// CRYPTO ROUTES
+Route::get('/cryptos', [CryptoController::class, 'index'])
+     ->middleware(['auth:sanctum'])
+     ->name('cryptos.index');

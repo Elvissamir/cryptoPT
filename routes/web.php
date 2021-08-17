@@ -30,11 +30,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 
-//STYLES
-Route::get('/styles', function() {
-     return view('layout');
-});
-
 //Portfolio Routes
 Route::get('/portfolio', [PortfolioCryptosController::class, 'show'])
      ->middleware(['auth:sanctum'])
@@ -44,10 +39,10 @@ Route::post('/portfolio/cryptos', [PortfolioCryptosController::class, 'store'])
      ->middleware(['auth:sanctum'])
      ->name('portfolioCryptos.store');
 
-Route::put('/portfolio/cryptos/{crypto}', [PortfolioCryptosController::class, 'update'])
+Route::put('/portfolio/cryptos/{crypto:cg_id}', [PortfolioCryptosController::class, 'update'])
      ->middleware(['auth:sanctum'])
      ->name('portfolioCryptos.update');
 
-Route::delete('/portfolio/cryptos/{crypto}', [PortfolioCryptosController::class, 'destroy'])
+Route::delete('/portfolio/cryptos/{crypto:cg_id}', [PortfolioCryptosController::class, 'destroy'])
      ->middleware(['auth:sanctum'])
      ->name('portfolioCryptos.destroy');

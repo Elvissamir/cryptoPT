@@ -82,7 +82,7 @@
     
                                 <!-- DELETE BUTTON-->
                                 <div class="flex w-4/12 sm:w-1/12 rounded justify-end sm:my-auto sm:order-6">
-                                    <button class="flex p-2 h-6 w-6 justify-center items-center bg-indigo-900 text-white text-sm font-semibold rounded-full">
+                                    <button @click="removeCrypto(crypto.cg_id, index)" class="flex p-2 h-6 w-6 justify-center items-center bg-indigo-900 text-white text-sm font-semibold rounded-full">
                                         X
                                     </button>
                                 </div>
@@ -126,7 +126,9 @@
             </div>
 
             <!-- Portfolio Distribution Chart --> 
-            <div></div>
+            <div class="bg-white">
+                <canvas class="w-3/12 mx-auto" id="barChart"></canvas>
+            </div>
 
         </div>
     </div>
@@ -135,10 +137,16 @@
 </template>
 
 <script>
+
 // Layout
 import Layout from '../../Layouts/AppLayout'
+
 // Vue
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
+
+// INERTIA
+import { Inertia } from '@inertiajs/inertia'
+import { Link } from '@inertiajs/inertia-vue3'
 
 // Helpers
 import { formatNumber } from '../../Helpers/FormatNumber'
@@ -146,17 +154,25 @@ import { formatNumber } from '../../Helpers/FormatNumber'
 // Charts
 import {
     Chart,  
+    BarController,
     DoughnutController, 
     ArcElement,
+    BarElement,
     Tooltip,
-    Legend
+    LinearScale,
+    CategoryScale,
+    Legend,
     } from 'chart.js'
 
+import { generateDoughnutChartConf, updateDoughnutChart } from '../../Charts/DoughnutChart.js' 
+import { generateBarChartConf, updateBarChart } from '../../Charts/BarChart.js'
+
 // Register Chart dependencies
-Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
+Chart.register(DoughnutController, BarController, BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 export default {
   components: {
+    Link,
     Layout,
   },
   props: {
@@ -172,10 +188,11 @@ export default {
   setup(props) {
 
         // Properties
-        let tempData = [];
         let cryptoData = ref([]);
-        let chartData = ref([]);
-        
+
+        let doughnutChart = null;
+        let barChart = null;
+
         // Request Parameters
         let main_url = "https://api.coingecko.com/api/v3/coins/";
         let currency = 'usd';
@@ -194,7 +211,7 @@ export default {
 
         // Join request url
         let cryptosInfoUrl = `${main_url}markets?vs_currency=${currency}&ids=${allIds}&order=${order}&per_page=${per_page}&page=${page}&sparkline=${sparkline}&price_change_percentage=${price_change_percentage}`;
-        
+
         /*
 
         PRICE HISTORY DATA
@@ -205,89 +222,132 @@ export default {
 
         */
 
-        // Cycle hooks
+        // METHODS
+        const calculateCryptoDistribution = (cryptoData) => {
+
+            console.log('COMPUTED CRYPTO DISTRIBUTION');
+
+            let distribution = {
+                percentages: [],
+                cryptos: [],
+            }
+
+            let topDistribution = {
+                percentages: [],
+                cryptos: [],
+            }
+
+            let max = (cryptoData.length > 5)? 5 : cryptoData.length;
+            
+            cryptoData.forEach(crypto => {
+                distribution.percentages.push(((crypto.current_price * crypto.amount) /  portfolioTotalWorth.value) * 100);
+                distribution.cryptos.push(crypto.cg_id);
+            });
+
+            topDistribution.percentages = distribution.percentages.map(percentage => percentage)
+                                                                  .sort((a, b) => b - a)
+                                                                  .slice(0, max);
+
+            for (let x = 0; x < topDistribution.percentages.length; x++) {
+                for (let y = 0; y < distribution.percentages.length; y++) {
+
+                    if (distribution.percentages[y] == topDistribution.percentages[x]) {
+                        topDistribution.cryptos.push(distribution.cryptos[y]);
+                        break;
+                    }
+                }
+            }
+
+            return topDistribution;
+        }
+
+        const calculateTopCryptos = () => {
+
+            let top = {
+                cryptos: [],
+                percentages: []
+            };
+
+            let max = (cryptoData.value.length > 5)? 5 : cryptoData.value.length;
+            
+            top.percentages = cryptoData.value.map(crypto => crypto.price_change_percentage_7d)
+                                              .sort((a, b) => b - a)
+                                              .slice(0, max);
+
+            for (let i = 0; i < max; i++) {
+                for (const crypto of cryptoData.value) {
+
+                    if (crypto.price_change_percentage_7d == top.percentages[i]) {
+                        top.cryptos.push(crypto.cg_id);
+                        break;
+                    }
+                }
+            }
+
+            return top;
+        }
+
+        const joinCryptoData = (cgData) => {
+
+                let tempData = [];
+
+                for (let cgCrypto of cgData) { 
+                    for (let dbCrypto of props.cryptos) {
+
+                    if (cgCrypto.id == dbCrypto.cg_id)
+                        {
+                            tempData.push({
+                                cg_id: cgCrypto.id,
+                                name: cgCrypto.name,
+                                image: cgCrypto.image,
+                                symbol: cgCrypto.symbol,
+                                amount: dbCrypto.amount,
+                                total_worth: dbCrypto.amount * cgCrypto.current_price,
+                                created_at: dbCrypto.created_at,
+                                current_price: cgCrypto.current_price, 
+                                price_change_24h: cgCrypto.price_change_24h,
+                                price_change_percentage_24h: cgCrypto.price_change_percentage_24h,
+                                price_change_percentage_7d: cgCrypto.price_change_percentage_7d_in_currency,   
+                        });
+
+                        break;
+                    }
+                }
+            }
+
+            return tempData;
+        }
+
+        const removeCrypto = (cg_id, index) => {
+            Inertia.delete(`/portfolio/cryptos/${cg_id}`);
+        }
+
+        // CYCLE HOOKS
         onMounted(() => {    
 
             // DATA OF ALL CRYPTOS INFORMATION
             axios.get(cryptosInfoUrl)
                  .then(res => {
                     
-                    console.log(res.data);
+                    cryptoData.value = joinCryptoData(res.data);
+
+                    console.log('CG DATA: ', cryptoData.value);
+
                     
-                    for (let cgCrypto of res.data) { 
-                        for (let dbCrypto of props.cryptos) {
+                    const cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
+                    const topCryptos = calculateTopCryptos(cryptoData.value);
 
-                            if (cgCrypto.id == dbCrypto.cg_id)
-                            {
-                                tempData.push({
-                                    id: cgCrypto.id,
-                                    name: cgCrypto.name,
-                                    image: cgCrypto.image,
-                                    symbol: cgCrypto.symbol,
-                                    amount: dbCrypto.amount,
-                                    total_worth: dbCrypto.amount * cgCrypto.current_price,
-                                    created_at: dbCrypto.created_at,
-                                    current_price: cgCrypto.current_price, 
-                                    price_change_24h: cgCrypto.price_change_24h,
-                                    price_change_percentage: cgCrypto.price_change_percentage_24h,   
-                                });
-
-                                break;
-                            }
-                        }
-                    }
-
-                    cryptoData.value = tempData;
-                    console.log('crypto data: ', cryptoData.value);
-
-                        const generateRandomNumber = (min, max) => {
-                            return Math.floor(Math.random() * (max - min)) + min;
-                        };
-
-                         const generateColors = (numberOfColors) => {
-                            const colors = [];
-
-                            for (let i = 0; i < numberOfColors; i++) {
-                                let min = 0;
-                                let max = 256;
-                                let x = generateRandomNumber(min, max);
-                                let y = generateRandomNumber(min, max);
-                                let z = generateRandomNumber(min, max);
-
-                                colors.push(`rgba(${x}, ${y}, ${z}, 0.9)`);
-                            }
+                    const doughnutHtmlElement = document.getElementById("doughnutChart");
+                    doughnutChart = new Chart(doughnutHtmlElement, generateDoughnutChartConf(cryptoDistribution, cryptoDistribution.cryptos.length));
                                     
-                            return colors;
-                        };
-
-
-                        const data = {
-                            labels: portfolioCryptoDistribution.value.cryptos,
-                            datasets: [{
-                                data: portfolioCryptoDistribution.value.percentages,
-                                backgroundColor: generateColors(),
-                                hoverOffset: 4
-                            }]
-                        };
-
-                        const config = {
-                            type: 'doughnut',
-                            data: data, 
-                            options: {
-                                plugins: {
-                                    
-                                }
-                            }
-                        };
-
-                        // Create CHART
-                        const ctx = document.getElementById("doughnutChart");
-                        const doughnutChart = new Chart(ctx, config);
+                    const barHtmlElement = document.getElementById('barChart');
+                    barChart = new Chart(barHtmlElement, generateBarChartConf(topCryptos, topCryptos.cryptos.length));
+                
                  })
                  .catch(e => console.log(e));
         });
 
-        // Computed
+        // COMPUTED
         const portfolioTotalWorth = computed(() => {
 
             return cryptoData.value.reduce((total, crypto) => {
@@ -307,30 +367,34 @@ export default {
             return (portfolioGrowth.value / portfolioTotalWorth.value) * 100;
         });
 
-        const portfolioCryptoDistribution = computed(() => {
+        // WATCHERS
+        watch(() => props.cryptos, (oldval, cryptos) => {
 
-            let distribution = {
-                percentages: [],
-                cryptos: [],
-            };
+           console.log('WATCHER, FETCH');
 
-            cryptoData.value.forEach(crypto => {
-                distribution.percentages.push(((crypto.current_price * crypto.amount) /  portfolioTotalWorth.value) * 100);
-                distribution.cryptos.push(crypto.id);
-            });
+            axios.get(cryptosInfoUrl)
+                 .then((res) => {
 
-            return distribution;
+                    cryptoData.value =  joinCryptoData(res.data);
+
+                    console.log('Fetched data: ', cryptoData.value);
+
+                    const cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
+                    const topCryptos = calculateTopCryptos(cryptoData.value);
+
+                    updateDoughnutChart(doughnutChart, cryptoDistribution);
+                    updateBarChart(barChart, topCryptos);                    
+                 })
+                 .catch(e => console.log(e));
         });
-
 
         return { 
             cryptoData, 
+            removeCrypto,
             portfolioTotalWorth, 
             portfolioGrowth,
             portfolioGrowthPercentage,
-            portfolioCryptoDistribution,
             formatNumber,
-            chartData,
         }
   },
 }

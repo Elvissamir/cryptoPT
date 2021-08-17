@@ -17927,8 +17927,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Helpers/FormatNumber */ "./resources/js/Helpers/FormatNumber.js");
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Helpers/FormatNumber */ "./resources/js/Helpers/FormatNumber.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
+/* harmony import */ var _Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Charts/DoughnutChart.js */ "./resources/js/Charts/DoughnutChart.js");
+/* harmony import */ var _Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Charts/BarChart.js */ "./resources/js/Charts/BarChart.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -17938,15 +17942,21 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 // Layout
  // Vue
 
+ // INERTIA
+
+
  // Helpers
 
  // Charts
 
+
+
  // Register Chart dependencies
 
-chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_3__.DoughnutController, chart_js__WEBPACK_IMPORTED_MODULE_3__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_3__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_3__.Legend);
+chart_js__WEBPACK_IMPORTED_MODULE_5__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_5__.DoughnutController, chart_js__WEBPACK_IMPORTED_MODULE_5__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_5__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_5__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_5__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_5__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_5__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_5__.Legend);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
+    Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__.Link,
     Layout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__.default
   },
   props: {
@@ -17961,9 +17971,9 @@ chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart.register(chart_js__WEBPACK_IMPORTED_
   },
   setup: function setup(props) {
     // Properties
-    var tempData = [];
     var cryptoData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
-    var chartData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]); // Request Parameters
+    var doughnutChart = null;
+    var barChart = null; // Request Parameters
 
     var main_url = "https://api.coingecko.com/api/v3/coins/";
     var currency = 'usd';
@@ -17986,47 +17996,64 @@ chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart.register(chart_js__WEBPACK_IMPORTED_
         return `${main_url}/${id}/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}`;
     });
      */
-    // Cycle hooks
+    // METHODS
 
-    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
-      // DATA OF ALL CRYPTOS INFORMATION
-      axios.get(cryptosInfoUrl).then(function (res) {
-        console.log(res.data);
+    var calculateCryptoDistribution = function calculateCryptoDistribution(cryptoData) {
+      console.log('COMPUTED CRYPTO DISTRIBUTION');
+      var distribution = {
+        percentages: [],
+        cryptos: []
+      };
+      var topDistribution = {
+        percentages: [],
+        cryptos: []
+      };
+      var max = cryptoData.length > 5 ? 5 : cryptoData.length;
+      cryptoData.forEach(function (crypto) {
+        distribution.percentages.push(crypto.current_price * crypto.amount / portfolioTotalWorth.value * 100);
+        distribution.cryptos.push(crypto.cg_id);
+      });
+      topDistribution.percentages = distribution.percentages.map(function (percentage) {
+        return percentage;
+      }).sort(function (a, b) {
+        return b - a;
+      }).slice(0, max);
 
-        var _iterator = _createForOfIteratorHelper(res.data),
+      for (var x = 0; x < topDistribution.percentages.length; x++) {
+        for (var y = 0; y < distribution.percentages.length; y++) {
+          if (distribution.percentages[y] == topDistribution.percentages[x]) {
+            topDistribution.cryptos.push(distribution.cryptos[y]);
+            break;
+          }
+        }
+      }
+
+      return topDistribution;
+    };
+
+    var calculateTopCryptos = function calculateTopCryptos() {
+      var top = {
+        cryptos: [],
+        percentages: []
+      };
+      var max = cryptoData.value.length > 5 ? 5 : cryptoData.value.length;
+      top.percentages = cryptoData.value.map(function (crypto) {
+        return crypto.price_change_percentage_7d;
+      }).sort(function (a, b) {
+        return b - a;
+      }).slice(0, max);
+
+      for (var i = 0; i < max; i++) {
+        var _iterator = _createForOfIteratorHelper(cryptoData.value),
             _step;
 
         try {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var cgCrypto = _step.value;
+            var crypto = _step.value;
 
-            var _iterator2 = _createForOfIteratorHelper(props.cryptos),
-                _step2;
-
-            try {
-              for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-                var dbCrypto = _step2.value;
-
-                if (cgCrypto.id == dbCrypto.cg_id) {
-                  tempData.push({
-                    id: cgCrypto.id,
-                    name: cgCrypto.name,
-                    image: cgCrypto.image,
-                    symbol: cgCrypto.symbol,
-                    amount: dbCrypto.amount,
-                    total_worth: dbCrypto.amount * cgCrypto.current_price,
-                    created_at: dbCrypto.created_at,
-                    current_price: cgCrypto.current_price,
-                    price_change_24h: cgCrypto.price_change_24h,
-                    price_change_percentage: cgCrypto.price_change_percentage_24h
-                  });
-                  break;
-                }
-              }
-            } catch (err) {
-              _iterator2.e(err);
-            } finally {
-              _iterator2.f();
+            if (crypto.price_change_percentage_7d == top.percentages[i]) {
+              top.cryptos.push(crypto.cg_id);
+              break;
             }
           }
         } catch (err) {
@@ -18034,51 +18061,80 @@ chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart.register(chart_js__WEBPACK_IMPORTED_
         } finally {
           _iterator.f();
         }
+      }
 
-        cryptoData.value = tempData;
-        console.log('crypto data: ', cryptoData.value);
+      return top;
+    };
 
-        var generateRandomNumber = function generateRandomNumber(min, max) {
-          return Math.floor(Math.random() * (max - min)) + min;
-        };
+    var joinCryptoData = function joinCryptoData(cgData) {
+      var tempData = [];
 
-        var generateColors = function generateColors(numberOfColors) {
-          var colors = [];
+      var _iterator2 = _createForOfIteratorHelper(cgData),
+          _step2;
 
-          for (var i = 0; i < numberOfColors; i++) {
-            var min = 0;
-            var max = 256;
-            var x = generateRandomNumber(min, max);
-            var y = generateRandomNumber(min, max);
-            var z = generateRandomNumber(min, max);
-            colors.push("rgba(".concat(x, ", ").concat(y, ", ").concat(z, ", 0.9)"));
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var cgCrypto = _step2.value;
+
+          var _iterator3 = _createForOfIteratorHelper(props.cryptos),
+              _step3;
+
+          try {
+            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+              var dbCrypto = _step3.value;
+
+              if (cgCrypto.id == dbCrypto.cg_id) {
+                tempData.push({
+                  cg_id: cgCrypto.id,
+                  name: cgCrypto.name,
+                  image: cgCrypto.image,
+                  symbol: cgCrypto.symbol,
+                  amount: dbCrypto.amount,
+                  total_worth: dbCrypto.amount * cgCrypto.current_price,
+                  created_at: dbCrypto.created_at,
+                  current_price: cgCrypto.current_price,
+                  price_change_24h: cgCrypto.price_change_24h,
+                  price_change_percentage_24h: cgCrypto.price_change_percentage_24h,
+                  price_change_percentage_7d: cgCrypto.price_change_percentage_7d_in_currency
+                });
+                break;
+              }
+            }
+          } catch (err) {
+            _iterator3.e(err);
+          } finally {
+            _iterator3.f();
           }
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
 
-          return colors;
-        };
+      return tempData;
+    };
 
-        var data = {
-          labels: portfolioCryptoDistribution.value.cryptos,
-          datasets: [{
-            data: portfolioCryptoDistribution.value.percentages,
-            backgroundColor: generateColors(),
-            hoverOffset: 4
-          }]
-        };
-        var config = {
-          type: 'doughnut',
-          data: data,
-          options: {
-            plugins: {}
-          }
-        }; // Create CHART
+    var removeCrypto = function removeCrypto(cg_id, index) {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_2__.Inertia.delete("/portfolio/cryptos/".concat(cg_id));
+    }; // CYCLE HOOKS
 
-        var ctx = document.getElementById("doughnutChart");
-        var doughnutChart = new chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart(ctx, config);
+
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
+      // DATA OF ALL CRYPTOS INFORMATION
+      axios.get(cryptosInfoUrl).then(function (res) {
+        cryptoData.value = joinCryptoData(res.data);
+        console.log('CG DATA: ', cryptoData.value);
+        var cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
+        var topCryptos = calculateTopCryptos(cryptoData.value);
+        var doughnutHtmlElement = document.getElementById("doughnutChart");
+        doughnutChart = new chart_js__WEBPACK_IMPORTED_MODULE_5__.Chart(doughnutHtmlElement, (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_6__.generateDoughnutChartConf)(cryptoDistribution, cryptoDistribution.cryptos.length));
+        var barHtmlElement = document.getElementById('barChart');
+        barChart = new chart_js__WEBPACK_IMPORTED_MODULE_5__.Chart(barHtmlElement, (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_7__.generateBarChartConf)(topCryptos, topCryptos.cryptos.length));
       })["catch"](function (e) {
         return console.log(e);
       });
-    }); // Computed
+    }); // COMPUTED
 
     var portfolioTotalWorth = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return cryptoData.value.reduce(function (total, crypto) {
@@ -18092,26 +18148,30 @@ chart_js__WEBPACK_IMPORTED_MODULE_3__.Chart.register(chart_js__WEBPACK_IMPORTED_
     });
     var portfolioGrowthPercentage = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return portfolioGrowth.value / portfolioTotalWorth.value * 100;
-    });
-    var portfolioCryptoDistribution = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
-      var distribution = {
-        percentages: [],
-        cryptos: []
-      };
-      cryptoData.value.forEach(function (crypto) {
-        distribution.percentages.push(crypto.current_price * crypto.amount / portfolioTotalWorth.value * 100);
-        distribution.cryptos.push(crypto.id);
+    }); // WATCHERS
+
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(function () {
+      return props.cryptos;
+    }, function (oldval, cryptos) {
+      console.log('WATCHER, FETCH');
+      axios.get(cryptosInfoUrl).then(function (res) {
+        cryptoData.value = joinCryptoData(res.data);
+        console.log('Fetched data: ', cryptoData.value);
+        var cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
+        var topCryptos = calculateTopCryptos(cryptoData.value);
+        (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_6__.updateDoughnutChart)(doughnutChart, cryptoDistribution);
+        (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_7__.updateBarChart)(barChart, topCryptos);
+      })["catch"](function (e) {
+        return console.log(e);
       });
-      return distribution;
     });
     return {
       cryptoData: cryptoData,
+      removeCrypto: removeCrypto,
       portfolioTotalWorth: portfolioTotalWorth,
       portfolioGrowth: portfolioGrowth,
       portfolioGrowthPercentage: portfolioGrowthPercentage,
-      portfolioCryptoDistribution: portfolioCryptoDistribution,
-      formatNumber: _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_2__.formatNumber,
-      chartData: chartData
+      formatNumber: _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_4__.formatNumber
     };
   }
 });
@@ -22098,15 +22158,9 @@ var _hoisted_34 = {
   "class": "underline text-xs font-semibold text-indigo-500",
   href: ""
 };
-
-var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_35 = {
   "class": "flex w-4/12 sm:w-1/12 rounded justify-end sm:my-auto sm:order-6"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-  "class": "flex p-2 h-6 w-6 justify-center items-center bg-indigo-900 text-white text-sm font-semibold rounded-full"
-}, " X ")], -1
-/* HOISTED */
-);
-
+};
 var _hoisted_36 = {
   "class": "flex sm:flex-col sm:w-2/12 items-baseline w-full  mb-2 sm:mb-0"
 };
@@ -22175,7 +22229,12 @@ var _hoisted_50 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, null, -1
+var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "bg-white"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("canvas", {
+  "class": "w-3/12 mx-auto",
+  id: "barChart"
+})], -1
 /* HOISTED */
 );
 
@@ -22209,7 +22268,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.name), 1
         /* TEXT */
-        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" DELETE BUTTON"), _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ADDED AT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_36, [_hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.created_at), 1
+        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" DELETE BUTTON"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+          onClick: function onClick($event) {
+            return $setup.removeCrypto(crypto.cg_id, index);
+          },
+          "class": "flex p-2 h-6 w-6 justify-center items-center bg-indigo-900 text-white text-sm font-semibold rounded-full"
+        }, " X ", 8
+        /* PROPS */
+        , ["onClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ADDED AT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_36, [_hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.created_at), 1
         /* TEXT */
         )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_41, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.formatNumber(crypto.current_price)), 1
         /* TEXT */
@@ -23627,6 +23693,158 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
 
 /***/ }),
 
+/***/ "./resources/js/Charts/BarChart.js":
+/*!*****************************************!*\
+  !*** ./resources/js/Charts/BarChart.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "generateBarChartConf": () => (/* binding */ generateBarChartConf),
+/* harmony export */   "updateBarChart": () => (/* binding */ updateBarChart)
+/* harmony export */ });
+/* harmony import */ var _ChartColors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChartColors */ "./resources/js/Charts/ChartColors.js");
+/* harmony import */ var _Helpers_MaxChartCryptos__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Helpers/MaxChartCryptos */ "./resources/js/Helpers/MaxChartCryptos.js");
+
+
+
+var generateBarChartConf = function generateBarChartConf(portfolioTopCryptos) {
+  var max = (0,_Helpers_MaxChartCryptos__WEBPACK_IMPORTED_MODULE_1__.maxCryptos)(portfolioTopCryptos.cryptos);
+  var barChartColors = {
+    backgroundColors: _ChartColors__WEBPACK_IMPORTED_MODULE_0__.chartColors.backgroundColors.map(function (color) {
+      return color;
+    }).slice(0, max),
+    borderColor: _ChartColors__WEBPACK_IMPORTED_MODULE_0__.chartColors.borderColors.map(function (color) {
+      return color;
+    }).slice(0, max)
+  }; // BAR
+
+  var dataBar = {
+    labels: portfolioTopCryptos.cryptos,
+    datasets: [{
+      data: portfolioTopCryptos.percentages,
+      backgroundColor: barChartColors.backgroundColors,
+      borderColor: barChartColors.borderColor,
+      borderWith: 1
+    }]
+  };
+  var barConf = {
+    type: 'bar',
+    data: dataBar,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+  return barConf;
+};
+
+var updateBarChart = function updateBarChart(chart, topCryptos) {
+  chart.data.labels = topCryptos.cryptos;
+  var max = (0,_Helpers_MaxChartCryptos__WEBPACK_IMPORTED_MODULE_1__.maxCryptos)(topCryptos.cryptos);
+  var barChartColors = _ChartColors__WEBPACK_IMPORTED_MODULE_0__.chartColors.backgroundColors.map(function (color) {
+    return color;
+  }).slice(0, max);
+  chart.data.datasets.forEach(function (dataset) {
+    dataset.data = topCryptos.percentages;
+    dataset.backgroundColor = barChartColors;
+    dataset.borderColor = _ChartColors__WEBPACK_IMPORTED_MODULE_0__.chartColors.borderColors.map(function (color) {
+      return color;
+    }).slice(0, max);
+  });
+  chart.update();
+};
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Charts/ChartColors.js":
+/*!********************************************!*\
+  !*** ./resources/js/Charts/ChartColors.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "chartColors": () => (/* binding */ chartColors)
+/* harmony export */ });
+var chartColors = {
+  backgroundColors: ['rgba(20, 10, 180, 0.8)', 'rgba(54, 162, 235, 0.9)', 'rgba(75, 192, 192, 0.9)', 'rgba(0, 200, 200, 0.7)', 'rgba(0, 10, 250, 0.4)', 'rgba(0, 250, 50, 0.8)'],
+  borderColors: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)']
+};
+
+
+/***/ }),
+
+/***/ "./resources/js/Charts/DoughnutChart.js":
+/*!**********************************************!*\
+  !*** ./resources/js/Charts/DoughnutChart.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "generateDoughnutChartConf": () => (/* binding */ generateDoughnutChartConf),
+/* harmony export */   "updateDoughnutChart": () => (/* binding */ updateDoughnutChart)
+/* harmony export */ });
+/* harmony import */ var _ChartColors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChartColors */ "./resources/js/Charts/ChartColors.js");
+/* harmony import */ var _Helpers_MaxChartCryptos__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Helpers/MaxChartCryptos */ "./resources/js/Helpers/MaxChartCryptos.js");
+
+
+
+var generateDoughnutChartConf = function generateDoughnutChartConf(portfolioCryptoDistribution) {
+  var max = (0,_Helpers_MaxChartCryptos__WEBPACK_IMPORTED_MODULE_1__.maxCryptos)(portfolioCryptoDistribution.cryptos);
+  var doughnutChartColors = _ChartColors__WEBPACK_IMPORTED_MODULE_0__.chartColors.backgroundColors.map(function (color) {
+    return color;
+  }).slice(0, max); // DOUGHNUT
+
+  var dataDoughnut = {
+    labels: portfolioCryptoDistribution.cryptos,
+    datasets: [{
+      data: portfolioCryptoDistribution.percentages,
+      backgroundColor: doughnutChartColors,
+      hoverOffset: 4
+    }]
+  };
+  var doughnutConf = {
+    type: 'doughnut',
+    data: dataDoughnut,
+    options: {
+      plugins: {
+        legend: {
+          position: 'right'
+        }
+      }
+    }
+  };
+  return doughnutConf;
+};
+
+var updateDoughnutChart = function updateDoughnutChart(chart, portfolioCryptoDistribution) {
+  chart.data.labels = portfolioCryptoDistribution.cryptos;
+  var max = (0,_Helpers_MaxChartCryptos__WEBPACK_IMPORTED_MODULE_1__.maxCryptos)(portfolioCryptoDistribution.cryptos);
+  var doughnutChartColors = _ChartColors__WEBPACK_IMPORTED_MODULE_0__.chartColors.backgroundColors.map(function (color) {
+    return color;
+  }).slice(0, max);
+  chart.data.datasets.forEach(function (dataset) {
+    dataset.data = portfolioCryptoDistribution.percentages;
+    dataset.backgroundColor = doughnutChartColors;
+  });
+  chart.update();
+};
+
+
+
+/***/ }),
+
 /***/ "./resources/js/Helpers/FormatNumber.js":
 /*!**********************************************!*\
   !*** ./resources/js/Helpers/FormatNumber.js ***!
@@ -23643,6 +23861,25 @@ var formatNumber = function formatNumber(value) {
   if (isNaN(value)) return 0;
   if (value % 1 != 0) if (value.toString().split(".")[1].length > 2) return Math.round(value * 100) / 100;
   return value;
+};
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Helpers/MaxChartCryptos.js":
+/*!*************************************************!*\
+  !*** ./resources/js/Helpers/MaxChartCryptos.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "maxCryptos": () => (/* binding */ maxCryptos)
+/* harmony export */ });
+var maxCryptos = function maxCryptos(cryptArr) {
+  return cryptArr.length > 5 ? 5 : cryptArr.length;
 };
 
 

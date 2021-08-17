@@ -31,7 +31,7 @@ class DeleteRequestTest extends TestCase
 
         $response = $this->actingAs($portfolio->user)
                          ->from(route('portfolioCryptos.show'))
-                         ->delete(route('portfolioCryptos.destroy', $crypto->id));
+                         ->delete(route('portfolioCryptos.destroy', $crypto->cg_id));
 
         $this->assertDatabaseMissing('crypto_portfolio', [
             'crypto_id' => $crypto->id,
@@ -65,7 +65,7 @@ class DeleteRequestTest extends TestCase
 
         $portfolio->cryptos()->attach($crypto->id, ['amount' => $amount]);
 
-        $response = $this->delete(route('portfolioCryptos.destroy', $crypto->id));
+        $response = $this->delete(route('portfolioCryptos.destroy', $crypto->cg_id));
 
         $this->assertDatabaseHas('crypto_portfolio', [
             'crypto_id' => $crypto->id,
@@ -92,7 +92,7 @@ class DeleteRequestTest extends TestCase
         $portfolioB->cryptos()->attach($crypto->id, ['amount' => $amountB]);
 
         $response = $this->actingAs($portfolioB->user)
-                         ->delete(route('portfolioCryptos.destroy', $crypto->id));
+                         ->delete(route('portfolioCryptos.destroy', $crypto->cg_id));
 
         $this->assertDatabaseMissing('crypto_portfolio', [
             'crypto_id' => $crypto->id,
@@ -112,7 +112,7 @@ class DeleteRequestTest extends TestCase
 
         $this->attachToPortfolio($portfolio, $cryptoA->id);
 
-        $response = $this->actingAs($portfolio->user)->delete(route('portfolioCryptos.destroy', $cryptoB->id));
+        $response = $this->actingAs($portfolio->user)->delete(route('portfolioCryptos.destroy', $cryptoB->cg_id));
 
         $response->assertStatus(404);
     }

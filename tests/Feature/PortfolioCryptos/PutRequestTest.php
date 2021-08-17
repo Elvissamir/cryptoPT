@@ -35,7 +35,7 @@ class PutRequestTest extends TestCase
 
         $response = $this->actingAs($portfolio->user)
                          ->from(route('portfolioCryptos.show'))
-                         ->put(route('portfolioCryptos.update', $crypto->id), [
+                         ->put(route('portfolioCryptos.update', $crypto->cg_id), [
             'amount' => $updatedAmount,
         ]);
 
@@ -53,18 +53,15 @@ class PutRequestTest extends TestCase
         //$this->withoutExceptionHandling();
 
         $portfolio = $this->createPortfolio();
-        $randomId = rand(1, 100);
+        $randomId = Str::random(5);
         $initialAmount = rand(1, 1000);
+        $updatedAmount = 100;
 
-        $portfolio->cryptos()->attach($randomId, ['amount' => $initialAmount]);
-
-        $updatedAmount = rand(1, 1000);
-
-        $response = $this->actingAs($portfolio->user)->putJson(route('portfolioCryptos.update', $randomId), [
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $randomId), [
             'amount' => $updatedAmount,
         ]);
 
-        $this->assertDatabaseHas('crypto_portfolio', [
+        $this->assertDatabaseMissing('crypto_portfolio', [
             'crypto_id' => $randomId,
             'portfolio_id' => $portfolio->id,
             'amount' => $initialAmount
@@ -81,7 +78,7 @@ class PutRequestTest extends TestCase
         $crypto = Crypto::factory()->create();
         $updateAmount = rand(1, 1000);
 
-        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->cg_id), [
             'amount' => $updateAmount
         ]);
 
@@ -105,7 +102,7 @@ class PutRequestTest extends TestCase
 
         $updatedAmount = rand(1, 1000);
 
-        $response = $this->put(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->put(route('portfolioCryptos.update', $crypto->cg_id), [
             'amount' => $updatedAmount,
         ]);
 
@@ -138,7 +135,7 @@ class PutRequestTest extends TestCase
         $updatedAmount = rand(1, 1000);
 
         // The owner of portfolio B can only update the amount of crypto in his portfolio
-        $response = $this->actingAs($portfolioB->user)->put(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->actingAs($portfolioB->user)->put(route('portfolioCryptos.update', $crypto->cg_id), [
             'amount' => $updatedAmount,
         ]);
 
@@ -177,7 +174,7 @@ class PutRequestTest extends TestCase
         //$response->assertRedirect(route('portfolioCryptos.show'));
     }
 
-    public function test_id_of_crypto_must_be_an_integer()
+    public function test_id_of_crypto_must_be_a_string()
     {
         //$this->withoutExceptionHandling();
 
@@ -214,7 +211,7 @@ class PutRequestTest extends TestCase
 
         $updatedAmount = rand(1, 1000);
 
-        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->id), []);
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->cg_id), []);
 
         $response->assertRedirect();
         $response->assertSessionHasErrors(['amount']);
@@ -232,7 +229,7 @@ class PutRequestTest extends TestCase
 
         $updatedAmount = Str::random(4);
 
-        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->cg_id), [
             'amount' => $updatedAmount,
         ]);
 
@@ -258,7 +255,7 @@ class PutRequestTest extends TestCase
 
         $updatedAmount = 0.000000001;
 
-        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->cg_id), [
             'amount' => $updatedAmount,
         ]);
 
@@ -284,7 +281,7 @@ class PutRequestTest extends TestCase
  
         $updatedAmount = 10000001;
  
-        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->id), [
+        $response = $this->actingAs($portfolio->user)->put(route('portfolioCryptos.update', $crypto->cg_id), [
             'amount' => $updatedAmount,
         ]);
  

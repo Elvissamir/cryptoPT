@@ -48,7 +48,7 @@ class PortfolioCryptosController extends Controller
 
         $portfolio->updateCryptoAmount($crypto->id, $request->amount);
 
-        return back();
+        return redirect()->back();
     }
 
     public function destroy(Crypto $crypto)
@@ -59,6 +59,6 @@ class PortfolioCryptosController extends Controller
 
         $portfolio->removeCrypto($crypto->id);
 
-        return redirect()->back()->with('success', $crypto->cg_id.' was removed from your portfolio.');
+        return redirect(route('portfolioCryptos.show'));
     }
 }

@@ -13,7 +13,7 @@ class GetCryptoRequestTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_view_for_index_route_exists()
+    public function test_component_for_index_route_exists()
     {
         $this->withoutExceptionHandling();
 
@@ -39,7 +39,7 @@ class GetCryptoRequestTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
-    public function test_the_component_has_data_of_all_cryptos_in_current_auth_user_portfolio()
+    public function test_the_index_component_has_data_of_all_cryptos_in_current_auth_user_portfolio()
     {
         $this->withoutExceptionHandling();
 
@@ -62,5 +62,73 @@ class GetCryptoRequestTest extends TestCase
         );
     }
 
+    public function test_component_for_show_route_exists()
+    {
+        $this->withoutExceptionHandling();
+
+        $portfolio = $this->createPortfolio();
+
+        $crypto = Crypto::factory()->create();
+
+        $response = $this->actingAs($portfolio->user)->get(route('cryptos.show', $crypto->cg_id));
+
+        $response->assertInertia(fn (Assert $page) => 
+            $page->component('Crypto/Show')
+        );
+
+        $response->assertStatus(200);
+    }
+
+    public function test_only_an_authenticated_user_can_see_the_show_route()
+    {
+        //$this->withoutExceptionHandling();
+
+        $portfolio = $this->createPortfolio();
+        $crypto = Crypto::factory()->create();
+
+        $response = $this->get(route('cryptos.show', $crypto->cg_id));
+
+        $response->assertRedirect(route('login'));
+    }
+
+   
+    public function test_show_component_has_data_of_the_crypto()
+    {
+        $this->withoutExceptionHandling();
+
+        $portfolioA = $this->createPortfolio();
+        $portfolioB = $this->createPortfolio();
+
+        $cryptoA = Crypto::factory()->create();
+        $cryptoB = Crypto::factory()->create();
+
+        $this->attachToPortfolio($portfolioA, $cryptoA->id);
+        $this->attachToPortfolio($portfolioB, $cryptoB->id);
+        
+        $response = $this->actingAs($portfolioB->user)->get(route('cryptos.show', $cryptoB->cg_id));
+        
+        $cryptoBData = $portfolioB->findCrypto($cryptoB->cg_id);
+        
+        $response->assertInertia(fn (Assert $page) => 
+            $page->has('crypto')
+                ->where('crypto', new CryptoResource($cryptoBData))
+                ->where('crypto.amount', $cryptoBData->pivot->amount)
+        );
+    }
+
+    public function test_show_component_doesnt_have_prop_if_crypto_is_not_in_portfolio()
+    {
+        $this->withoutExceptionHandling();
+
+        $portfolio = $this->createPortfolio();
+
+        $crypto = Crypto::factory()->create();
+        
+        $response = $this->actingAs($portfolio->user)->get(route('cryptos.show', $crypto->cg_id));
+        
+        $response->assertInertia(fn (Assert $page) => 
+            $page->missing('crypto')
+        );
+    }
 
 }

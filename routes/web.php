@@ -52,3 +52,7 @@ Route::delete('/portfolio/cryptos/{crypto:cg_id}', [PortfolioCryptosController::
 Route::get('/cryptos', [CryptoController::class, 'index'])
      ->middleware(['auth:sanctum'])
      ->name('cryptos.index');
+
+Route::get('/cryptos/{crypto:cg_id}', [CryptoController::class, 'show'])
+     ->middleware(['auth:sanctum'])
+     ->name('cryptos.show');

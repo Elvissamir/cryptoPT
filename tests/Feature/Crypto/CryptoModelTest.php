@@ -2,21 +2,25 @@
 
 namespace Tests\Feature\Crypto;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Crypto;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CryptoModelTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    use RefreshDatabase;
+   
+    public function test_a_crypto_belongs_to_many_portfolios()
     {
-        $response = $this->get('/');
+        $this->withoutExceptionHandling();
 
-        $response->assertStatus(200);
+        $portfolioA = $this->createPortfolio();
+        $portfolioB = $this->createPortfolio();
+
+        $crypto = Crypto::factory()->create();
+        $this->attachToPortfolio($portfolioB, $crypto->id);
+
+        $this->assertEquals($portfolioB->id, $crypto->portfolios()->first()->id);
     }
 }

@@ -19,8 +19,8 @@ class Portfolio extends Model
     {
         if ($this->cryptos()->where('cg_id', $cg_id)->first() == NULL)
             return false;
-        else 
-            return true;
+ 
+        return true;
     }
 
     public function findCrypto($cg_id)

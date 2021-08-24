@@ -22,8 +22,6 @@ class CryptoController extends Controller
     public function show(Crypto $crypto) {
 
         $cryptoData = auth()->user()->portfolio->findCrypto($crypto->cg_id);
-
-        dd($cryptoData);
         
         if (!is_null($cryptoData))
             return Inertia::render('Crypto/Show', ['crypto' => new CryptoResource($cryptoData),]); 

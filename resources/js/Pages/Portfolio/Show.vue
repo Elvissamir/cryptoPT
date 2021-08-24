@@ -82,9 +82,7 @@
     
                                 <!-- DELETE BUTTON-->
                                 <div class="flex w-4/12 sm:w-1/12 rounded justify-end sm:my-auto sm:order-6">
-                                    <button @click="removeCrypto(crypto.cg_id, index)" class="flex p-2 h-6 w-6 justify-center items-center bg-indigo-900 text-white text-sm font-semibold rounded-full">
-                                        X
-                                    </button>
+                                    <DeleteCryptoBtn :cg_id="crypto.cg_id" ></DeleteCryptoBtn>
                                 </div>
                                 
                                 <!-- ADDED AT -->
@@ -144,8 +142,8 @@ import Layout from '../../Layouts/AppLayout'
 // Vue
 import { ref, onMounted, computed, watch } from 'vue'
 
-// INERTIA
-import { Inertia } from '@inertiajs/inertia'
+// COMPONENTS
+import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 import { Link } from '@inertiajs/inertia-vue3'
 
 // Helpers
@@ -174,6 +172,7 @@ export default {
   components: {
     Link,
     Layout,
+    DeleteCryptoBtn,
   },
   props: {
     portfolio: {
@@ -211,16 +210,6 @@ export default {
 
         // Join request url
         let cryptosInfoUrl = `${main_url}markets?vs_currency=${currency}&ids=${allIds}&order=${order}&per_page=${per_page}&page=${page}&sparkline=${sparkline}&price_change_percentage=${price_change_percentage}`;
-
-        /*
-
-        PRICE HISTORY DATA
-
-        const marketDataUrls = ids.map(id => {
-            return `${main_url}/${id}/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}`;
-        });
-
-        */
 
         // METHODS
         const calculateCryptoDistribution = (cryptoData) => {
@@ -316,10 +305,6 @@ export default {
             return tempData;
         }
 
-        const removeCrypto = (cg_id, index) => {
-            Inertia.delete(`/portfolio/cryptos/${cg_id}`);
-        }
-
         // CYCLE HOOKS
         onMounted(() => {    
 
@@ -331,7 +316,6 @@ export default {
 
                     // console.log('CG DATA: ', cryptoData.value);
 
-                    
                     const cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
                     const topCryptos = calculateTopCryptos(cryptoData.value);
 
@@ -384,7 +368,6 @@ export default {
 
         return { 
             cryptoData, 
-            removeCrypto,
             portfolioTotalWorth, 
             portfolioGrowth,
             portfolioGrowthPercentage,

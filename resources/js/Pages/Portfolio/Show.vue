@@ -18,19 +18,28 @@
         
                         <div class="w-6/12 flex justify-end items-baseline">
                             <p class="text-xs sm:text-md mr-2">Total: </p>
-                            <p class="sm:text-xl font-bold text-green-300">${{ formatNumber(portfolioTotalWorth) }}</p>
+                            <p class="sm:text-xl font-bold text-green-300">
+                                ${{ portfolioTotalWorth }}
+                            </p>
                         </div>
                     </div>
                     <div class="mt-4 flex">
                         <div class="ml-auto align-top order-last flex justify-start flex-col">
                             <div class="flex justify-end">
                                 <p class="sm:text-sm text-xs my-auto">Growth % (24h): </p>
-                                <p class="sm:text-sm text-sm font-bold ml-2 text-green-300">{{ formatNumber(portfolioGrowthPercentage) }}%</p>
+                                <p :class="[priceColor(portfolioGrowthPercentage), 'font-bold']" 
+                                    class="sm:text-sm text-sm ml-2">
+                                        {{ portfolioGrowthPercentage }}%
+                                </p>
                             </div>
 
                             <div class="flex justify-end">
                                 <p class="sm:text-sm text-xs my-auto">Growth (24h):</p>
-                                <p class="sm:text-sm text-sm font-bold ml-2 text-green-300">{{ formatNumber(portfolioGrowth) }}</p>
+                                <p 
+                                    :class="[priceColor(portfolioGrowth), 'font-bold']" 
+                                    class="sm:text-sm text-sm ml-2">
+                                        {{ portfolioGrowth }}
+                                </p>
                             </div>
                         </div>
                         <div>
@@ -75,7 +84,7 @@
                                 <div class="flex w-8/12 sm:w-2/12">
                                     <img class="w-9 h-9" :src="crypto.image">
                                     <div class="flex flex-col ml-2">
-                                        <p class="text-sm font-semibold">{{ crypto.symbol.toUpperCase() }}</p>
+                                        <p class="text-sm font-semibold">{{ crypto.symbol }}</p>
                                         <a class="underline text-xs font-semibold text-indigo-500" href="">{{ crypto.name }}</a>
                                     </div>
                                 </div>
@@ -94,22 +103,23 @@
                                 <!-- PRICE -->
                                 <div class="flex flex-col w-4/12 sm:w-1/12">
                                     <p class="text-xs">Price: </p>
-                                    <p class="text-sm font-bold">${{ formatNumber(crypto.current_price) }}</p>
+                                    <p class="text-sm font-bold">${{ crypto.current_price }}</p>
                                 </div>
     
                                 <!-- AMOUNT -->
                                 <div class="flex flex-col w-4/12 sm:w-1/12">
                                     <p class="text-xs">Amount: </p>
                                     <div class="flex">
-                                        <p class="text-sm font-bold">{{ Math.trunc(crypto.amount) }}</p>
-                                        <p class="text-sm font-bold ml-1">{{ crypto.symbol.toUpperCase() }}</p>
+                                        <p class="text-sm font-bold">{{ crypto.amount }}</p>
+                                        <p class="text-sm font-bold ml-1">{{ crypto.symbol }}</p>
+                                        <button @click='editCryptoAmount(crypto)' class="bg-blue-900 text-white py-1">e</button>
                                     </div>
                                 </div>
     
                                 <!-- TOTAL -->
                                 <div class="flex flex-col w-4/12 sm:w-1/12">
                                     <p class="text-xs">Total: </p>
-                                    <p class="text-sm font-bold">${{ formatNumber(crypto.total_worth) }}</p>
+                                    <p class="text-sm font-bold">${{ crypto.total_worth }}</p>
                                 </div>
     
                             </div>
@@ -148,6 +158,7 @@ import { Link } from '@inertiajs/inertia-vue3'
 
 // Helpers
 import { formatNumber } from '../../Helpers/FormatNumber'
+import { priceColor } from '../../Helpers/PriceColor'
 
 // Charts
 import {
@@ -198,8 +209,6 @@ export default {
         let order = "market_cap_desc";
         let per_page = "100";
         let page = 1;
-        let days = 7;
-        let interval = 'daily';
         let sparkline = false;
         let price_change_percentage = '7d%2C%2024h';
         let ids = props.cryptos.map(crypto => {
@@ -287,14 +296,14 @@ export default {
                                 cg_id: cgCrypto.id,
                                 name: cgCrypto.name,
                                 image: cgCrypto.image,
-                                symbol: cgCrypto.symbol,
-                                amount: dbCrypto.amount,
-                                total_worth: dbCrypto.amount * cgCrypto.current_price,
+                                symbol: cgCrypto.symbol.toUpperCase(),
+                                amount: formatNumber(dbCrypto.amount),
+                                total_worth: formatNumber(dbCrypto.amount * cgCrypto.current_price),
                                 created_at: dbCrypto.created_at,
-                                current_price: cgCrypto.current_price, 
-                                price_change_24h: cgCrypto.price_change_24h,
-                                price_change_percentage_24h: cgCrypto.price_change_percentage_24h,
-                                price_change_percentage_7d: cgCrypto.price_change_percentage_7d_in_currency,   
+                                current_price: formatNumber(cgCrypto.current_price), 
+                                price_change_24h: formatNumber(cgCrypto.price_change_24h),
+                                price_change_percentage_24h: formatNumber(cgCrypto.price_change_percentage_24h),
+                                price_change_percentage_7d: formatNumber(cgCrypto.price_change_percentage_7d_in_currency),   
                         });
 
                         break;
@@ -303,6 +312,18 @@ export default {
             }
 
             return tempData;
+        }
+
+        const editCryptoAmount = (crypto, index) => {
+            
+        }
+
+         const saveCryptoAmount = (crypto, index) => {
+
+            let url = `/portfolio/cryptos/${crypto.cg_id}`;
+            axios.put(url, {
+                amount: 
+            });        
         }
 
         // CYCLE HOOKS
@@ -340,17 +361,17 @@ export default {
         const portfolioGrowth = computed(() => {
             
             return cryptoData.value.reduce((growth, crypto) => {
-                return growth + crypto.price_change_24h
+                return growth + crypto.price_change_24h;
             }, 0);
         });
 
         const portfolioGrowthPercentage = computed(() => { 
 
-            return (portfolioGrowth.value / portfolioTotalWorth.value) * 100;
+            return formatNumber((portfolioGrowth.value / portfolioTotalWorth.value) * 100);
         });
 
         // WATCHERS
-        watch(() => props.cryptos, (oldval, cryptos) => {
+        watch(() => props.cryptos, () => {
 
             axios.get(cryptosInfoUrl)
                  .then((res) => {
@@ -372,6 +393,7 @@ export default {
             portfolioGrowth,
             portfolioGrowthPercentage,
             formatNumber,
+            priceColor,
         }
   },
 }

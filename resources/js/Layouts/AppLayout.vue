@@ -227,8 +227,58 @@
             </main>
 
             <!-- FOOTER -->
-            <footer>
-                Layout footer
+            <footer class="bg-gray-800">
+                <div class="flex flex-col w-8/12 mx-auto py-8 text-white">
+
+                    <!-- LINKS -->
+                    <div class="flex flex-col">
+                        <div class="mb-1">
+                            <p class="font-bold">My Social Networks:</p>
+                        </div>
+
+                        <div class="flex">
+                                <div class="flex">
+                                    <a href="">Portfolio</a>
+                                </div>
+                                
+                                <div class="flex">
+                                    <a href="https://github.com/Elvissamir">Github</a>
+                                </div>
+
+                                <div class="flex">
+                                    <p class="font-bold">Email: </p>
+                                    <a href="">elvissamir18@gmail.com</a>
+                                </div>
+
+                                <div class="flex">
+                                    <p class="font-bold">Discord ID: </p>
+                                    <p class="font-bold">Elvissam1#1907</p>
+                                </div>
+
+                                <div class="flex">
+                                    <p class="font-bold">LinkedIn: </p>
+                                    <a href=""></a>
+                                </div>
+
+                                <div class="flex">
+                                    <p class="font-bold">Twitter: </p>
+                                    <a href=""></a>
+                                </div>
+                            </div> 
+                        </div>
+
+
+                    <!-- INFO -->
+                    <div class="flex flex-col mt-2 mx-auto items-center text-center">
+                        <p class="font-bold">
+                            Designed & Developed by Elvis Carrasco
+                        </p>
+                        <p class="font-bold">
+                            Crypto Portfolio Tracker - 2021
+                        </p>
+                    </div>
+
+                </div>
             </footer>
         </div>
     </div>

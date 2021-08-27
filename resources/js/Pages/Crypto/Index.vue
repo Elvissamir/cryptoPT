@@ -21,9 +21,11 @@
                                     <div class="flex ">
                                         <img class="w-9 h-9" :src="crypto.image">
                                         <div class="flex flex-col ml-2">
-                                            <p class="text-sm font-semibold">{{ crypto.symbol.toUpperCase() }}</p>
-                                            <Link class="underline text-xs font-semibold text-indigo-500" :href="getCryptoUrl(crypto.cg_id)">
-                                              {{ crypto.name }}
+                                            <p class="text-sm font-semibold">{{ crypto.symbol }}</p>
+                                            <Link 
+                                              class="underline text-xs font-semibold text-indigo-500" 
+                                              :href="getCryptoUrl(crypto.cg_id)">
+                                                {{ crypto.name }}
                                             </Link>
                                         </div>
                                     </div>
@@ -43,7 +45,7 @@
                                     <!-- CURRENT PRICE -->
                                     <div class="flex flex-col w-4/12 sm:w-1/12">
                                         <p class="text-xs">Price: </p>
-                                        <p class="text-sm font-bold">${{ formatNumber(crypto.current_price) }}</p>
+                                        <p class="text-sm font-bold">${{ crypto.current_price }}</p>
                                     </div>
 
                                     <!-- AMOUNT -->
@@ -51,8 +53,8 @@
                                         <p class="text-xs">Amount: </p>
                                         
                                         <div v-if="crypto.inPortfolio" class="flex">
-                                            <p class="text-sm font-bold">{{ Math.trunc(crypto.amount) }}</p>
-                                            <p class="text-sm font-bold ml-1">{{ crypto.symbol.toUpperCase() }}</p>
+                                            <p class="text-sm font-bold">{{ crypto.amount }}</p>
+                                            <p class="text-sm font-bold ml-1">{{ crypto.symbol }}</p>
                                         </div>
 
                                         <div v-else> 
@@ -64,19 +66,28 @@
                                     <!-- 1h Change -->
                                     <div class="flex sm:flex-col sm:w-2/12 items-baseline w-full  mb-2 sm:mb-0">
                                       <p>Change 1h: </p>
-                                      <p>{{ formatNumber(crypto.price_change_1h) }}</p>
+                                      <p 
+                                        :class="[priceColor(crypto.price_change_1h), 'font-bold']">
+                                          {{ crypto.price_change_1h }}%
+                                      </p>
                                     </div>   
 
                                     <!-- 24h Change -->
                                     <div class="flex sm:flex-col sm:w-2/12 items-baseline w-full  mb-2 sm:mb-0">
-                                      <p>Change 24h: </p>
-                                      <p>{{ formatNumber(crypto.price_change_24h) }}</p>
+                                      <p>
+                                        Change 24h: 
+                                      </p>
+                                      <p :class="[priceColor(crypto.price_change_24h), 'font-bold']">
+                                        {{ crypto.price_change_24h }}%
+                                      </p>
                                     </div>
 
                                     <!-- 7d Change -->
                                     <div class="flex sm:flex-col sm:w-2/12 items-baseline w-full  mb-2 sm:mb-0">
                                       <p>Change 7d: </p>
-                                      <p>{{ formatNumber(crypto.price_change_7d) }}</p>
+                                      <p :class="[priceColor(crypto.price_change_7d), 'font-bold']">
+                                        {{ crypto.price_change_7d }}%
+                                      </p>
                                     </div>
         
                 </div>
@@ -111,6 +122,7 @@ import { Link } from '@inertiajs/inertia-vue3'
 
 // HELPERS
 import { formatNumber } from '../../Helpers/FormatNumber.js'
+import { priceColor } from '../../Helpers/PriceColor.js'
 
 export default {
   components: {
@@ -161,18 +173,18 @@ export default {
                 cg_id: cgCrypto.id,
                 name: cgCrypto.name,
                 image: cgCrypto.image,
-                symbol: cgCrypto.symbol,
+                symbol: cgCrypto.symbol.toUpperCase(),
                 rank: cgCrypto.market_cap_rank,
-                current_price: cgCrypto.current_price,
-                price_change_1h: cgCrypto.price_change_percentage_1h_in_currency,
-                price_change_24h: cgCrypto.price_change_percentage_24h_in_currency,
-                price_change_7d: cgCrypto.price_change_percentage_7d_in_currency,   
+                current_price: formatNumber(cgCrypto.current_price),
+                price_change_1h: formatNumber(cgCrypto.price_change_percentage_1h_in_currency),
+                price_change_24h: formatNumber(cgCrypto.price_change_percentage_24h_in_currency),
+                price_change_7d: formatNumber(cgCrypto.price_change_percentage_7d_in_currency),   
               }
 
               for (let dbCrypto of props.cryptos) {
                 if (dbCrypto.cg_id == cgCrypto.id) {
                   crypto['inPortfolio'] = true;
-                  crypto['amount'] = dbCrypto.amount
+                  crypto['amount'] = formatNumber(dbCrypto.amount)
                 }
               }
 
@@ -211,6 +223,7 @@ export default {
 		return {
      	showCryptos,
       currentPage,
+      priceColor,
 		  formatNumber,
 		  getCryptoUrl,
       goToPrev,

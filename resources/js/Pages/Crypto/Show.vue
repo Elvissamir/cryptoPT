@@ -1,25 +1,27 @@
 
 <template>
     <Layout>
- <div class="w-full">
-    <div class="bg-white mx-auto w-11/12 py-2">
-        <div class="flex flex-col mx-auto w-11/12">
+   
+    <div class="flex w-full">
+        <div class="flex bg-white w-11/12 mx-auto">
+            <div class="flex flex-col w-11/12 mx-auto">
                 <!-- CRYPTO SYMBOL -->
                 <div class="flex w-8/12 sm:w-2/12">
                     <img class="w-9 h-9" :src="coin.image">
                     <div class="flex flex-col ml-2">
-                  <!--  <p class="text-sm font-semibold">{{ coin.symbol.toUpperCase() }}</p> -->
-                    <a class="underline text-xs font-semibold text-indigo-500" href="">{{ coin.name }}</a>
+                        <p class="text-sm font-semibold">{{ coin.symbol }}</p>
+                        <a class="underline text-xs font-semibold text-indigo-500" href="">{{ coin.name }}</a>
+                    </div>
                 </div>
 
                 <!-- ADD OR DELETE BUTTON -->
                 <div class="flex">
                     <div v-if="coin.inPortfolio">
-                        <AddCryptoBtn :crypto="coin"></AddCryptoBtn> 
+                        <DeleteCryptoBtn :cg_id="coin.cg_id"></DeleteCryptoBtn> 
                     </div>
 
                     <div v-else>
-                        <DeleteCryptoBtn :cg_id="coin.cg_id"></DeleteCryptoBtn> 
+                        <AddCryptoBtn :crypto="coin"></AddCryptoBtn> 
                     </div>
                 </div>
 
@@ -38,18 +40,24 @@
                 <!-- PRICE CHANGES --> 
                 <div class="flex">
                     <div class="flex">
-                        <p>1h %: </p>
-                        <p>{{ coin.price_change_1h }}</p>
+                        <p>Change 1h:</p>
+                        <p :class="[priceColor(coin.price_change_1h), 'font-bold']">
+                            {{ coin.price_change_1h }}%
+                        </p>
                     </div>
 
                     <div class="flex">
-                        <p>24h %: </p>
-                        <p>{{ coin.price_change_24h }}</p>
+                        <p>Change 24h:</p>
+                        <p :class="[priceColor(coin.price_change_24h), 'font-bold']">
+                            {{ coin.price_change_24h }}%
+                        </p>
                     </div>
 
                     <div class="flex">
-                        <p>7d %: </p>
-                        <p>{{ coin.price_change_7d }}</p>
+                        <p>Change 7d:</p>
+                        <p :class="[priceColor(coin.price_change_7d), 'font-bold']">
+                            {{ coin.price_change_7d }}%
+                        </p>
                     </div>
                 </div>
 
@@ -57,7 +65,15 @@
                 <div class="flex">
                     <p>Amount: </p>
                     <div>
-                        <p v-if="crypto.inPortfolio">{{ coin.amount }}</p>
+                        <div v-if="coin.inPortfolio">
+                            <p>
+                                {{ coin.amount }}
+                            </p>
+
+                            <p>
+                                {{ coin.symbol }}
+                            </p>
+                        </div>
                         <p v-else>-</p>
                     </div>
                 </div>
@@ -82,10 +98,10 @@
                 </div>
 
             </div>
+        </div>
 
-            </div>
-        </div>            
     </div>
+
     </Layout>
 </template>
 
@@ -100,8 +116,15 @@ import { ref, onMounted } from 'vue'
 import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 import AddCryptoBtn from '../../Components/AddCryptoBtn.vue'
 
+// HELPERS
+import { formatNumber } from '../../Helpers/FormatNumber'
+import { priceColor } from '../../Helpers/PriceColor'
+
 // CHART
-import { Chart, LineElement, LineController, LinearScale } from 'chart.js'
+import { Chart, LineElement, LineController, LinearScale, CategoryScale, PointElement } from 'chart.js'
+import { generateLineChartConf } from '../../Charts/LineChart';
+
+Chart.register(LineElement, LineController, LinearScale, CategoryScale, PointElement);
 
 export default {
     components: {
@@ -116,7 +139,6 @@ export default {
         }
     },
     setup(props) {
-
 
         // URL 
         const baseUrl = ' https://api.coingecko.com/api/v3/coins';
@@ -134,12 +156,15 @@ export default {
         // CRYPTO DATA
         const coin = ref({});
 
+        // CHART DATA
+        const chartData = ref([]);
+
         // HOOKS
         onMounted(() => {
 
             getCryptoData(cryptoDataUrl);
-            
-            fetchChartData(chartDataUrl);
+
+            generateLineChart(chartDataUrl);
         })
 
         const getCryptoData = (url) => {
@@ -155,36 +180,44 @@ export default {
                         cg_id: cgCryptoData.id,
                         name: cgCryptoData.name,
                         image: cgCryptoData.image,
-                        symbol: cgCryptoData.symbol,
+                        symbol: cgCryptoData.symbol.toUpperCase(),
                         rank: cgCryptoData.market_cap_rank,
-                        atl: cgCryptoData.atl,
-                        ath: cgCryptoData.ath,
-                        price: cgCryptoData.current_price, 
-                        price_change_1h: cgCryptoData.price_change_percentage_1h_in_currency,
-                        price_change_24h: cgCryptoData.price_change_percentage_24h_in_currency,
-                        price_change_7d: cgCryptoData.price_change_percentage_7d_in_currency,   
+                        atl: formatNumber(cgCryptoData.atl),
+                        ath: formatNumber(cgCryptoData.ath),
+                        price: formatNumber(cgCryptoData.current_price), 
+                        price_change_1h: formatNumber(cgCryptoData.price_change_percentage_1h_in_currency),
+                        price_change_24h: formatNumber(cgCryptoData.price_change_percentage_24h_in_currency),
+                        price_change_7d: formatNumber(cgCryptoData.price_change_percentage_7d_in_currency),   
                     }
 
                     if (props.crypto.amount !== null) {
-                        coin.value['inPortfolio'] = true;
-                        coin.value['amount'] = props.crypto.amount;
-                    }
 
-                    console.log('coin: ', coin.value); 
+                        coin.value['inPortfolio'] = true;
+                        coin.value['amount'] = formatNumber(props.crypto.amount);
+                    }
                 })
                 .catch(e => console.log(e));
         }
 
-        const fetchChartData = (url) => {
+        const generateLineChart = (url) => {
              axios.get(url)
                 .then(res => {
-                    console.log(res);
+
+                    console.log(res.data);
+
+                    chartData.value = res.data.prices.map(price => price[1]);
+
+                    const conf = generateLineChartConf(chartData.value);
+                    const htmLineElement = document.getElementById('lineChart');
+
+                    const lineChart = new Chart(htmLineElement, conf);
                 })
                 .catch(e => console.log(e));
         }
 
         return {
             coin,
+            priceColor,
         }
     },
 }

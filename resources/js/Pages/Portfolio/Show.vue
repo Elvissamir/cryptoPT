@@ -69,9 +69,9 @@
                                 <h2 class="sm:text-xl font-semibold">My Cryptos</h2>
                             </div>
                             <div class="mb-1">
-                                <a class="px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold" href="">
+                                <Link class="px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold" href="/cryptos">
                                     Add +
-                                </a>
+                                </Link>
                             </div>
                         </div>
     
@@ -109,10 +109,25 @@
                                 <!-- AMOUNT -->
                                 <div class="flex flex-col w-4/12 sm:w-1/12">
                                     <p class="text-xs">Amount: </p>
+
                                     <div class="flex">
-                                        <p class="text-sm font-bold">{{ crypto.amount }}</p>
-                                        <p class="text-sm font-bold ml-1">{{ crypto.symbol }}</p>
-                                        <button @click='editCryptoAmount(crypto)' class="bg-blue-900 text-white py-1">e</button>
+                                        <div v-if="(editing == true && editingIndex == index)">
+                                            <input type="number" v-model="newAmount">
+                                            <button @click="saveCryptoAmount(crypto, index)" class="bg-blue-900 font-bold text-sm text-white py-1 px-2">
+                                                Save
+                                            </button>
+                                            <button @click="cancelEdit" class="bg-blue-900 font-bold text-sm text-white py-1 px-2">
+                                                Cancel
+                                            </button>
+                                        </div>
+
+                                        <div v-else>
+                                            <p class="text-sm font-bold">{{ crypto.amount }}</p>
+                                            <p class="text-sm font-bold ml-1">{{ crypto.symbol }}</p>
+                                            <button @click='editCryptoAmount(crypto, index)' class="bg-blue-900 font-bold text-sm text-white py-1 px-2">
+                                                Edit
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
     
@@ -150,11 +165,14 @@
 import Layout from '../../Layouts/AppLayout'
 
 // Vue
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 
 // COMPONENTS
 import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 import { Link } from '@inertiajs/inertia-vue3'
+
+// INERTIA
+import { Inertia } from '@inertiajs/inertia'
 
 // Helpers
 import { formatNumber } from '../../Helpers/FormatNumber'
@@ -217,10 +235,45 @@ export default {
 
         let allIds = ids.join('%2C%20');
 
-        // Join request url
+        // Request URL
         let cryptosInfoUrl = `${main_url}markets?vs_currency=${currency}&ids=${allIds}&order=${order}&per_page=${per_page}&page=${page}&sparkline=${sparkline}&price_change_percentage=${price_change_percentage}`;
 
+        // PORTFOLIO WORTH
+        const portfolioTotalWorth = ref(0);
+        const portfolioGrowth = ref(0);
+        const portfolioGrowthPercentage = ref(0);
+
+        // Edit Amount Variables
+        const newAmount = ref(0); 
+        const editingIndex = ref(0);
+        const editing = ref(false);
+        
         // METHODS
+        // PORTFOLIO DATA
+        const calculateTotalWorth = (cryptosData) => { 
+            return cryptosData.reduce((total, crypto) => {
+                return total + (crypto.current_price * crypto.amount)
+            }, 0);
+        }
+
+        const calculateGrowth = (cryptosData) => {
+            return formatNumber(cryptosData.reduce((growth, crypto) => {
+                return growth + (crypto.price_change_24h * crypto.amount);
+            }, 0));
+        }
+
+        const calculateGrowthPercentage = (portfolioTotalWorth, portfolioGrowth) => {
+            return formatNumber((portfolioGrowth / (portfolioTotalWorth - portfolioGrowth)) * 100);
+        }
+
+        const calculatePortfolioData = (cryptosData) => {
+
+            portfolioTotalWorth.value = calculateTotalWorth(cryptosData);
+            portfolioGrowth.value = calculateGrowth(cryptosData);
+            portfolioGrowthPercentage.value = calculateGrowthPercentage(portfolioTotalWorth.value, portfolioGrowth.value);
+        }
+
+        // CHARTS DATA
         const calculateCryptoDistribution = (cryptoData) => {
 
             let distribution = {
@@ -314,16 +367,32 @@ export default {
             return tempData;
         }
 
+        // EDIT METHODS
         const editCryptoAmount = (crypto, index) => {
-            
+            newAmount.value = crypto.amount;
+            editing.value = true;
+            editingIndex.value = index;
         }
 
-         const saveCryptoAmount = (crypto, index) => {
+        const cancelEdit = () => {
+            editing.value = false;
+        }
+
+        const validAmount = (amount) => {
+            return true;
+        }
+
+        const saveCryptoAmount = (crypto, index) => {
 
             let url = `/portfolio/cryptos/${crypto.cg_id}`;
-            axios.put(url, {
-                amount: 
-            });        
+
+            if (validAmount(newAmount.value)) {
+
+                editing.value = false;
+                props.cryptos[index].amount = newAmount;
+
+                Inertia.put(url, {amount: newAmount.value});        
+            }
         }
 
         // CYCLE HOOKS
@@ -337,6 +406,10 @@ export default {
 
                     // console.log('CG DATA: ', cryptoData.value);
 
+                    // CALCULATE PORTFOLIO DATA
+                    calculatePortfolioData(cryptoData.value);
+
+                    // CALCULATE CHARTS DATA
                     const cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
                     const topCryptos = calculateTopCryptos(cryptoData.value);
 
@@ -350,26 +423,6 @@ export default {
                  .catch(e => console.log(e));
         });
 
-        // COMPUTED
-        const portfolioTotalWorth = computed(() => {
-
-            return cryptoData.value.reduce((total, crypto) => {
-                return total + (crypto.current_price * crypto.amount)
-            }, 0);
-        });
-
-        const portfolioGrowth = computed(() => {
-            
-            return cryptoData.value.reduce((growth, crypto) => {
-                return growth + crypto.price_change_24h;
-            }, 0);
-        });
-
-        const portfolioGrowthPercentage = computed(() => { 
-
-            return formatNumber((portfolioGrowth.value / portfolioTotalWorth.value) * 100);
-        });
-
         // WATCHERS
         watch(() => props.cryptos, () => {
 
@@ -378,6 +431,10 @@ export default {
 
                     cryptoData.value =  joinCryptoData(res.data);
 
+                    // CALCULATE PORTFOLIO DATA
+                    calculatePortfolioData(cryptoData.value);
+
+                    // UPDATE CHARTS DATA
                     const cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
                     const topCryptos = calculateTopCryptos(cryptoData.value);
 
@@ -394,6 +451,12 @@ export default {
             portfolioGrowthPercentage,
             formatNumber,
             priceColor,
+            newAmount,
+            editingIndex,
+            editing,
+            editCryptoAmount,
+            cancelEdit,
+            saveCryptoAmount,
         }
   },
 }

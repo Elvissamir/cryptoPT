@@ -18251,11 +18251,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _Components_DeleteCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Components/DeleteCryptoBtn.vue */ "./resources/js/Components/DeleteCryptoBtn.vue");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
-/* harmony import */ var _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Helpers/FormatNumber */ "./resources/js/Helpers/FormatNumber.js");
-/* harmony import */ var _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Helpers/PriceColor */ "./resources/js/Helpers/PriceColor.js");
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
-/* harmony import */ var _Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Charts/DoughnutChart.js */ "./resources/js/Charts/DoughnutChart.js");
-/* harmony import */ var _Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Charts/BarChart.js */ "./resources/js/Charts/BarChart.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Helpers/FormatNumber */ "./resources/js/Helpers/FormatNumber.js");
+/* harmony import */ var _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Helpers/PriceColor */ "./resources/js/Helpers/PriceColor.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
+/* harmony import */ var _Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Charts/DoughnutChart.js */ "./resources/js/Charts/DoughnutChart.js");
+/* harmony import */ var _Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Charts/BarChart.js */ "./resources/js/Charts/BarChart.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -18268,6 +18269,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
  // COMPONENTS
 
 
+ // INERTIA
+
  // Helpers
 
 
@@ -18277,7 +18280,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
  // Register Chart dependencies
 
-chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_6__.DoughnutController, chart_js__WEBPACK_IMPORTED_MODULE_6__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_6__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_6__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_6__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_6__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_6__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_6__.Legend);
+chart_js__WEBPACK_IMPORTED_MODULE_7__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_7__.DoughnutController, chart_js__WEBPACK_IMPORTED_MODULE_7__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_7__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_7__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_7__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_7__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_7__.Tooltip, chart_js__WEBPACK_IMPORTED_MODULE_7__.Legend);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__.Link,
@@ -18305,16 +18308,46 @@ chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart.register(chart_js__WEBPACK_IMPORTED_
     var order = "market_cap_desc";
     var per_page = "100";
     var page = 1;
-    var days = 7;
-    var interval = 'daily';
     var sparkline = false;
     var price_change_percentage = '7d%2C%2024h';
     var ids = props.cryptos.map(function (crypto) {
       return crypto.cg_id;
     });
-    var allIds = ids.join('%2C%20'); // Join request url
+    var allIds = ids.join('%2C%20'); // Request URL
 
-    var cryptosInfoUrl = "".concat(main_url, "markets?vs_currency=").concat(currency, "&ids=").concat(allIds, "&order=").concat(order, "&per_page=").concat(per_page, "&page=").concat(page, "&sparkline=").concat(sparkline, "&price_change_percentage=").concat(price_change_percentage); // METHODS
+    var cryptosInfoUrl = "".concat(main_url, "markets?vs_currency=").concat(currency, "&ids=").concat(allIds, "&order=").concat(order, "&per_page=").concat(per_page, "&page=").concat(page, "&sparkline=").concat(sparkline, "&price_change_percentage=").concat(price_change_percentage); // PORTFOLIO WORTH
+
+    var portfolioTotalWorth = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(0);
+    var portfolioGrowth = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(0);
+    var portfolioGrowthPercentage = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(0); // Edit Amount Variables
+
+    var newAmount = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(0);
+    var editingIndex = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(0);
+    var editing = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false); // METHODS
+    // PORTFOLIO DATA
+
+    var calculateTotalWorth = function calculateTotalWorth(cryptosData) {
+      return cryptosData.reduce(function (total, crypto) {
+        return total + crypto.current_price * crypto.amount;
+      }, 0);
+    };
+
+    var calculateGrowth = function calculateGrowth(cryptosData) {
+      return (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_5__.formatNumber)(cryptosData.reduce(function (growth, crypto) {
+        return growth + crypto.price_change_24h * crypto.amount;
+      }, 0));
+    };
+
+    var calculateGrowthPercentage = function calculateGrowthPercentage(portfolioTotalWorth, portfolioGrowth) {
+      return (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_5__.formatNumber)(portfolioGrowth / (portfolioTotalWorth - portfolioGrowth) * 100);
+    };
+
+    var calculatePortfolioData = function calculatePortfolioData(cryptosData) {
+      portfolioTotalWorth.value = calculateTotalWorth(cryptosData);
+      portfolioGrowth.value = calculateGrowth(cryptosData);
+      portfolioGrowthPercentage.value = calculateGrowthPercentage(portfolioTotalWorth.value, portfolioGrowth.value);
+    }; // CHARTS DATA
+
 
     var calculateCryptoDistribution = function calculateCryptoDistribution(cryptoData) {
       var distribution = {
@@ -18406,13 +18439,13 @@ chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart.register(chart_js__WEBPACK_IMPORTED_
                   name: cgCrypto.name,
                   image: cgCrypto.image,
                   symbol: cgCrypto.symbol.toUpperCase(),
-                  amount: (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_4__.formatNumber)(dbCrypto.amount),
-                  total_worth: (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_4__.formatNumber)(dbCrypto.amount * cgCrypto.current_price),
+                  amount: (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_5__.formatNumber)(dbCrypto.amount),
+                  total_worth: (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_5__.formatNumber)(dbCrypto.amount * cgCrypto.current_price),
                   created_at: dbCrypto.created_at,
-                  current_price: (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_4__.formatNumber)(cgCrypto.current_price),
-                  price_change_24h: (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_4__.formatNumber)(cgCrypto.price_change_24h),
-                  price_change_percentage_24h: (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_4__.formatNumber)(cgCrypto.price_change_percentage_24h),
-                  price_change_percentage_7d: (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_4__.formatNumber)(cgCrypto.price_change_percentage_7d_in_currency)
+                  current_price: (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_5__.formatNumber)(cgCrypto.current_price),
+                  price_change_24h: (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_5__.formatNumber)(cgCrypto.price_change_24h),
+                  price_change_percentage_24h: (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_5__.formatNumber)(cgCrypto.price_change_percentage_24h),
+                  price_change_percentage_7d: (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_5__.formatNumber)(cgCrypto.price_change_percentage_7d_in_currency)
                 });
                 break;
               }
@@ -18430,6 +18463,33 @@ chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart.register(chart_js__WEBPACK_IMPORTED_
       }
 
       return tempData;
+    }; // EDIT METHODS
+
+
+    var editCryptoAmount = function editCryptoAmount(crypto, index) {
+      newAmount.value = crypto.amount;
+      editing.value = true;
+      editingIndex.value = index;
+    };
+
+    var cancelEdit = function cancelEdit() {
+      editing.value = false;
+    };
+
+    var validAmount = function validAmount(amount) {
+      return true;
+    };
+
+    var saveCryptoAmount = function saveCryptoAmount(crypto, index) {
+      var url = "/portfolio/cryptos/".concat(crypto.cg_id);
+
+      if (validAmount(newAmount.value)) {
+        editing.value = false;
+        props.cryptos[index].amount = newAmount;
+        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__.Inertia.put(url, {
+          amount: newAmount.value
+        });
+      }
     }; // CYCLE HOOKS
 
 
@@ -18437,41 +18497,33 @@ chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart.register(chart_js__WEBPACK_IMPORTED_
       // DATA OF ALL CRYPTOS INFORMATION
       axios.get(cryptosInfoUrl).then(function (res) {
         cryptoData.value = joinCryptoData(res.data); // console.log('CG DATA: ', cryptoData.value);
+        // CALCULATE PORTFOLIO DATA
+
+        calculatePortfolioData(cryptoData.value); // CALCULATE CHARTS DATA
 
         var cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
         var topCryptos = calculateTopCryptos(cryptoData.value);
         var doughnutHtmlElement = document.getElementById("doughnutChart");
-        doughnutChart = new chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart(doughnutHtmlElement, (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_7__.generateDoughnutChartConf)(cryptoDistribution, cryptoDistribution.cryptos.length));
+        doughnutChart = new chart_js__WEBPACK_IMPORTED_MODULE_7__.Chart(doughnutHtmlElement, (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_8__.generateDoughnutChartConf)(cryptoDistribution, cryptoDistribution.cryptos.length));
         var barHtmlElement = document.getElementById('barChart');
-        barChart = new chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart(barHtmlElement, (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_8__.generateBarChartConf)(topCryptos, topCryptos.cryptos.length));
+        barChart = new chart_js__WEBPACK_IMPORTED_MODULE_7__.Chart(barHtmlElement, (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_9__.generateBarChartConf)(topCryptos, topCryptos.cryptos.length));
       })["catch"](function (e) {
         return console.log(e);
       });
-    }); // COMPUTED
-
-    var portfolioTotalWorth = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
-      return cryptoData.value.reduce(function (total, crypto) {
-        return total + crypto.current_price * crypto.amount;
-      }, 0);
-    });
-    var portfolioGrowth = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
-      return cryptoData.value.reduce(function (growth, crypto) {
-        return growth + crypto.price_change_24h;
-      }, 0);
-    });
-    var portfolioGrowthPercentage = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
-      return (0,_Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_4__.formatNumber)(portfolioGrowth.value / portfolioTotalWorth.value * 100);
     }); // WATCHERS
 
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(function () {
       return props.cryptos;
     }, function () {
       axios.get(cryptosInfoUrl).then(function (res) {
-        cryptoData.value = joinCryptoData(res.data);
+        cryptoData.value = joinCryptoData(res.data); // CALCULATE PORTFOLIO DATA
+
+        calculatePortfolioData(cryptoData.value); // UPDATE CHARTS DATA
+
         var cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
         var topCryptos = calculateTopCryptos(cryptoData.value);
-        (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_7__.updateDoughnutChart)(doughnutChart, cryptoDistribution);
-        (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_8__.updateBarChart)(barChart, topCryptos);
+        (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_8__.updateDoughnutChart)(doughnutChart, cryptoDistribution);
+        (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_9__.updateBarChart)(barChart, topCryptos);
       })["catch"](function (e) {
         return console.log(e);
       });
@@ -18481,8 +18533,14 @@ chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart.register(chart_js__WEBPACK_IMPORTED_
       portfolioTotalWorth: portfolioTotalWorth,
       portfolioGrowth: portfolioGrowth,
       portfolioGrowthPercentage: portfolioGrowthPercentage,
-      formatNumber: _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_4__.formatNumber,
-      priceColor: _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_5__.priceColor
+      formatNumber: _Helpers_FormatNumber__WEBPACK_IMPORTED_MODULE_5__.formatNumber,
+      priceColor: _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_6__.priceColor,
+      newAmount: newAmount,
+      editingIndex: editingIndex,
+      editing: editing,
+      editCryptoAmount: editCryptoAmount,
+      cancelEdit: cancelEdit,
+      saveCryptoAmount: saveCryptoAmount
     };
   }
 });
@@ -22894,66 +22952,55 @@ var _hoisted_25 = {
 var _hoisted_26 = {
   "class": "py-6 w-11/12 mx-auto"
 };
-
-var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_27 = {
   "class": "flex justify-between"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+};
+
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": ""
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", {
   "class": "sm:text-xl font-semibold"
-}, "My Cryptos")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "mb-1"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", {
-  "class": "px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold",
-  href: ""
-}, " Add + ")])], -1
+}, "My Cryptos")], -1
 /* HOISTED */
 );
 
-var _hoisted_28 = {
+var _hoisted_29 = {
+  "class": "mb-1"
+};
+
+var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Add + ");
+
+var _hoisted_31 = {
   "class": "flex flex-col mt-4 divide-y-2 divide-gray-300 border-b-2 border-t-2 border-gray-300"
 };
-var _hoisted_29 = {
+var _hoisted_32 = {
   "class": "flex w-8/12 sm:w-2/12"
 };
-var _hoisted_30 = {
+var _hoisted_33 = {
   "class": "flex flex-col ml-2"
 };
-var _hoisted_31 = {
+var _hoisted_34 = {
   "class": "text-sm font-semibold"
 };
-var _hoisted_32 = {
+var _hoisted_35 = {
   "class": "underline text-xs font-semibold text-indigo-500",
   href: ""
 };
-var _hoisted_33 = {
+var _hoisted_36 = {
   "class": "flex w-4/12 sm:w-1/12 rounded justify-end sm:my-auto sm:order-6"
 };
-var _hoisted_34 = {
+var _hoisted_37 = {
   "class": "flex sm:flex-col sm:w-2/12 items-baseline w-full  mb-2 sm:mb-0"
 };
 
-var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-xs"
 }, "Added: ", -1
 /* HOISTED */
 );
 
-var _hoisted_36 = {
-  "class": "text-xs font-bold ml-2 sm:text-sm sm:ml-0"
-};
-var _hoisted_37 = {
-  "class": "flex flex-col w-4/12 sm:w-1/12"
-};
-
-var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-xs"
-}, "Price: ", -1
-/* HOISTED */
-);
-
 var _hoisted_39 = {
-  "class": "text-sm font-bold"
+  "class": "text-xs font-bold ml-2 sm:text-sm sm:ml-0"
 };
 var _hoisted_40 = {
   "class": "flex flex-col w-4/12 sm:w-1/12"
@@ -22961,34 +23008,53 @@ var _hoisted_40 = {
 
 var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-xs"
-}, "Amount: ", -1
+}, "Price: ", -1
 /* HOISTED */
 );
 
 var _hoisted_42 = {
-  "class": "flex"
-};
-var _hoisted_43 = {
   "class": "text-sm font-bold"
 };
-var _hoisted_44 = {
-  "class": "text-sm font-bold ml-1"
-};
-var _hoisted_45 = {
+var _hoisted_43 = {
   "class": "flex flex-col w-4/12 sm:w-1/12"
 };
 
-var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xs"
+}, "Amount: ", -1
+/* HOISTED */
+);
+
+var _hoisted_45 = {
+  "class": "flex"
+};
+var _hoisted_46 = {
+  key: 0
+};
+var _hoisted_47 = {
+  key: 1
+};
+var _hoisted_48 = {
+  "class": "text-sm font-bold"
+};
+var _hoisted_49 = {
+  "class": "text-sm font-bold ml-1"
+};
+var _hoisted_50 = {
+  "class": "flex flex-col w-4/12 sm:w-1/12"
+};
+
+var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-xs"
 }, "Total: ", -1
 /* HOISTED */
 );
 
-var _hoisted_47 = {
+var _hoisted_52 = {
   "class": "text-sm font-bold"
 };
 
-var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_53 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "bg-white"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("canvas", {
   "class": "w-3/12 mx-auto",
@@ -22997,7 +23063,7 @@ var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_54 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "bg-white"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("canvas", {
   "class": "w-3/12 mx-auto",
@@ -23007,6 +23073,8 @@ var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_Link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Link");
+
   var _component_DeleteCryptoBtn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("DeleteCryptoBtn");
 
   var _component_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("layout");
@@ -23029,37 +23097,73 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* TEXT */
       )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.portfolio.updated_at), 1
       /* TEXT */
-      )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MY CRYPTOS SECTION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_26, [_hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" LIST OF CRYPTOS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.cryptoData, function (crypto, index) {
+      )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MY CRYPTOS SECTION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_27, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+        "class": "px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold",
+        href: "/cryptos"
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [_hoisted_30];
+        }),
+        _: 1
+        /* STABLE */
+
+      })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" LIST OF CRYPTOS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.cryptoData, function (crypto, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
           key: index,
           "class": "flex flex-wrap sm:max-w-3xl sm:flex-row sm:justify-between w-full py-2"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO SYMBOL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO SYMBOL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
           "class": "w-9 h-9",
           src: crypto.image
         }, null, 8
         /* PROPS */
-        , ["src"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
+        , ["src"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.name), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("a", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.name), 1
         /* TEXT */
-        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" DELETE BUTTON"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DeleteCryptoBtn, {
+        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" DELETE BUTTON"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DeleteCryptoBtn, {
           cg_id: crypto.cg_id
         }, null, 8
         /* PROPS */
-        , ["cg_id"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ADDED AT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_34, [_hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.created_at), 1
+        , ["cg_id"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ADDED AT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_37, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.created_at), 1
         /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_37, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_39, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.current_price), 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_40, [_hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_42, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.current_price), 1
         /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AMOUNT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_40, [_hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.amount), 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AMOUNT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_43, [_hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_45, [$setup.editing == true && $setup.editingIndex == index ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+          type: "number",
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+            return $setup.newAmount = $event;
+          })
+        }, null, 512
+        /* NEED_PATCH */
+        ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.newAmount]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+          onClick: function onClick($event) {
+            return $setup.saveCryptoAmount(crypto, index);
+          },
+          "class": "bg-blue-900 font-bold text-sm text-white py-1 px-2"
+        }, " Save ", 8
+        /* PROPS */
+        , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+          onClick: _cache[2] || (_cache[2] = function () {
+            return $setup.cancelEdit && $setup.cancelEdit.apply($setup, arguments);
+          }),
+          "class": "bg-blue-900 font-bold text-sm text-white py-1 px-2"
+        }, " Cancel ")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.amount), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
         /* TEXT */
-        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TOTAL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_47, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.total_worth), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+          onClick: function onClick($event) {
+            return $setup.editCryptoAmount(crypto, index);
+          },
+          "class": "bg-blue-900 font-bold text-sm text-white py-1 px-2"
+        }, " Edit ", 8
+        /* PROPS */
+        , ["onClick"])]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TOTAL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_50, [_hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_52, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.total_worth), 1
         /* TEXT */
         )])]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PORTFOLIO DISTRIBUTION CHART"), _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Portfolio Distribution Chart "), _hoisted_49])])];
+      ))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PORTFOLIO DISTRIBUTION CHART"), _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Portfolio Distribution Chart "), _hoisted_54])])];
     }),
     _: 1
     /* STABLE */

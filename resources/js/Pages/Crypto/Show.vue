@@ -10,7 +10,7 @@
                     <img class="w-9 h-9" :src="coin.image">
                     <div class="flex flex-col ml-2">
                         <p class="text-sm font-semibold">{{ coin.symbol }}</p>
-                        <a class="underline text-xs font-semibold text-indigo-500" href="">{{ coin.name }}</a>
+                        <Link class="underline text-xs font-semibold text-indigo-500" :href="coin.url">{{ coin.name }}</Link>
                     </div>
                 </div>
 
@@ -65,7 +65,7 @@
                 <div class="flex">
                     <p>Amount: </p>
                     <div>
-                        <div v-if="coin.inPortfolio">
+                        <div class="flex" v-if="coin.inPortfolio">
                             <p>
                                 {{ coin.amount }}
                             </p>
@@ -83,12 +83,12 @@
                 <div class="flex">
                     <div class="flex">
                         <p>Ath</p>
-                        <p>{{ coin.ath }}</p>
+                        <p>${{ coin.ath }}</p>
                     </div>
 
                     <div class="flex">
                         <p>Atl</p>
-                        <p>{{ coin.atl }}</p>
+                        <p>${{ coin.atl }}</p>
                     </div>
                 </div>
 
@@ -180,6 +180,7 @@ export default {
                         cg_id: cgCryptoData.id,
                         name: cgCryptoData.name,
                         image: cgCryptoData.image,
+                        url: `/cryptos/${cgCryptoData.cg_id}`,
                         symbol: cgCryptoData.symbol.toUpperCase(),
                         rank: cgCryptoData.market_cap_rank,
                         atl: formatNumber(cgCryptoData.atl),

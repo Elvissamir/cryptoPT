@@ -116,18 +116,24 @@ class GetCryptoRequestTest extends TestCase
         );
     }
 
-    public function test_show_component_doesnt_have_prop_if_crypto_is_not_in_portfolio()
+
+    public function test_show_component_has_data_of_the_crypto_if_the_crypto_is_not_in_portfolio()
     {
         $this->withoutExceptionHandling();
 
-        $portfolio = $this->createPortfolio();
+        $portfolioA = $this->createPortfolio();
 
-        $crypto = Crypto::factory()->create();
+        $cryptoA = Crypto::factory()->create();
+        $cryptoB = Crypto::factory()->create();
+
+        $this->attachToPortfolio($portfolioA, $cryptoA->id);
         
-        $response = $this->actingAs($portfolio->user)->get(route('cryptos.show', $crypto->cg_id));
+        $response = $this->actingAs($portfolioA->user)->get(route('cryptos.show', $cryptoB->cg_id));
         
         $response->assertInertia(fn (Assert $page) => 
-            $page->missing('crypto')
+            $page->has('crypto')
+                ->where('crypto', new CryptoResource($cryptoB))
+                ->missing('crypto.amount')
         );
     }
 

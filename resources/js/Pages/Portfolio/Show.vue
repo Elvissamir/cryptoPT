@@ -38,7 +38,7 @@
                                 <p 
                                     :class="[priceColor(portfolioGrowth), 'font-bold']" 
                                     class="sm:text-sm text-sm ml-2">
-                                        {{ portfolioGrowth }}
+                                        ${{ portfolioGrowth }}
                                 </p>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                                     <img class="w-9 h-9" :src="crypto.image">
                                     <div class="flex flex-col ml-2">
                                         <p class="text-sm font-semibold">{{ crypto.symbol }}</p>
-                                        <a class="underline text-xs font-semibold text-indigo-500" href="">{{ crypto.name }}</a>
+                                        <Link class="underline text-xs font-semibold text-indigo-500" :href="crypto.url">{{ crypto.name }}</Link>
                                     </div>
                                 </div>
     
@@ -350,6 +350,7 @@ export default {
                                 name: cgCrypto.name,
                                 image: cgCrypto.image,
                                 symbol: cgCrypto.symbol.toUpperCase(),
+                                url: `/cryptos/${cgCrypto.id}`,
                                 amount: formatNumber(dbCrypto.amount),
                                 total_worth: formatNumber(dbCrypto.amount * cgCrypto.current_price),
                                 created_at: dbCrypto.created_at,

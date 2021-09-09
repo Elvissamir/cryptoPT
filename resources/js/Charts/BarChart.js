@@ -30,7 +30,10 @@ import { maxCryptos } from '../Helpers/MaxChartCryptos';
                 scales: {
                     y: {
                         beginAtZero: true
-                    }
+                    },
+                },
+                legend: {
+                    display: false
                 }
             }
         };

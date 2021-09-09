@@ -31,7 +31,9 @@ class PortfolioCryptosController extends Controller
     {
         $portfolio = auth()->user()->portfolio;
 
-        $crypto = Crypto::findOrFail($request->id);
+        $crypto = Crypto::where('cg_id', $request->cg_id)->first();
+
+        abort_if(is_null($crypto), 404);
 
         abort_if($portfolio->hasCrypto($crypto->cg_id), 409);
 
@@ -59,6 +61,6 @@ class PortfolioCryptosController extends Controller
 
         $portfolio->removeCrypto($crypto->id);
 
-        return redirect(route('portfolioCryptos.show'));
+        return redirect()->back();
     }
 }

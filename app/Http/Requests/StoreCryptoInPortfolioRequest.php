@@ -14,7 +14,7 @@ class StoreCryptoInPortfolioRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|integer',
+            'cg_id' => 'required|string',
             'amount' => 'required|numeric|min:0.00000001|max:10000000'
         ];
     }

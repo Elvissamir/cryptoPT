@@ -25,7 +25,7 @@ class PostRequestTest extends TestCase
         $response = $this->actingAs($portfolio->user)
                          ->from(route('portfolioCryptos.show'))
                          ->post(route('portfolioCryptos.store'), [
-            'id' => $crypto->id,
+            'cg_id' => $crypto->cg_id,
             'amount' => $amount,
         ]);
 
@@ -74,7 +74,7 @@ class PostRequestTest extends TestCase
         $amountB = rand(1, 1000);
 
         $response = $this->actingAs($portfolioA->user)->post(route('portfolioCryptos.store'), [
-            'id' => $cryptoA->id,
+            'cg_id' => $cryptoA->cg_id,
             'amount' => $amountA
         ]);
 
@@ -85,7 +85,7 @@ class PostRequestTest extends TestCase
         ]);
 
         $response = $this->actingAs($portfolioB->user)->post(route('portfolioCryptos.store'), [
-            'id' => $cryptoB->id,
+            'cg_id' => $cryptoB->cg_id,
             'amount' => $amountB
         ]);
 
@@ -102,10 +102,10 @@ class PostRequestTest extends TestCase
 
         $portfolio = $this->createPortfolio();
         $amount = rand(1, 1000);
-        $randomId = rand(1,10);
+        $randomId = Str::random(4);
 
         $response = $this->actingAs($portfolio->user)->post(route('portfolioCryptos.store'), [
-            'id' => $randomId,
+            'cg_id' => $randomId,
             'amount' => $amount,
         ]);
 
@@ -129,7 +129,7 @@ class PostRequestTest extends TestCase
         $this->attachToPortfolio($portfolio, $crypto->id);
 
         $response = $this->actingAs($portfolio->user)->post(route('portfolioCryptos.store'), [
-            'id' => $crypto->id,
+            'cg_id' => $crypto->cg_id,
             'amount' => $amount,
         ]);
 
@@ -143,7 +143,7 @@ class PostRequestTest extends TestCase
     }
 
 
-    public function test_id_of_crypto_to_add_is_required()
+    public function test_cg_id_of_crypto_to_add_is_required()
     {
         //$this->withoutExceptionHandling();
 
@@ -162,7 +162,7 @@ class PostRequestTest extends TestCase
         $response->assertRedirect();
     }
 
-    public function test_id_must_be_an_integer()
+    public function test_cg_id_must_be_a_string()
     {
         //$this->withoutExceptionHandling();
 
@@ -171,7 +171,7 @@ class PostRequestTest extends TestCase
         $amount = rand(1, 1000);
 
         $response = $this->actingAs($portfolio->user)->post(route('portfolioCryptos.store'), [
-            'id' => Str::random(4),
+            'cg_id' => 1,
             'amount' => $amount,
         ]);
 

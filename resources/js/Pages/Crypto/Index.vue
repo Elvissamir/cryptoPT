@@ -1,5 +1,11 @@
 <template>
-    <layout>
+    <div>
+      <layout>
+
+        <ModalWindow :showModal="showAddForm">
+          <AddCryptoForm @close-form="disableAddCryptoForm" :crypto="cryptoToAdd"></AddCryptoForm>   
+        </ModalWindow>
+
         <div class="w-full">
             <div class="bg-white mx-auto w-11/12 py-2">
 
@@ -9,12 +15,11 @@
                 </div>
 
                 <!-- CRYPTO -->
-                <div v-for="(crypto, index) in showCryptos" :key="index" class="flex flex-wrap sm:max-w-3xl sm:flex-row sm:justify-between w-full py-2">
+                <div v-for="(crypto, index) in cryptoData" :key="index" class="flex flex-wrap sm:max-w-3xl sm:flex-row sm:justify-between w-full py-2">
                                     
                                     <!-- CRYPTO MARKET RANK -->
                                     <div>
-                                      <p>Rank: </p>
-                                      <p>{{ crypto.rank }}</p>
+                                      <p>{{ crypto.rank }}#</p>
                                     </div>
 
                                     <!-- CRYPTO SYMBOL -->
@@ -24,7 +29,7 @@
                                             <p class="text-sm font-semibold">{{ crypto.symbol }}</p>
                                             <Link 
                                               class="underline text-xs font-semibold text-indigo-500" 
-                                              :href="getCryptoUrl(crypto.cg_id)">
+                                              :href="crypto.url">
                                                 {{ crypto.name }}
                                             </Link>
                                         </div>
@@ -33,19 +38,14 @@
 
                                     <!-- ADD OR DELETE BUTTON-->
                                     <div class="flex">
-                                      <div v-if="crypto.inPortfolio" class="">
-                                          <DeleteCryptoBtn :cg_id="crypto.cg_id"></DeleteCryptoBtn>  
-                                      </div>
-
-                                      <div v-else>
-                                          <AddCryptoBtn :crypto="crypto"></AddCryptoBtn>
-                                      </div>
+                                        <DeleteCryptoBtn v-if="crypto.inPortfolio" :cg_id="crypto.cg_id"></DeleteCryptoBtn> 
+                                        <AddCryptoBtn v-else @open-add-form="activeAddCryptoForm" :crypto="crypto"></AddCryptoBtn> 
                                     </div>
                                     
                                     <!-- CURRENT PRICE -->
                                     <div class="flex flex-col w-4/12 sm:w-1/12">
                                         <p class="text-xs">Price: </p>
-                                        <p class="text-sm font-bold">${{ crypto.current_price }}</p>
+                                        <p class="text-sm font-bold">${{ crypto.price }}</p>
                                     </div>
 
                                     <!-- AMOUNT -->
@@ -105,6 +105,7 @@
             </div>
         </div>
     </layout>  
+    </div>
 </template>
 
 <script>
@@ -116,6 +117,8 @@ import Layout from "../../Layouts/AppLayout";
 import { onMounted, ref, watch } from "vue";
 
 // COMPONENTS
+import ModalWindow from '../../Components/ModalWindow.vue'
+import AddCryptoForm from '../../Components/AddCryptoForm.vue'
 import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 import AddCryptoBtn from '../../Components/AddCryptoBtn.vue'
 import { Link } from '@inertiajs/inertia-vue3'
@@ -123,6 +126,7 @@ import { Link } from '@inertiajs/inertia-vue3'
 // HELPERS
 import { formatNumber } from '../../Helpers/FormatNumber.js'
 import { priceColor } from '../../Helpers/PriceColor.js'
+import { generateCryptoDataArray } from '../../Helpers/GenerateCryptoDataArray';
 
 export default {
   components: {
@@ -130,6 +134,8 @@ export default {
     Link,
     AddCryptoBtn,
     DeleteCryptoBtn,
+    ModalWindow,
+    AddCryptoForm,
   },
   props: {
     cryptos: {
@@ -139,7 +145,7 @@ export default {
   },
   setup(props) {
     
-    const showCryptos = ref([]);
+    let cryptoData = ref([]);
 
 		// REQUEST URL
 		const baseUrl = "https://api.coingecko.com/api/v3/coins";
@@ -154,48 +160,38 @@ export default {
     // PAGINATION
     const currentPage = ref(1);
 
+    // ADD CRYPTO FORM STATE AND DATA
+    const showAddForm = ref(false);
+    const cryptoToAdd = ref({});
+
+     // JOIN DATA OPTIONS
+    let options = {
+      rank: true,
+      price_change_1h: true, 
+      price_change_24h: true,
+      price_change_percentage_7d: true,
+    };
+
     // METHODS
-    const fetchCryptoList = () => {
+    const fetchCGData = () => {
+      page.value = currentPage.value;
+      marketRanksUrl.value = `${baseUrl}/markets?vs_currency=${currency}&order=${order}&per_page=${perPage}&page=${page.value}&sparkline=${sparkline}&price_change_percentage=${price_change}`;
 
-        page.value = currentPage.value;
-        marketRanksUrl.value = `${baseUrl}/markets?vs_currency=${currency}&order=${order}&per_page=${perPage}&page=${page.value}&sparkline=${sparkline}&price_change_percentage=${price_change}`;
-
-        console.log(marketRanksUrl);
-
-        axios
-          .get(marketRanksUrl.value)
-          .then((res) => {
-            console.log(res.data);
-
-            res.data.forEach(cgCrypto => {
-
-              const crypto = {
-                cg_id: cgCrypto.id,
-                name: cgCrypto.name,
-                image: cgCrypto.image,
-                symbol: cgCrypto.symbol.toUpperCase(),
-                rank: cgCrypto.market_cap_rank,
-                current_price: formatNumber(cgCrypto.current_price),
-                price_change_1h: formatNumber(cgCrypto.price_change_percentage_1h_in_currency),
-                price_change_24h: formatNumber(cgCrypto.price_change_percentage_24h_in_currency),
-                price_change_7d: formatNumber(cgCrypto.price_change_percentage_7d_in_currency),   
-              }
-
-              for (let dbCrypto of props.cryptos) {
-                if (dbCrypto.cg_id == cgCrypto.id) {
-                  crypto['inPortfolio'] = true;
-                  crypto['amount'] = formatNumber(dbCrypto.amount)
-                }
-              }
-
-              showCryptos.value.push(crypto);
-          })
+      axios
+        .get(marketRanksUrl.value)
+        .then((res) => {
+          cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
         })
 			  .catch((e) => console.log(e));
     }
 
-		const getCryptoUrl = (cg_id) => {
-        return `/cryptos/${cg_id}`;
+    const activeAddCryptoForm = (crypto) => {
+      cryptoToAdd.value = crypto;
+      showAddForm.value = true;
+    }
+
+    const disableAddCryptoForm = () => {
+      showAddForm.value = false;
     }
 
     const goToPrev = () => {
@@ -208,24 +204,26 @@ export default {
     }
 
 		onMounted(() => {
-      fetchCryptoList();
+      fetchCGData();
 		});
 
-    watch(currentPage, () => {
-      
-      console.log('url: ', marketRanksUrl.value);
-      console.log('page: ', page);
+    watch(() => currentPage, () => {
+      fetchCGData();
+    })
 
-      showCryptos.value = [];
-      fetchCryptoList();
+    watch(() => props.cryptos, () => {
+      fetchCGData();
     })
 
 		return {
-     	showCryptos,
+      cryptoData, 
       currentPage,
       priceColor,
 		  formatNumber,
-		  getCryptoUrl,
+      showAddForm,
+      cryptoToAdd,
+      activeAddCryptoForm,
+      disableAddCryptoForm,
       goToPrev,
       goToNext,
 		};

@@ -16,7 +16,11 @@ const generateLineChartConf = (cryptoData) => {
     const lineConf = {
         type: 'line',
         data: lineData, 
-        options: {}
+        options: {
+            legend: {
+                display: false
+            }
+        }
     };
 
     return lineConf;

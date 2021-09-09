@@ -103,7 +103,7 @@
                                 <!-- PRICE -->
                                 <div class="flex flex-col w-4/12 sm:w-1/12">
                                     <p class="text-xs">Price: </p>
-                                    <p class="text-sm font-bold">${{ crypto.current_price }}</p>
+                                    <p class="text-sm font-bold">${{ crypto.price }}</p>
                                 </div>
     
                                 <!-- AMOUNT -->
@@ -145,12 +145,26 @@
 
             <!-- PORTFOLIO DISTRIBUTION CHART-->
             <div class="bg-white" >
-                <canvas class="w-3/12 mx-auto" id="doughnutChart"></canvas>
+                <div class="w-11/12 mx-auto">
+                    <div class="">
+                        <h2 class="sm:text-xl font-semibold">
+                            Portfolio Distribution
+                        </h2>
+                    </div>
+                    <canvas class="w-3/12 mx-auto" id="doughnutChart"></canvas>
+                </div>
             </div>
 
-            <!-- Portfolio Distribution Chart --> 
+            <!-- CRYPTOS PERFORMANCE CHART --> 
             <div class="bg-white">
-                <canvas class="w-3/12 mx-auto" id="barChart"></canvas>
+                <div class="w-11/12 mx-auto">
+                    <div>
+                        <h2 class="sm:text-xl font-semibold">  
+                            Cryptos Performance (% Increase in 7 Days)
+                        </h2>
+                    </div>
+                    <canvas class="w-3/12 mx-auto" id="barChart"></canvas>
+                </div>
             </div>
 
         </div>
@@ -175,7 +189,14 @@ import { Link } from '@inertiajs/inertia-vue3'
 import { Inertia } from '@inertiajs/inertia'
 
 // Helpers
-import { formatNumber } from '../../Helpers/FormatNumber'
+import { generateCryptoDataArray } from '../../Helpers/GenerateCryptoDataArray'
+import { 
+    calculateTotalWorth, 
+    calculateGrowth, 
+    calculateGrowthPercentage, 
+    calculateCryptoDistribution,
+    calculateTopCryptos,
+} from '../../Helpers/PortfolioHelperFunctions'
 import { priceColor } from '../../Helpers/PriceColor'
 
 // Charts
@@ -186,16 +207,16 @@ import {
     ArcElement,
     BarElement,
     Tooltip,
+    Legend,
     LinearScale,
     CategoryScale,
-    Legend,
     } from 'chart.js'
 
 import { generateDoughnutChartConf, updateDoughnutChart } from '../../Charts/DoughnutChart.js' 
 import { generateBarChartConf, updateBarChart } from '../../Charts/BarChart.js'
 
 // Register Chart dependencies
-Chart.register(DoughnutController, BarController, BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
+Chart.register(DoughnutController, BarController, BarElement, ArcElement, CategoryScale, Legend, LinearScale, Tooltip);
 
 export default {
   components: {
@@ -238,6 +259,14 @@ export default {
         // Request URL
         let cryptosInfoUrl = `${main_url}markets?vs_currency=${currency}&ids=${allIds}&order=${order}&per_page=${per_page}&page=${page}&sparkline=${sparkline}&price_change_percentage=${price_change_percentage}`;
 
+        // JOIN DATA OPTIONS
+        let options = {
+            created_at: true,
+            total_worth: true, 
+            price_change_24h: true,
+            price_change_percentage_7d: true,
+        };
+
         // PORTFOLIO WORTH
         const portfolioTotalWorth = ref(0);
         const portfolioGrowth = ref(0);
@@ -250,122 +279,11 @@ export default {
         
         // METHODS
         // PORTFOLIO DATA
-        const calculateTotalWorth = (cryptosData) => { 
-            return cryptosData.reduce((total, crypto) => {
-                return total + (crypto.current_price * crypto.amount)
-            }, 0);
-        }
-
-        const calculateGrowth = (cryptosData) => {
-            return formatNumber(cryptosData.reduce((growth, crypto) => {
-                return growth + (crypto.price_change_24h * crypto.amount);
-            }, 0));
-        }
-
-        const calculateGrowthPercentage = (portfolioTotalWorth, portfolioGrowth) => {
-            return formatNumber((portfolioGrowth / (portfolioTotalWorth - portfolioGrowth)) * 100);
-        }
-
         const calculatePortfolioData = (cryptosData) => {
 
             portfolioTotalWorth.value = calculateTotalWorth(cryptosData);
             portfolioGrowth.value = calculateGrowth(cryptosData);
             portfolioGrowthPercentage.value = calculateGrowthPercentage(portfolioTotalWorth.value, portfolioGrowth.value);
-        }
-
-        // CHARTS DATA
-        const calculateCryptoDistribution = (cryptoData) => {
-
-            let distribution = {
-                percentages: [],
-                cryptos: [],
-            }
-
-            let topDistribution = {
-                percentages: [],
-                cryptos: [],
-            }
-
-            let max = (cryptoData.length > 5)? 5 : cryptoData.length;
-            
-            cryptoData.forEach(crypto => {
-                distribution.percentages.push(((crypto.current_price * crypto.amount) /  portfolioTotalWorth.value) * 100);
-                distribution.cryptos.push(crypto.cg_id);
-            });
-
-            topDistribution.percentages = distribution.percentages.map(percentage => percentage)
-                                                                  .sort((a, b) => b - a)
-                                                                  .slice(0, max);
-
-            for (let x = 0; x < topDistribution.percentages.length; x++) {
-                for (let y = 0; y < distribution.percentages.length; y++) {
-
-                    if (distribution.percentages[y] == topDistribution.percentages[x]) {
-                        topDistribution.cryptos.push(distribution.cryptos[y]);
-                        break;
-                    }
-                }
-            }
-
-            return topDistribution;
-        }
-
-        const calculateTopCryptos = () => {
-
-            let top = {
-                cryptos: [],
-                percentages: []
-            };
-
-            let max = (cryptoData.value.length > 5)? 5 : cryptoData.value.length;
-            
-            top.percentages = cryptoData.value.map(crypto => crypto.price_change_percentage_7d)
-                                              .sort((a, b) => b - a)
-                                              .slice(0, max);
-
-            for (let i = 0; i < max; i++) {
-                for (const crypto of cryptoData.value) {
-
-                    if (crypto.price_change_percentage_7d == top.percentages[i]) {
-                        top.cryptos.push(crypto.cg_id);
-                        break;
-                    }
-                }
-            }
-
-            return top;
-        }
-
-        const joinCryptoData = (cgData) => {
-
-                let tempData = [];
-
-                for (let cgCrypto of cgData) { 
-                    for (let dbCrypto of props.cryptos) {
-
-                    if (cgCrypto.id == dbCrypto.cg_id)
-                        {
-                            tempData.push({
-                                cg_id: cgCrypto.id,
-                                name: cgCrypto.name,
-                                image: cgCrypto.image,
-                                symbol: cgCrypto.symbol.toUpperCase(),
-                                url: `/cryptos/${cgCrypto.id}`,
-                                amount: formatNumber(dbCrypto.amount),
-                                total_worth: formatNumber(dbCrypto.amount * cgCrypto.current_price),
-                                created_at: dbCrypto.created_at,
-                                current_price: formatNumber(cgCrypto.current_price), 
-                                price_change_24h: formatNumber(cgCrypto.price_change_24h),
-                                price_change_percentage_24h: formatNumber(cgCrypto.price_change_percentage_24h),
-                                price_change_percentage_7d: formatNumber(cgCrypto.price_change_percentage_7d_in_currency),   
-                        });
-
-                        break;
-                    }
-                }
-            }
-
-            return tempData;
         }
 
         // EDIT METHODS
@@ -385,7 +303,7 @@ export default {
 
         const saveCryptoAmount = (crypto, index) => {
 
-            let url = `/portfolio/cryptos/${crypto.cg_id}`;
+            let url = `/portfolio/${crypto.url}`;
 
             if (validAmount(newAmount.value)) {
 
@@ -402,16 +320,14 @@ export default {
             // DATA OF ALL CRYPTOS INFORMATION
             axios.get(cryptosInfoUrl)
                  .then(res => {
-                    
-                    cryptoData.value = joinCryptoData(res.data);
 
-                    // console.log('CG DATA: ', cryptoData.value);
+                    cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
 
                     // CALCULATE PORTFOLIO DATA
                     calculatePortfolioData(cryptoData.value);
-
+    
                     // CALCULATE CHARTS DATA
-                    const cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
+                    const cryptoDistribution = calculateCryptoDistribution(cryptoData.value, portfolioTotalWorth.value);
                     const topCryptos = calculateTopCryptos(cryptoData.value);
 
                     const doughnutHtmlElement = document.getElementById("doughnutChart");
@@ -430,7 +346,7 @@ export default {
             axios.get(cryptosInfoUrl)
                  .then((res) => {
 
-                    cryptoData.value =  joinCryptoData(res.data);
+                    cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
 
                     // CALCULATE PORTFOLIO DATA
                     calculatePortfolioData(cryptoData.value);
@@ -450,7 +366,6 @@ export default {
             portfolioTotalWorth, 
             portfolioGrowth,
             portfolioGrowthPercentage,
-            formatNumber,
             priceColor,
             newAmount,
             editingIndex,

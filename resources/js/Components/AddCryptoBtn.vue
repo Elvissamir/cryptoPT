@@ -13,14 +13,12 @@ export default {
         crypto: {
             type: Object,
             required: true
-        }
+        },
     },
-    setup(props) {
+    setup(props, context) {
         
-        const addCryptoUrl = '/portfolio/cryptos';
-
         const addCrypto = () => {
-            axios.post(addCryptoUrl, props.crypto);      
+            context.emit('openAddForm', props.crypto);
         }
 
         return {

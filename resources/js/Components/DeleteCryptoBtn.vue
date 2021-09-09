@@ -9,6 +9,9 @@
 </template>
 <script>
 
+// INERTIA
+import { Inertia } from '@inertiajs/inertia'
+
 export default {
     name: 'DeleteCryptoBtn',
     props: {
@@ -19,7 +22,8 @@ export default {
     },
     setup(props) {
         const removeCrypto = () => {
-            axios.delete(`/portfolio/cryptos/${props.cg_id}`);
+            console.log('delete url: ', `/portfolio/cryptos/${props.cg_id}`);
+            Inertia.delete(`/portfolio/cryptos/${props.cg_id}`);
         }
 
         return {

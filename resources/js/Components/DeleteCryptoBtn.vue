@@ -22,7 +22,6 @@ export default {
     },
     setup(props) {
         const removeCrypto = () => {
-            console.log('delete url: ', `/portfolio/cryptos/${props.cg_id}`);
             Inertia.delete(`/portfolio/cryptos/${props.cg_id}`);
         }
 

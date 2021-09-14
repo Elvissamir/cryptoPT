@@ -3,10 +3,15 @@
     <div>
  <Layout>
 
-    <ModalWindow :showModal="showAddForm">
+    <!-- LOADER SCREEN -->
+    <LoadingScreen :showLoadingScreen="showLoading" :status="status"></LoadingScreen>
+
+    <!-- ADD CRYPTO FORM SCREEN -->
+     <ModalWindow :showModal="showAddForm">
         <AddCryptoForm @close-form="disableAddCryptoForm" :crypto="cryptoToAdd"></AddCryptoForm>   
     </ModalWindow>
 
+    <!-- MAIN CONTENT --> 
     <div class="flex w-full">
         <div class="flex bg-white w-11/12 mx-auto">
             <div class="flex flex-col w-11/12 mx-auto">
@@ -126,6 +131,7 @@ import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 import AddCryptoBtn from '../../Components/AddCryptoBtn.vue'
 import AddCryptoForm from '../../Components/AddCryptoForm.vue'
 import ModalWindow from '../../Components/ModalWindow'
+import LoadingScreen from '../../Components/LoadingScreen'
 
 // HELPERS
 import { priceColor } from '../../Helpers/PriceColor'
@@ -145,6 +151,7 @@ export default {
         AddCryptoBtn,
         DeleteCryptoBtn,
         ModalWindow,
+        LoadingScreen,
     },
     props: {
         crypto: {
@@ -178,7 +185,7 @@ export default {
             ath: true,
             atl: true,
             rank: true,
-            price_change_percentage_7d: true,
+            price_change_7d: true,
         };
 
         // CHART DATA
@@ -187,6 +194,12 @@ export default {
         // ADD CRYPTO FORM STATE AND DATA
         const showAddForm = ref(false);
         const cryptoToAdd = ref({});
+
+        // LOADER SCREEN
+        const showLoading = ref(true);
+
+        // DATA STATUS
+        const status = ref('loading');
 
         // HOOKS
         onMounted(() => {
@@ -205,9 +218,14 @@ export default {
 
         const getCryptoData = (url) => {
 
+            status.value = 'fetching';
+            showLoading.value = true;
+
             axios.get(url)
                 .then(res => {
 
+                    showLoading.value = false;
+                    
                     const cryptoName = props.crypto.cg_id;
 
                     let cryptoObj = {};
@@ -247,6 +265,8 @@ export default {
             cryptoToAdd,
             activeAddCryptoForm,
             disableAddCryptoForm,
+            status,
+            showLoading,
         }
     },
 }

@@ -56,8 +56,8 @@ const calculateCryptoDistribution = (cryptoData, portfolioTotalWorth) => {
 const calculateTopCryptos = (cryptoData) => {
 
     let top = {
+        percentages: [],
         cryptos: [],
-        percentages: []
     };
 
     let max = (cryptoData.length > 5)? 5 : cryptoData.length;

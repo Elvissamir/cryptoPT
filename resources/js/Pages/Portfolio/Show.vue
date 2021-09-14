@@ -1,178 +1,199 @@
 
 <template>
+<div>
     <layout>
+
+    <!-- LOADER SCREEN -->
+    <LoadingScreen :showLoadingScreen="showLoading" :status="status"></LoadingScreen>
+
+    <!-- EDIT CRYPTO FORM SCREEN -->
+    <ModalWindow :showModal="showEditForm">
+        <EditCryptoForm @close-form="disableEditCryptoForm" :crypto="cryptoToEdit"></EditCryptoForm>   
+    </ModalWindow>
 
     <!-- MAIN -->
     <div class="w-full">
-        <div class="w-full mx-auto grid grid-cols-1">
+        <div v-if="hasData" class="w-full">
             
-            <!-- MY PORTFOLIO & CRYPTOS SECTION -->
-            <div class="flex flex-col text-white bg-blue-900">
-                
-                <!-- PORTFOLIO INFO -->
-                <div class="py-6 w-11/12 mx-auto">
-                    <div class="flex">
-                        <div class="w-6/12 flex flex-wrap">
-                            <h1 class="sm:text-xl font-semibold">My Portfolio</h1>
-                        </div>
-        
-                        <div class="w-6/12 flex justify-end items-baseline">
-                            <p class="text-xs sm:text-md mr-2">Total: </p>
-                            <p class="sm:text-xl font-bold text-green-300">
-                                ${{ portfolioTotalWorth }}
-                            </p>
+            <div class="grid grid-cols-1">
+                <!-- MY PORTFOLIO DATA & CRYPTOS SECTION -->
+                <div class="flex flex-col text-white bg-blue-900 w-full mx-auto">    
+
+                    <!-- PORTFOLIO INFO -->
+                    <div class="mx-auto mt-4 w-11/12">
+
+                        <div class="w-full">
+                            <!-- PORTFOLIO DETAILS TOP --> 
+                            <div class="flex">
+                                    <div class="w-6/12 flex flex-wrap">
+                                        <h1 class="sm:text-xl font-semibold">My Portfolio</h1>
+                                    </div>
+                                        
+                                    <div class="w-6/12 flex justify-end items-baseline">
+                                        <p class="text-sm sm:text-md mr-2">Total: </p>
+                                        <p class="sm:text-xl font-bold text-green-300">
+                                                ${{ portfolioTotalWorth }}
+                                        </p>
+                                    </div>
+                            </div>
+
+                            <!-- PORTFOLIO DETAILS CONTENT -->
+                            <div class="flex mt-2">
+                                    <div class="flex flex-col w-6/12">
+                                        <div class="flex">
+                                            <p class="sm:text-sm text-xs my-auto">Number of cryptos: </p>
+                                            <p class="sm:text-sm text-sm font-bold ml-2">{{ cryptoData.length }}</p>
+                                        </div>
+
+                                        <div class="flex">
+                                            <p class="sm:text-sm text-xs my-auto">Created: </p>
+                                            <p class="sm:text-sm text-sm font-bold ml-2">{{ portfolio.created_at }}</p>
+                                        </div> 
+
+                                        <div class="flex">
+                                            <p class="sm:text-sm text-xs my-auto">Modified: </p>
+                                            <p class="sm:text-md text-sm font-bold ml-2">{{ portfolio.updated_at }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex flex-col items-end w-6/12">
+                                        <div class="flex">
+                                            <p class="sm:text-sm text-xs my-auto">Growth % (24h): </p>
+                                            <p :class="[priceColor(portfolioGrowthPercentage), 'font-bold']" 
+                                                class="sm:text-sm text-sm ml-2">
+                                                    {{ portfolioGrowthPercentage }}%
+                                            </p>
+                                        </div>
+
+                                        <div class="flex">
+                                            <p class="sm:text-sm text-xs my-auto">Growth (24h):</p>
+                                            <p :class="[priceColor(portfolioGrowth), 'font-bold']" 
+                                                class="sm:text-sm text-sm ml-2">
+                                                ${{ portfolioGrowth }}
+                                            </p>
+                                        </div>
+                                    </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-4 flex">
-                        <div class="ml-auto align-top order-last flex justify-start flex-col">
-                            <div class="flex justify-end">
-                                <p class="sm:text-sm text-xs my-auto">Growth % (24h): </p>
-                                <p :class="[priceColor(portfolioGrowthPercentage), 'font-bold']" 
-                                    class="sm:text-sm text-sm ml-2">
-                                        {{ portfolioGrowthPercentage }}%
-                                </p>
+            
+                    <!-- MY CRYPTOS SECTION -->
+                    <div class="bg-white rounded-t-3xl w-full mt-4 text-black align-bottom">
+                        <div class="w-11/12 mx-auto mt-5">
+                            <div class="flex justify-between">
+                                <div class="">
+                                    <h2 class="sm:text-xl font-semibold">My Cryptos</h2>
+                                </div>
+                                <div class="mb-1">
+                                    <LinkAddCrypto></LinkAddCrypto>
+                                </div>
                             </div>
+                    
+                            <!-- LIST OF CRYPTOS -->
+                            <div class="flex flex-col mt-4 divide-y-2 divide-gray-300 border-b-2 border-t-2 border-gray-300">
+                                <div v-for="(crypto, index) in cryptoData" :key="index" class="flex flex-wrap sm:max-w-3xl sm:flex-row sm:justify-between w-full py-2">
+                                                    <!-- CRYPTO SYMBOL -->
+                                                    <div class="flex w-8/12 sm:w-2/12">
+                                                        <img class="w-9 h-9" :src="crypto.image">
+                                                        <div class="flex flex-col ml-2">
+                                                            <p class="text-sm font-semibold">{{ crypto.symbol }}</p>
+                                                            <Link class="underline text-xs font-semibold text-indigo-500" :href="crypto.url">{{ crypto.name }}</Link>
+                                                        </div>
+                                                    </div>
+                        
+                                                    <!-- DELETE BUTTON-->
+                                                    <div class="flex w-4/12 sm:w-1/12 rounded justify-end sm:my-auto sm:order-6">
+                                                        <DeleteCryptoBtn :cg_id="crypto.cg_id" ></DeleteCryptoBtn>
+                                                    </div>
+                                                    
+                                                    <!-- ADDED AT -->
+                                                    <div class="flex sm:flex-col sm:w-2/12 items-baseline w-full  mb-2 sm:mb-0">
+                                                        <p class="text-xs">Added: </p>
+                                                        <p class="text-xs font-bold ml-2 sm:text-sm sm:ml-0">{{ crypto.created_at }}</p>
+                                                    </div>
+                        
+                                                    <!-- PRICE -->
+                                                    <div class="flex flex-col w-4/12 sm:w-1/12">
+                                                        <p class="text-xs">Price: </p>
+                                                        <p class="text-sm font-bold">${{ crypto.price }}</p>
+                                                    </div>
+                        
+                                                    <!-- AMOUNT -->
+                                                    <div class="flex flex-col w-4/12 sm:w-1/12">
+                                                        <p class="text-xs">Amount: </p>
 
-                            <div class="flex justify-end">
-                                <p class="sm:text-sm text-xs my-auto">Growth (24h):</p>
-                                <p 
-                                    :class="[priceColor(portfolioGrowth), 'font-bold']" 
-                                    class="sm:text-sm text-sm ml-2">
-                                        ${{ portfolioGrowth }}
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex">
-                                <p class="sm:text-sm text-xs my-auto">Number of cryptos in portfolio: </p>
-                                <p class="sm:text-sm text-sm font-bold ml-2">{{ cryptoData.length }}</p>
-                            </div>
-
-                            <div class="flex">
-                                <p class="sm:text-sm text-xs my-auto">Created: </p>
-                                <p class="sm:text-sm text-sm font-bold ml-2">{{ portfolio.created_at }}</p>
-                            </div> 
-
-                            <div class="flex">
-                                <p class="sm:text-sm text-xs my-auto">Modified: </p>
-                                <p class="sm:text-md text-sm font-bold ml-2">{{ portfolio.updated_at }}</p>
+                                                        <div class="flex">
+                                                            <div class="flex">
+                                                                <p class="text-sm font-bold">{{ crypto.amount }}</p>
+                                                                <p class="text-sm font-bold ml-1">{{ crypto.symbol }}</p>
+                                                                <button @click='editCryptoAmount(crypto, index)' class="bg-blue-900 font-bold text-sm rounded-md text-white px-2 ml-1">
+                                                                    Edit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                        
+                                                    <!-- TOTAL -->
+                                                    <div class="flex flex-col w-4/12 sm:w-1/12">
+                                                        <p class="text-xs">Total: </p>
+                                                        <p class="text-sm font-bold">${{ crypto.total_worth }}</p>
+                                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- MY CRYPTOS SECTION -->
-                <div class="bg-white rounded-t-3xl w-full mt-4 text-black align-bottom">
-                    <div class="py-6 w-11/12 mx-auto">
-                        <div class="flex justify-between">
+                <!-- CHARTS -->
+                <div class="bg-white w-full mx-auto">     
+                    <div class="w-10/12 mx-auto">
+                        <!-- PORTFOLIO DISTRIBUTION CHART-->
+                        <div class="">
                             <div class="">
-                                <h2 class="sm:text-xl font-semibold">My Cryptos</h2>
+                                <h2 class="sm:text-xl font-semibold">
+                                    Portfolio Distribution
+                                </h2>
                             </div>
-                            <div class="mb-1">
-                                <Link class="px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold" href="/cryptos">
-                                    Add +
-                                </Link>
+                            <div class="relative w-32 h-32">
+                                <canvas class="" id="doughnutChart"></canvas>
                             </div>
                         </div>
-    
-                        <!-- LIST OF CRYPTOS -->
-                        <div class="flex flex-col mt-4 divide-y-2 divide-gray-300 border-b-2 border-t-2 border-gray-300">
-    
-                            <!-- CRYPTO -->
-                            <div v-for="(crypto, index) in cryptoData" :key="index" class="flex flex-wrap sm:max-w-3xl sm:flex-row sm:justify-between w-full py-2">
-                                <!-- CRYPTO SYMBOL -->
-                                <div class="flex w-8/12 sm:w-2/12">
-                                    <img class="w-9 h-9" :src="crypto.image">
-                                    <div class="flex flex-col ml-2">
-                                        <p class="text-sm font-semibold">{{ crypto.symbol }}</p>
-                                        <Link class="underline text-xs font-semibold text-indigo-500" :href="crypto.url">{{ crypto.name }}</Link>
-                                    </div>
-                                </div>
-    
-                                <!-- DELETE BUTTON-->
-                                <div class="flex w-4/12 sm:w-1/12 rounded justify-end sm:my-auto sm:order-6">
-                                    <DeleteCryptoBtn :cg_id="crypto.cg_id" ></DeleteCryptoBtn>
-                                </div>
-                                
-                                <!-- ADDED AT -->
-                                <div class="flex sm:flex-col sm:w-2/12 items-baseline w-full  mb-2 sm:mb-0">
-                                    <p class="text-xs">Added: </p>
-                                    <p class="text-xs font-bold ml-2 sm:text-sm sm:ml-0">{{ crypto.created_at }}</p>
-                                </div>
-    
-                                <!-- PRICE -->
-                                <div class="flex flex-col w-4/12 sm:w-1/12">
-                                    <p class="text-xs">Price: </p>
-                                    <p class="text-sm font-bold">${{ crypto.price }}</p>
-                                </div>
-    
-                                <!-- AMOUNT -->
-                                <div class="flex flex-col w-4/12 sm:w-1/12">
-                                    <p class="text-xs">Amount: </p>
 
-                                    <div class="flex">
-                                        <div v-if="(editing == true && editingIndex == index)">
-                                            <input type="number" v-model="newAmount">
-                                            <button @click="saveCryptoAmount(crypto, index)" class="bg-blue-900 font-bold text-sm text-white py-1 px-2">
-                                                Save
-                                            </button>
-                                            <button @click="cancelEdit" class="bg-blue-900 font-bold text-sm text-white py-1 px-2">
-                                                Cancel
-                                            </button>
-                                        </div>
-
-                                        <div v-else>
-                                            <p class="text-sm font-bold">{{ crypto.amount }}</p>
-                                            <p class="text-sm font-bold ml-1">{{ crypto.symbol }}</p>
-                                            <button @click='editCryptoAmount(crypto, index)' class="bg-blue-900 font-bold text-sm text-white py-1 px-2">
-                                                Edit
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-    
-                                <!-- TOTAL -->
-                                <div class="flex flex-col w-4/12 sm:w-1/12">
-                                    <p class="text-xs">Total: </p>
-                                    <p class="text-sm font-bold">${{ crypto.total_worth }}</p>
-                                </div>
-    
+                        <!-- CRYPTOS PERFORMANCE CHART --> 
+                        <div class="">
+                            <div>
+                                <h2 class="sm:text-xl font-semibold">  
+                                    Cryptos Performance (% Increase in 7 Days)
+                                </h2>
+                            </div>
+                            <div class="relative w-32 h-32">
+                                <canvas class="" id="barChart"></canvas>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div> 
 
-            <!-- PORTFOLIO DISTRIBUTION CHART-->
-            <div class="bg-white" >
-                <div class="w-11/12 mx-auto">
-                    <div class="">
-                        <h2 class="sm:text-xl font-semibold">
-                            Portfolio Distribution
-                        </h2>
-                    </div>
-                    <canvas class="w-3/12 mx-auto" id="doughnutChart"></canvas>
-                </div>
             </div>
-
-            <!-- CRYPTOS PERFORMANCE CHART --> 
-            <div class="bg-white">
-                <div class="w-11/12 mx-auto">
-                    <div>
-                        <h2 class="sm:text-xl font-semibold">  
-                            Cryptos Performance (% Increase in 7 Days)
-                        </h2>
-                    </div>
-                    <canvas class="w-3/12 mx-auto" id="barChart"></canvas>
-                </div>
-            </div>
-
         </div>
+
+        <div v-else class="flex flex-col justify-center items-center w-11/12 mx-auto h-screen">
+            <p class="font-extrabold text-lg">
+                There's no data to show.
+            </p>
+
+            <p class="font-extrabold text-lg mt-2 text-center">
+                Please add some cryptos to your portfolio
+            </p>
+
+            <div class="mt-3">
+                <LinkAddCrypto></LinkAddCrypto>   
+            </div>
+        </div>
+
     </div>
-
     </layout>
+</div>
 </template>
-
 <script>
 
 // Layout
@@ -182,8 +203,10 @@ import Layout from '../../Layouts/AppLayout'
 import { ref, onMounted, watch } from 'vue'
 
 // COMPONENTS
-import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 import { Link } from '@inertiajs/inertia-vue3'
+import LinkAddCrypto from '../../Components/LinkAddCrypto.vue'
+import LoadingScreen from '../../Components/LoadingScreen.vue'
+import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 
 // INERTIA
 import { Inertia } from '@inertiajs/inertia'
@@ -220,8 +243,10 @@ Chart.register(DoughnutController, BarController, BarElement, ArcElement, Catego
 
 export default {
   components: {
-    Link,
     Layout,
+    Link,
+    LinkAddCrypto,
+    LoadingScreen,
     DeleteCryptoBtn,
   },
   props: {
@@ -250,14 +275,6 @@ export default {
         let page = 1;
         let sparkline = false;
         let price_change_percentage = '7d%2C%2024h';
-        let ids = props.cryptos.map(crypto => {
-            return crypto.cg_id
-        });
-
-        let allIds = ids.join('%2C%20');
-
-        // Request URL
-        let cryptosInfoUrl = `${main_url}markets?vs_currency=${currency}&ids=${allIds}&order=${order}&per_page=${per_page}&page=${page}&sparkline=${sparkline}&price_change_percentage=${price_change_percentage}`;
 
         // JOIN DATA OPTIONS
         let options = {
@@ -272,12 +289,25 @@ export default {
         const portfolioGrowth = ref(0);
         const portfolioGrowthPercentage = ref(0);
 
-        // Edit Amount Variables
-        const newAmount = ref(0); 
-        const editingIndex = ref(0);
-        const editing = ref(false);
+        // STATUS
+        const status = ref('loading');
+        const showLoading = ref(true);
+        const hasData = ref(false);
         
         // METHODS
+        // REQUEST URL
+        const generateRequestCgUrl = (cryptoArr) => {
+            
+            let ids = cryptoArr.map(crypto => {
+                return crypto.cg_id
+            });
+
+            let allIds = ids.join('%2C%20');
+
+            // Request URL
+            return `${main_url}markets?vs_currency=${currency}&ids=${allIds}&order=${order}&per_page=${per_page}&page=${page}&sparkline=${sparkline}&price_change_percentage=${price_change_percentage}`;
+        }
+
         // PORTFOLIO DATA
         const calculatePortfolioData = (cryptosData) => {
 
@@ -287,78 +317,88 @@ export default {
         }
 
         // EDIT METHODS
-        const editCryptoAmount = (crypto, index) => {
-            newAmount.value = crypto.amount;
-            editing.value = true;
-            editingIndex.value = index;
-        }
-
         const cancelEdit = () => {
             editing.value = false;
         }
 
-        const validAmount = (amount) => {
-            return true;
-        }
-
-        const saveCryptoAmount = (crypto, index) => {
-
-            let url = `/portfolio/${crypto.url}`;
-
-            if (validAmount(newAmount.value)) {
-
-                editing.value = false;
-                props.cryptos[index].amount = newAmount;
-
-                Inertia.put(url, {amount: newAmount.value});        
-            }
-        }
-
         // CYCLE HOOKS
-        onMounted(() => {    
+        onMounted(() => {
 
-            // DATA OF ALL CRYPTOS INFORMATION
-            axios.get(cryptosInfoUrl)
-                 .then(res => {
-
-                    cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
-
-                    // CALCULATE PORTFOLIO DATA
-                    calculatePortfolioData(cryptoData.value);
-    
-                    // CALCULATE CHARTS DATA
-                    const cryptoDistribution = calculateCryptoDistribution(cryptoData.value, portfolioTotalWorth.value);
-                    const topCryptos = calculateTopCryptos(cryptoData.value);
-
-                    const doughnutHtmlElement = document.getElementById("doughnutChart");
-                    doughnutChart = new Chart(doughnutHtmlElement, generateDoughnutChartConf(cryptoDistribution, cryptoDistribution.cryptos.length));
-                                    
-                    const barHtmlElement = document.getElementById('barChart');
-                    barChart = new Chart(barHtmlElement, generateBarChartConf(topCryptos, topCryptos.cryptos.length));
+            if (props.cryptos.length == 0)
+            {
+                hasData.value = false;
+                showLoading.value = false;
+                status.value = 'ready';
+                cryptoData.value = [];
+                calculatePortfolioData(cryptoData.value);
+            }
+            else {
                 
-                 })
-                 .catch(e => console.log(e));
+                hasData.value = true;
+                status.value = 'fetching';
+
+                // DATA OF ALL CRYPTOS INFORMATION
+                axios.get(generateRequestCgUrl(props.cryptos))
+                     .then(res => {
+    
+                        status.value = 'ready';
+                        showLoading.value = false;
+
+                        cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
+    
+                        // CALCULATE PORTFOLIO DATA
+                        calculatePortfolioData(cryptoData.value);
+        
+                        // CALCULATE CHARTS DATA
+                        const cryptoDistribution = calculateCryptoDistribution(cryptoData.value, portfolioTotalWorth.value);
+                        const topCryptos = calculateTopCryptos(cryptoData.value);                  
+
+                        const doughnutHtmlElement = document.getElementById("doughnutChart");
+                        doughnutChart = new Chart(doughnutHtmlElement, generateDoughnutChartConf(cryptoDistribution, cryptoDistribution.cryptos.length));
+                                        
+                        const barHtmlElement = document.getElementById('barChart');
+                        barChart = new Chart(barHtmlElement, generateBarChartConf(topCryptos, topCryptos.cryptos.length));
+                })
+                .catch(e => console.log(e));
+            }
         });
 
         // WATCHERS
         watch(() => props.cryptos, () => {
+              if (props.cryptos.length == 0)
+            {
+                hasData.value = false;
+                showLoading.value = false;
+                status.value = 'ready';
+                cryptoData.value = [];
+                calculatePortfolioData(cryptoData.value);
+            }
+            else {
+                
+                hasData.value = true;
+                status.value = 'fetching';
 
-            axios.get(cryptosInfoUrl)
-                 .then((res) => {
+                // DATA OF ALL CRYPTOS INFORMATION
+                axios.get(generateRequestCgUrl(props.cryptos))
+                     .then(res => {
+    
+                        status.value = 'ready';
+                        showLoading.value = false;
 
-                    cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
+                        cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
+    
+                        // CALCULATE PORTFOLIO DATA
+                        calculatePortfolioData(cryptoData.value);
+        
+                        // CALCULATE CHARTS DATA
+                        const cryptoDistribution = calculateCryptoDistribution(cryptoData.value, portfolioTotalWorth.value);
+                        const topCryptos = calculateTopCryptos(cryptoData.value);
 
-                    // CALCULATE PORTFOLIO DATA
-                    calculatePortfolioData(cryptoData.value);
-
-                    // UPDATE CHARTS DATA
-                    const cryptoDistribution = calculateCryptoDistribution(cryptoData.value);
-                    const topCryptos = calculateTopCryptos(cryptoData.value);
-
-                    updateDoughnutChart(doughnutChart, cryptoDistribution);
-                    updateBarChart(barChart, topCryptos);                    
-                 })
-                 .catch(e => console.log(e));
+                        updateDoughnutChart(doughnutChart, cryptoDistribution);
+                        updateBarChart(barChart, topCryptos);                    
+                })
+                .catch(e => console.log(e));
+            }
         });
 
         return { 
@@ -367,12 +407,11 @@ export default {
             portfolioGrowth,
             portfolioGrowthPercentage,
             priceColor,
-            newAmount,
-            editingIndex,
-            editing,
             editCryptoAmount,
             cancelEdit,
-            saveCryptoAmount,
+            status, 
+            showLoading,
+            hasData,
         }
   },
 }

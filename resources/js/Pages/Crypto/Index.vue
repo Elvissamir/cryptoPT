@@ -2,10 +2,15 @@
     <div>
       <layout>
 
+        <!-- LOADER SCREEN -->
+        <LoadingScreen :showLoadingScreen="showLoading" :status="status"></LoadingScreen>
+
+        <!-- ADD CRYPTO FORM SCREEN -->
         <ModalWindow :showModal="showAddForm">
           <AddCryptoForm @close-form="disableAddCryptoForm" :crypto="cryptoToAdd"></AddCryptoForm>   
         </ModalWindow>
 
+        <!-- MAIN CONTENT --> 
         <div class="w-full">
             <div class="bg-white mx-auto w-11/12 py-2">
 
@@ -89,7 +94,6 @@
                                         {{ crypto.price_change_7d }}%
                                       </p>
                                     </div>
-        
                 </div>
 
                 <!-- PAGINATION -->
@@ -117,11 +121,12 @@ import Layout from "../../Layouts/AppLayout";
 import { onMounted, ref, watch } from "vue";
 
 // COMPONENTS
+import { Link } from '@inertiajs/inertia-vue3'
+import LoadingScreen from '../../Components/LoadingScreen'
 import ModalWindow from '../../Components/ModalWindow.vue'
 import AddCryptoForm from '../../Components/AddCryptoForm.vue'
-import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 import AddCryptoBtn from '../../Components/AddCryptoBtn.vue'
-import { Link } from '@inertiajs/inertia-vue3'
+import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 
 // HELPERS
 import { formatNumber } from '../../Helpers/FormatNumber.js'
@@ -131,11 +136,12 @@ import { generateCryptoDataArray } from '../../Helpers/GenerateCryptoDataArray';
 export default {
   components: {
     Layout,
+    LoadingScreen,
     Link,
     AddCryptoBtn,
+    AddCryptoForm,
     DeleteCryptoBtn,
     ModalWindow,
-    AddCryptoForm,
   },
   props: {
     cryptos: {
@@ -164,12 +170,18 @@ export default {
     const showAddForm = ref(false);
     const cryptoToAdd = ref({});
 
+    // LOADER SCREEN
+    const showLoading = ref(true);
+
+    // DATA STATUS
+    const status = ref('loading');
+
      // JOIN DATA OPTIONS
     let options = {
       rank: true,
       price_change_1h: true, 
       price_change_24h: true,
-      price_change_percentage_7d: true,
+      price_change_7d: true,
     };
 
     // METHODS
@@ -177,9 +189,14 @@ export default {
       page.value = currentPage.value;
       marketRanksUrl.value = `${baseUrl}/markets?vs_currency=${currency}&order=${order}&per_page=${perPage}&page=${page.value}&sparkline=${sparkline}&price_change_percentage=${price_change}`;
 
+      showLoading.value = true;
+      status.value = 'fetching';
+
       axios
         .get(marketRanksUrl.value)
         .then((res) => {
+
+          showLoading.value = false;
           cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
         })
 			  .catch((e) => console.log(e));
@@ -207,11 +224,12 @@ export default {
       fetchCGData();
 		});
 
-    watch(() => currentPage, () => {
+    watch(currentPage, () => {
       fetchCGData();
     })
 
     watch(() => props.cryptos, () => {
+      disableAddCryptoForm();
       fetchCGData();
     })
 
@@ -226,6 +244,8 @@ export default {
       disableAddCryptoForm,
       goToPrev,
       goToNext,
+      showLoading,
+      status
 		};
 	}
 }

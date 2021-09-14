@@ -1,11 +1,7 @@
 import { formatNumber } from "./FormatNumber";
 
 const addDbCryptoData = (dbData, crypto, options) => {
-
-    console.log('obj: ', dbData);
-    console.log('ccg: ', crypto);
-    console.log('key: ', dbData[crypto.cg_id]);
-
+    
     if (dbData[crypto.cg_id]) {
         if (dbData[crypto.cg_id].amount) {
         

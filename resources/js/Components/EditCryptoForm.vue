@@ -10,26 +10,26 @@
             </div>
 
             <div class="flex">
-                <button @click="closeForm" class="flex p-2 h-6 w-6 justify-center items-center rounded-full bg-indigo-900 text-white text-sm font-bold">
+                <button @click="closeEditForm" class="flex p-2 h-6 w-6 justify-center items-center rounded-full bg-indigo-900 text-white text-sm font-bold">
                     x
                 </button>
             </div>
         </div>
 
-        <form @submit.prevent="addCrypto" class="flex flex-col items-end h-full">
+        <form @submit.prevent="saveChanges" class="flex flex-col items-end h-full">
             <div class="flex items-baseline justify-between mt-4">
                 <label class="flex items-end" for="amount">
                     <p class="text-sm">Amount</p>
                 </label>
-                <input class="ml-2 border-2 h-6 w-9/12" type="number" step=".0001" id="amount" v-model="amount">
+                <input class="ml-2 border-2 h-6 w-9/12" type="number" step=".0001" id="amount" v-model="newAmount">
             </div>
             
             <div class="flex justify-between mt-auto w-full">
                 <button type="submit" class="px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold">
-                    Add
+                    Save
                 </button>
 
-                <button @click="closeForm" type="button" class="px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold">
+                <button @click="closeEditForm" type="button" class="px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold">
                     Cancel
                 </button>
             </div>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+
 import { ref } from "vue";
 
 // INERTIA
@@ -52,25 +53,28 @@ export default {
     },
     setup(props, context) {
         
-        const addCryptoUrl = '/portfolio/cryptos';
-        const amount = ref(0);
+        const newAmount = ref(0);
 
-        const addCrypto = () => {
-            
-            Inertia.post(addCryptoUrl, {
-                cg_id: props.crypto.cg_id,
-                amount: amount.value
-            });      
+        const validAmount = (amount) => {
+            return true;
         }
 
-        const closeForm = () => {
-            context.emit('closeForm');
+        const saveChanges = () => {
+
+            let url = `/portfolio${props.crypto.url}`;
+
+            if (validAmount(newAmount.value)) 
+                Inertia.put(url, {amount: newAmount.value});        
+        }
+
+        const closeEditForm = () => {
+            context.emit('closeEditForm');
         }
 
         return {
-            amount,
-            addCrypto,
-            closeForm,
+            newAmount,
+            saveChanges,
+            closeEditForm,
         }
     },
 }

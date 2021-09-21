@@ -2,7 +2,7 @@
     <div>
         <jet-banner />
 
-        <div class="min-h-screen">
+        <div class="min-h-screen bg-gray-100">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,15 +18,24 @@
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Home
+                                    <div class="flex items-baseline text-base font-black">
+                                        <div class="mr-2">Home</div>
+                                        <font-awesome-icon :icon="['fas', 'home']"/>
+                                    </div>
                                 </jet-nav-link>
 
-                                <jet-nav-link :href="route('portfolioCryptos.show')" :active="route().current('portfolioCryptos.show')">
-                                    Portfolio
+                                 <jet-nav-link :href="route('portfolioCryptos.show')" :active="route().current('portfolioCryptos.show')">
+                                    <div class="flex items-baseline text-base font-black">
+                                        <div class="mr-2">Portfolio</div>
+                                        <font-awesome-icon :icon="['fas', 'suitcase']"/>
+                                    </div>
                                 </jet-nav-link>
 
                                  <jet-nav-link :href="route('cryptos.index')" :active="route().current('cryptos.index')">
-                                    Cryptos
+                                    <div class="flex items-baseline text-base font-black">
+                                        <div class="mr-2">Cryptos</div>
+                                        <font-awesome-icon :icon="['fas', 'coins']"/>
+                                    </div>
                                 </jet-nav-link>
                             </div>
                         </div>
@@ -95,7 +104,8 @@
                                             <img class="h-8 w-8 rounded-full object-cover" :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name" />
                                         </button>
 
-                                        <span v-else class="inline-flex rounded-md">
+                                        <span v-else class="inline-flex items-baseline rounded-md">
+                                            <font-awesome-icon :icon="['fas', 'user']"/>
                                             <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
                                                 {{ $page.props.user.name }}
 
@@ -125,7 +135,10 @@
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <jet-dropdown-link as="button">
-                                                Log Out
+                                                <div class="flex items-baseline">
+                                                    <font-awesome-icon :icon="['fas', 'sign-out-alt']" class="my-auto"/>
+                                                    <p class="ml-2">Log Out</p>
+                                                </div>
                                             </jet-dropdown-link>
                                         </form>
                                     </template>
@@ -234,53 +247,55 @@
                 <slot></slot>
             </main>
 
-            <!-- FOOTER -->
+             <!-- FOOTER -->
             <footer class="bg-gray-800">
                 <div class="flex flex-col w-8/12 mx-auto py-8 text-white">
 
                     <!-- LINKS -->
-                    <div class="flex flex-col">
-                        <div class="mb-1">
+                    <div class="flex flex-col mx-auto">
+                        <div class=" flex w-full mb-1 justify-center">
                             <p class="font-bold">My Social Networks:</p>
                         </div>
 
                         <div class="flex">
-                                <div class="flex">
-                                    <a href="">Portfolio</a>
-                                </div>
-                                
-                                <div class="flex">
-                                    <a href="https://github.com/Elvissamir">Github</a>
-                                </div>
-
-                                <div class="flex">
-                                    <p class="font-bold">Email: </p>
-                                    <a href="">elvissamir18@gmail.com</a>
-                                </div>
-
-                                <div class="flex">
-                                    <p class="font-bold">Discord ID: </p>
-                                    <p class="font-bold">Elvissam1#1907</p>
-                                </div>
-
-                                <div class="flex">
-                                    <p class="font-bold">LinkedIn: </p>
-                                    <a href=""></a>
-                                </div>
-
-                                <div class="flex">
-                                    <p class="font-bold">Twitter: </p>
-                                    <a href=""></a>
-                                </div>
-                            </div> 
+                            <div class="flex items-baseline font-bold">
+                                <p class="">
+                                    <font-awesome-icon :icon="['fas', 'envelope']" class="mr-2"/>
+                                    Elvissamir18@gmail.com
+                                </p>
+                            </div>
                         </div>
 
+                        <div class="flex justify-between mt-2 mx-auto text-lg font-black">
+                            <div class="flex">
+                                <a href="">
+                                    <font-awesome-icon :icon="['fas', 'globe']" size="lg"/>
+                                </a>
+                            </div>
+                                
+                            <div class="flex ml-3">
+                                <a href="https://github.com/Elvissamir">
+                                    <font-awesome-icon :icon="['fab', 'github']" size="lg" />
+                                </a>
+                            </div>
+
+                            <div class="flex ml-3">
+                                <a class="ml-2" href="">
+                                    <font-awesome-icon :icon="['fab', 'linkedin']" size="lg" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- INFO -->
                     <div class="flex flex-col mt-2 mx-auto items-center text-center">
-                        <p class="font-bold">
-                            Designed & Developed by Elvis Carrasco
-                        </p>
+                        <div class="flex flex-wrap font-bold">
+                            <div class="flex items-baseline">
+                                <font-awesome-icon :icon="['fas', 'cog']" size="lg" class="my-auto"/>
+                                <p class="ml-1">Designed & Developed</p>
+                            </div>
+                            <p class="ml-1">by Elvis Carrasco</p>
+                        </div>
                         <p class="font-bold">
                             Crypto Portfolio Tracker - 2021
                         </p>
@@ -288,6 +303,7 @@
 
                 </div>
             </footer>
+
         </div>
     </div>
 </template>

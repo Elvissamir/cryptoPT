@@ -53,7 +53,7 @@ export default {
     },
     setup(props, context) {
         
-        const newAmount = ref(0);
+        const newAmount = ref(props.crypto.amount);
 
         const validAmount = (amount) => {
             return true;

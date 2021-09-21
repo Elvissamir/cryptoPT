@@ -14,6 +14,7 @@ const generateBarChartConf = (portfolioTopCryptos) => {
         
      // BAR
     const dataBar = {
+        legend: 'Top 5 Cryptos % growth',
         labels: portfolioTopCryptos.cryptos,
         datasets: [{
             data: portfolioTopCryptos.percentages,

@@ -22,6 +22,8 @@ const generateDoughnutChartConf = (portfolioCryptoDistribution) => {
         type: 'doughnut',
         data: dataDoughnut, 
         options: {
+            responsive:true,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     position: 'right',

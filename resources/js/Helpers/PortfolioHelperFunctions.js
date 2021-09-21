@@ -32,7 +32,7 @@ const calculateCryptoDistribution = (cryptoData, portfolioTotalWorth) => {
     let max = (cryptoData.length > 5)? 5 : cryptoData.length;
     
     cryptoData.forEach(crypto => {
-        distribution.percentages.push(((crypto.price * crypto.amount) /  portfolioTotalWorth) * 100);
+        distribution.percentages.push(formatNumber(((crypto.price * crypto.amount) /  portfolioTotalWorth) * 100));
         distribution.cryptos.push(crypto.cg_id);
     });
 

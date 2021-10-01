@@ -2,10 +2,10 @@
     <div>
         <jet-banner />
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-white">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto w-11/12">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
@@ -248,8 +248,8 @@
             </main>
 
              <!-- FOOTER -->
-            <footer class="bg-gray-800">
-                <div class="flex flex-col w-8/12 mx-auto py-8 text-white">
+            <footer class="bg-gray-800 mt-8">
+                <div class="flex flex-col w-10/12 mx-auto py-8 text-white">
 
                     <!-- LINKS -->
                     <div class="flex flex-col mx-auto">
@@ -259,7 +259,7 @@
 
                         <div class="flex">
                             <div class="flex items-baseline font-bold">
-                                <p class="">
+                                <p class="flex items-center text-sm sm:text-base">
                                     <font-awesome-icon :icon="['fas', 'envelope']" class="mr-2"/>
                                     Elvissamir18@gmail.com
                                 </p>
@@ -288,16 +288,22 @@
                     </div>
 
                     <!-- INFO -->
-                    <div class="flex flex-col mt-2 mx-auto items-center text-center">
-                        <div class="flex flex-wrap font-bold">
-                            <div class="flex items-baseline">
+                    <div class="flex flex-col mt-3 mx-auto items-center text-center">
+                        <div class="flex flex-wrap justify-center font-bold">
+                            <div class="flex flex-wrap items-baseline">
                                 <font-awesome-icon :icon="['fas', 'cog']" size="lg" class="my-auto"/>
-                                <p class="ml-1">Designed & Developed</p>
+                                <p class="ml-1">Designed</p>
+                                <p class="ml-1">&</p>
+                                <p class="ml-1">Developed</p>
                             </div>
-                            <p class="ml-1">by Elvis Carrasco</p>
+                            <p class="ml-1">by</p>
+                            <p class="ml-1">Elvis Carrasco</p>
                         </div>
+                        <p class="font-bold mt-2">
+                            Crypto Portfolio Tracker
+                        </p>
                         <p class="font-bold">
-                            Crypto Portfolio Tracker - 2021
+                            CPT - 2021
                         </p>
                     </div>
 

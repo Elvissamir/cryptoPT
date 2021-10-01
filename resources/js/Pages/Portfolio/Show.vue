@@ -6,7 +6,7 @@
     <!-- LOADER SCREEN -->
     <LoadingScreen :showLoadingScreen="showLoading" :status="status"></LoadingScreen>
 
-    <!-- EDIT CRYPTO FORM SCREEN -->
+    <!-- EDIT AMOUNT CRYPTO FORM SCREEN -->
     <ModalWindow :showModal="showEditForm">
         <EditCryptoForm @close-edit-form="disableEditCryptoForm" :crypto="cryptoToEdit"></EditCryptoForm>
     </ModalWindow>
@@ -20,7 +20,7 @@
                 <div class="flex flex-col text-white bg-blue-900 w-full mx-auto">
 
                     <!-- PORTFOLIO INFO -->
-                    <div class="mx-auto mt-4 w-11/12 lg:w-10/12">
+                    <div class="mx-auto mt-6 w-11/12 lg:w-10/12">
                         <div class="w-full">
                             <!-- PORTFOLIO DETAILS TOP -->
                             <div class="flex">
@@ -125,9 +125,7 @@
                                                 <div class="flex">
                                                     <p class="text-sm font-bold">{{ crypto.amount }}</p>
                                                     <p class="text-sm font-bold ml-1">{{ crypto.symbol }}</p>
-                                                    <button @click='editCryptoAmount(crypto)' class="bg-blue-900 font-bold text-sm rounded-md text-white px-2 ml-1">
-                                                        <font-awesome-icon :icon="['fas', 'pencil-alt']"/>
-                                                    </button>
+                                                    <EditCryptoBtn @edit-crypto="activateEditCryptoForm(crypto)"></EditCryptoBtn>
                                                 </div>
                                             </div>
                                         </div>
@@ -149,7 +147,7 @@
                     <div class="w-11/12 mx-auto lg:w-10/12">
                         <!-- PORTFOLIO DISTRIBUTION CHART-->
                         <div class="flex flex-col h-40 sm:h-80 lg:h-40 xl:h-80">
-                            <div class="mt-4">
+                            <div class="mt-6">
                                 <h2 class="sm:text-xl font-black">
                                     Portfolio Distribution
                                 </h2>
@@ -169,7 +167,7 @@
                         </div>
 
                         <!-- CRYPTOS PERFORMANCE CHART -->
-                        <div class="mt-16 mb-8 sm:mt-12 lg:mt-20 xl:mt-24">
+                        <div class="mt-16 sm:mt-12 lg:mt-20 xl:mt-24">
                             <div class="flex flex-wrap">
                                 <p class="sm:text-xl font-black">
                                     Cryptos Performance
@@ -221,7 +219,11 @@ import LinkAddCrypto from '../../Components/LinkAddCrypto.vue'
 import ModalWindow from '../../Components/ModalWindow.vue'
 import LoadingScreen from '../../Components/LoadingScreen.vue'
 import EditCryptoForm from '../../Components/EditCryptoForm.vue'
+import EditCryptoBtn from '../../Components/EditCryptoBtn.vue'
 import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
+
+// COMPOSABLES
+import useEditCryptoForm from '../../Composables/useEditCryptoForm.js'
 
 // Helpers
 import { generateCryptoDataArray } from '../../Helpers/GenerateCryptoDataArray'
@@ -262,6 +264,7 @@ export default {
     ModalWindow,
     DeleteCryptoBtn,
     EditCryptoForm,
+    EditCryptoBtn,
   },
   props: {
     portfolio: {
@@ -317,8 +320,7 @@ export default {
         const hasData = ref(false);
 
         // EDIT FORM
-        const showEditForm = ref(false);
-        const cryptoToEdit = ref({});
+       const { showEditForm, cryptoToEdit, disableEditCryptoForm, activateEditCryptoForm } = useEditCryptoForm();
 
         // METHODS
         // REQUEST URL
@@ -340,16 +342,6 @@ export default {
             portfolioTotalWorth.value = calculateTotalWorth(cryptosData);
             portfolioGrowth.value = calculateGrowth(cryptosData);
             portfolioGrowthPercentage.value = calculateGrowthPercentage(portfolioTotalWorth.value, portfolioGrowth.value);
-        }
-
-        // EDIT METHODS
-        const disableEditCryptoForm = () => {
-            showEditForm.value = false;
-        }
-
-        const editCryptoAmount = (crypto) => {
-            cryptoToEdit.value = crypto;
-            showEditForm.value = true;
         }
 
         // CYCLE HOOKS
@@ -397,7 +389,7 @@ export default {
         // WATCHERS
         watch(() => props.cryptos, () => {
 
-            showEditForm.value = false;
+            disableEditCryptoForm();
 
             if (props.cryptos.length == 0)
             {
@@ -448,7 +440,7 @@ export default {
             showLoading,
             showEditForm,
             cryptoToEdit,
-            editCryptoAmount,
+            activateEditCryptoForm,
             hasData,
         }
   },

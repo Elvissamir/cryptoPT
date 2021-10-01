@@ -17,12 +17,30 @@ const joinCryptoData = (dbData, cgData, options) => {
 
     if (options.atl)
         crypto['atl'] = formatNumber(cgData.atl);
+    
+    if (options.atl_date)
+        crypto['atl_date'] = cgData.atl_date.slice(0, 10);
 
     if (options.ath)
-        crypto['ath'] = formatNumber(cgData.atl);
+        crypto['ath'] = formatNumber(cgData.ath);
+
+    if (options.ath_date)
+        crypto['ath_date'] = cgData.ath_date.slice(0, 10);
 
     if (options.rank)
         crypto['rank'] = cgData.market_cap_rank;
+    
+    if (options.circulating_supply)
+        crypto['circulating_supply'] = cgData.circulating_supply;
+    
+    if (options.max_supply)
+        crypto['max_supply'] = cgData.max_supply;
+
+    if (options.high_24h)
+        crypto['high_24h'] = cgData.high_24h;
+
+    if (options.low_24h)
+        crypto['low_24h'] = cgData.low_24h;
 
     if (options.price_change_1h)
         crypto['price_change_1h'] = formatNumber(cgData.price_change_percentage_1h_in_currency);

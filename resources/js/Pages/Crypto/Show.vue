@@ -11,103 +11,163 @@
         <AddCryptoForm @close-form="disableAddCryptoForm" :crypto="cryptoToAdd"></AddCryptoForm>   
     </ModalWindow>
 
+    <!-- EDIT CRYPTO AMOUNT FORM SCREEN --> 
+    <ModalWindow :showModal="showEditForm">
+        <EditCryptoForm @close-edit-form="disableEditCryptoForm" :crypto="cryptoToEdit"></EditCryptoForm>
+    </ModalWindow>
+
     <!-- MAIN CONTENT --> 
     <div class="flex w-full">
         <div class="flex bg-white w-11/12 mx-auto">
-            <div class="flex flex-col w-11/12 mx-auto">
-                <!-- CRYPTO SYMBOL -->
-                <div class="flex w-8/12 sm:w-2/12">
-                    <img class="w-9 h-9" :src="coin.image">
-                    <div class="flex flex-col ml-2">
-                        <p class="text-sm font-semibold">{{ coin.symbol }}</p>
-                        <Link class="underline text-xs font-semibold text-indigo-500" :href="coin.url">{{ coin.name }}</Link>
-                    </div>
-                </div>
-
-                <!-- ADD OR DELETE BUTTON -->
-                <div class="flex">
-                    <DeleteCryptoBtn v-if="coin.inPortfolio" :cg_id="coin.cg_id"></DeleteCryptoBtn> 
+            <div class="flex flex-col w-full mx-auto">
+                
+                <!-- CRYPTO CONTENT -->
+                <div class="flex flex-wrap w-full mx-auto mt-6">
                     
-                    <AddCryptoBtn v-else @open-add-form="activeAddCryptoForm" :crypto="coin"></AddCryptoBtn> 
-                </div>
-
-                <!-- RANK -->
-                <div class="flex">
-                    <p>Market Cap Rank: </p>
-                    <p class="ml-1">{{ coin.rank }}#</p>
-                </div>
-
-                <!-- PRICE -->
-                <div class="flex">
-                    <p>Price: </p>
-                    <p class="ml-1">${{ coin.price }}</p>    
-                </div> 
-
-                <!-- PRICE CHANGES --> 
-                <div class="flex">
-                    <div class="flex">
-                        <p>Change 1h:</p>
-                        <p :class="[priceColor(coin.price_change_1h), 'font-bold']">
-                            {{ coin.price_change_1h }}%
-                        </p>
-                    </div>
-
-                    <div class="flex">
-                        <p>Change 24h:</p>
-                        <p :class="[priceColor(coin.price_change_24h), 'font-bold', 'ml-1']">
-                            {{ coin.price_change_24h }}%
-                        </p>
-                    </div>
-
-                    <div class="flex">
-                        <p>Change 7d:</p>
-                        <p :class="[priceColor(coin.price_change_7d), 'font-bold', 'ml-1']">
-                            {{ coin.price_change_7d }}%
-                        </p>
-                    </div>
-                </div>
-
-                <!-- AMOUNT OWNED --> 
-                <div class="flex">
-                    <p>Amount: </p>
-                    <div class="ml-1">
-                        <div class="flex" v-if="coin.inPortfolio">
-                            <p>
-                                {{ coin.amount }}
-                            </p>
-
-                            <p>
-                                {{ coin.symbol }}
-                            </p>
-                        </div>
-                        
-                        <div v-else>
-                            <p>-</p>
+                    <!-- CRYPTO SYMBOL -->
+                    <div class="flex w-8/12 sm:order-1 sm:w-auto">
+                        <img class="w-12 h-12 sm:w-14 sm:h-14" :src="coin.image">
+                        <div class="flex flex-col ml-2">
+                            <p class="text-lg font-black sm:text-xl">{{ coin.symbol }}</p>
+                            <Link class="underline text-sm font-black text-indigo-500 sm:text-base" :href="coin.url">{{ coin.name }}</Link>
                         </div>
                     </div>
-                </div>
 
-                <!-- ALL TIME HIGH AND LOW -->
-                <div class="flex">
-                    <div class="flex">
-                        <p>Ath: </p>
-                        <p class="ml-1">${{ coin.ath }}</p>
+                    <!-- ADD OR DELETE BUTTON -->
+                    <div class="flex justify-end ml-auto w-2/12 sm:order-4 sm:ml-0 sm:w-auto">
+                        <DeleteCryptoBtn v-if="coin.inPortfolio" :cg_id="coin.cg_id"></DeleteCryptoBtn> 
+                        <AddCryptoBtn v-else @open-add-form="activateAddCryptoForm" :crypto="coin"></AddCryptoBtn> 
                     </div>
 
-                    <div class="flex">
-                        <p>Atl: </p>
-                        <p class="ml-1">${{ coin.atl }}</p>
+                    <!-- RANK -->
+                    <div class="flex justify-between items-baseline w-full mt-5 border-gray-300 sm:order-2 sm:ml-1 sm:w-auto sm:mt-1 sm:border-none sm:justify-start">
+                        <p class="text-base sm:hidden">Market Cap Rank: </p>
+                        <p class="text-lg font-black sm:bg-black sm:text-white sm:px-2 sm:ml-2 sm:text-base sm:rounded-md">{{ coin.rank }}#</p>
+                    </div>
+
+                     <!-- PRICE -->
+                    <div class="flex justify-between items-baseline w-full border-gray-300 border-t-2 py-2 sm:order-3 sm:mr-5 sm:w-auto sm:ml-auto sm:border-none sm:py-0 sm:justify-start">
+                        <p class="text-xl">Price: </p>
+                        <p class="text-lg text-green-300 font-black sm:text-2xl sm:ml-4">${{ coin.price }}</p>    
+                    </div> 
+
+                    <!-- AMOUNT OWNED & WORTH --> 
+                    <div class="flex flex-wrap w-full border-gray-300 border-t-2 py-2 sm:order-5 sm:border-t-0 sm:py-0 sm:mt-4 sm:justify-between lg:border-b-2 lg:py-2">
+                        <div class="flex items-baseline justify-between w-full sm:justify-start sm:w-auto">
+                            <p class="text-base">Amount: </p>
+                            <div class="ml-2">
+                                <div class="flex text-lg font-black sm:text-xl" v-if="coin.inPortfolio">
+                                    <p>{{ coin.amount }}</p>
+                                    <p>{{ coin.symbol }}</p>
+                                    <EditCryptoBtn @edit-crypto="activateEditCryptoForm(coin)"></EditCryptoBtn>
+                                </div>
+                                
+                                <div v-else>
+                                    <p>-</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-baseline justify-between w-full sm:justify-start sm:w-auto">
+                            <p class="text-base">Total: </p>
+                            <div class="flex ml-2">
+                                <div v-if="coin.inPortfolio">
+                                    <p class="text-lg font-black sm:text-xl">${{ coin.total_worth }}</p>
+                                </div>
+
+                                <div v-else>
+                                    <p>-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <!-- 24H HIGH & LOW -->
+                    <div class="flex flex-wrap justify-between items-baseline w-full border-gray-300 border-r-2 border-t-2 py-2 sm:order-6 sm:w-6/12 sm:mb-auto sm:mt-2 lg:border-t-0 lg:border-r-2">
+                        <div class="flex justify-between items-baseline w-full sm:justify-start">
+                            <p class="text-base">24h low: </p>
+                            <p class="text-lg font-black ml-2">${{ coin.low_24h }}</p>
+                        </div>
+
+                        <div class="flex justify-between items-baseline w-full sm:justify-start">
+                            <p class="text-base">24h high: </p>
+                            <p class="text-lg font-black ml-2">${{ coin.high_24h }}</p>
+                        </div>
+                    </div>
+
+                    <!-- PRICE CHANGES --> 
+                    <div class="flex justify-between w-full border-gray-300 border-t-2 py-2 sm:order-7 sm:flex-col sm:mt-2 sm:w-6/12 sm:ml-auto sm:justify-end lg:flex-row lg:border-t-0 lg:justify-around">
+                        <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col">
+                            <p class="text-base">Change 1h:</p>
+                            <p :class="[priceColor(coin.price_change_1h), 'font-black', 'text-lg', 'sm:ml-2', 'lg:ml-0']">
+                                {{ coin.price_change_1h }}%
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col">
+                            <p class="text-base">Change 24h:</p>
+                            <p :class="[priceColor(coin.price_change_24h), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']">
+                                {{ coin.price_change_24h }}%
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col">
+                            <p class="text-base">Change 7d:</p>
+                            <p :class="[priceColor(coin.price_change_7d), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']">
+                                {{ coin.price_change_7d }}%
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- ALL TIME HIGH AND LOW -->
+                    <div class="flex flex-wrap w-full border-gray-300 border-t-2 py-2 sm:order-8 sm:mt-2">
+                        <div class="flex flex-col w-full sm:w-6/12 sm:justify-between">
+                            <div class="flex justify-between items-baseline sm:justify-start">
+                                <p class="text-base">Atl: </p>
+                                <p class="ml-1 text-lg font-black sm:ml-2">${{ coin.atl }}</p>
+                            </div>
+
+                            <div class="flex justify-between items-baseline sm:justify-start">
+                                <p class="text-base">Atl Date: </p>
+                                <p class="ml-1 text-lg font-black sm:ml-2">{{ coin.atl_date }}</p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col w-full order-last sm:w-6/12">
+                            <div class="flex justify-between items-baseline sm:justify-end">
+                                <p class="text-base">Ath: </p>
+                                <p class="ml-1 text-lg font-black sm:ml-2">${{ coin.ath }}</p>
+                            </div>
+
+                            <div class="flex justify-between items-baseline sm:justify-end">
+                                <p class="text-base">Ath Date: </p>
+                                <p class="ml-1 text-lg font-black sm:ml-2">{{ coin.ath_date }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CIRCULATING SUPPLY -->
+                    <div class="flex flex-wrap items-baseline justify-between border-gray-300 border-t-2 w-full py-2 sm:order-9 sm:mt-2">
+                        <div class="flex items-baseline justify-between w-full sm:justify-start sm:w-6/12">
+                            <p class="text-base">Circulating Supply: </p>
+                            <p class="ml-1 text-lg font-black sm:ml-2">{{ coin.circulating_supply }}</p>
+                        </div>
+
+                        <div class="flex items-baseline justify-between w-full sm:justify-end sm:w-6/12">
+                            <p class="text-base">Max Supply: </p>
+                            <p class="ml-1 text-lg font-black sm:ml-2">{{ coin.max_supply }}</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- 7d DAYS GRAPH -->
-                <div class="flex flex-col">
+                <div class="flex flex-col mt-6">
                     <div>
-                        <h2 class="sm:text-lg font-semibold">
+                        <h2 class="sm:text-lg font-black">
                             7 Days Price Chart
                         </h2>
                     </div>
-                    <canvas id="lineChart"></canvas>
+                    <canvas id="lineChart" class="mt-3"></canvas>
                 </div>
 
             </div>
@@ -130,8 +190,13 @@ import { Link } from '@inertiajs/inertia-vue3'
 import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 import AddCryptoBtn from '../../Components/AddCryptoBtn.vue'
 import AddCryptoForm from '../../Components/AddCryptoForm.vue'
+import EditCryptoForm from '../../Components/EditCryptoForm.vue'
+import EditCryptoBtn from '../../Components/EditCryptoBtn.vue'
 import ModalWindow from '../../Components/ModalWindow'
 import LoadingScreen from '../../Components/LoadingScreen'
+
+// COMPOSABLES
+import useEditCryptoForm from '../../Composables/useEditCryptoForm'
 
 // HELPERS
 import { priceColor } from '../../Helpers/PriceColor'
@@ -149,6 +214,8 @@ export default {
         Link,
         AddCryptoForm,
         AddCryptoBtn,
+        EditCryptoForm,
+        EditCryptoBtn,
         DeleteCryptoBtn,
         ModalWindow,
         LoadingScreen,
@@ -186,6 +253,13 @@ export default {
             atl: true,
             rank: true,
             price_change_7d: true,
+            atl_date: true,
+            ath_date: true,
+            circulating_supply: true,
+            max_supply: true,
+            high_24h: true,
+            low_24h: true,
+            total_worth: true,
         };
 
         // CHART DATA
@@ -194,6 +268,9 @@ export default {
         // ADD CRYPTO FORM STATE AND DATA
         const showAddForm = ref(false);
         const cryptoToAdd = ref({});
+
+        // EDIT FORM
+        const { showEditForm, cryptoToEdit, disableEditCryptoForm, activateEditCryptoForm } = useEditCryptoForm();
 
         // LOADER SCREEN
         const showLoading = ref(true);
@@ -207,7 +284,7 @@ export default {
             generateLineChart(chartDataUrl);
         })
 
-        const activeAddCryptoForm = (crypto) => {
+        const activateAddCryptoForm = (crypto) => {
             cryptoToAdd.value = crypto;
             showAddForm.value = true;
         }
@@ -231,7 +308,9 @@ export default {
                     let cryptoObj = {};
                     cryptoObj[cryptoName] = props.crypto;
 
-                    coin.value = joinCryptoData(cryptoObj, res.data[0], options);                 
+                    coin.value = joinCryptoData(cryptoObj, res.data[0], options);   
+                    
+                    console.log(coin.value);
                 })
                 .catch(e => console.log(e));
         }
@@ -252,9 +331,9 @@ export default {
 
         watch(() => props.crypto, () => {
             
-            console.log('watcher props: ', props.crypto);
+            disableAddCryptoForm();
+            disableEditCryptoForm();
 
-            showAddForm.value = false;
             getCryptoData(cryptoDataUrl);
         });
 
@@ -263,8 +342,12 @@ export default {
             priceColor,
             showAddForm,
             cryptoToAdd,
-            activeAddCryptoForm,
+            showEditForm,
+            cryptoToEdit,
+            activateEditCryptoForm,
+            activateAddCryptoForm,
             disableAddCryptoForm,
+            disableEditCryptoForm,
             status,
             showLoading,
         }

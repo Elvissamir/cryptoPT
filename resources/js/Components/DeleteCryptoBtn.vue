@@ -1,9 +1,9 @@
 
 <template>
     <button @click="removeCrypto()" 
-            class="flex p-2 h-6 w-6 justify-center items-center bg-indigo-900 text-white text-sm font-bold rounded-full">
-        <p class="flex text-base">
-            X
+            class="flex p-2 h-6 w-6 justify-center items-center bg-indigo-900 text-white font-bold rounded-full sm:h-8 sm:w-8">
+        <p class="flex sm:text-sm md:text-base font-black">
+            <font-awesome-icon :icon="['fas','times']" />
         </p>
     </button> 
 </template>

@@ -29998,6 +29998,31 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/EditCryptoBtn.vue?vue&type=script&lang=js":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/EditCryptoBtn.vue?vue&type=script&lang=js ***!
+  \*******************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  setup: function setup(props, context) {
+    var emitEditCryptoEvent = function emitEditCryptoEvent() {
+      context.emit('editCrypto');
+    };
+
+    return {
+      emitEditCryptoEvent: emitEditCryptoEvent
+    };
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/EditCryptoForm.vue?vue&type=script&lang=js":
 /*!********************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/EditCryptoForm.vue?vue&type=script&lang=js ***!
@@ -30022,6 +30047,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   setup: function setup(props, context) {
+    console.log('edit form crypto: ', props.crypto);
     var newAmount = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(props.crypto.amount);
 
     var validAmount = function validAmount(amount) {
@@ -31576,12 +31602,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_DeleteCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Components/DeleteCryptoBtn.vue */ "./resources/js/Components/DeleteCryptoBtn.vue");
 /* harmony import */ var _Components_AddCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Components/AddCryptoBtn.vue */ "./resources/js/Components/AddCryptoBtn.vue");
 /* harmony import */ var _Components_AddCryptoForm_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Components/AddCryptoForm.vue */ "./resources/js/Components/AddCryptoForm.vue");
-/* harmony import */ var _Components_ModalWindow__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Components/ModalWindow */ "./resources/js/Components/ModalWindow.vue");
-/* harmony import */ var _Components_LoadingScreen__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Components/LoadingScreen */ "./resources/js/Components/LoadingScreen.vue");
-/* harmony import */ var _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Helpers/PriceColor */ "./resources/js/Helpers/PriceColor.js");
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
-/* harmony import */ var _Charts_LineChart__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Charts/LineChart */ "./resources/js/Charts/LineChart.js");
-/* harmony import */ var _Helpers_JoinCryptoData__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../Helpers/JoinCryptoData */ "./resources/js/Helpers/JoinCryptoData.js");
+/* harmony import */ var _Components_EditCryptoForm_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Components/EditCryptoForm.vue */ "./resources/js/Components/EditCryptoForm.vue");
+/* harmony import */ var _Components_EditCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Components/EditCryptoBtn.vue */ "./resources/js/Components/EditCryptoBtn.vue");
+/* harmony import */ var _Components_ModalWindow__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Components/ModalWindow */ "./resources/js/Components/ModalWindow.vue");
+/* harmony import */ var _Components_LoadingScreen__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Components/LoadingScreen */ "./resources/js/Components/LoadingScreen.vue");
+/* harmony import */ var _Composables_useEditCryptoForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Composables/useEditCryptoForm */ "./resources/js/Composables/useEditCryptoForm.js");
+/* harmony import */ var _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../Helpers/PriceColor */ "./resources/js/Helpers/PriceColor.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
+/* harmony import */ var _Charts_LineChart__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../Charts/LineChart */ "./resources/js/Charts/LineChart.js");
+/* harmony import */ var _Helpers_JoinCryptoData__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../Helpers/JoinCryptoData */ "./resources/js/Helpers/JoinCryptoData.js");
 // Layout
 
  // COMPONENTS
@@ -31591,6 +31620,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+ // COMPOSABLES
+
  // HELPERS
 
  // CHART
@@ -31598,16 +31631,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-chart_js__WEBPACK_IMPORTED_MODULE_9__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_9__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_9__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_9__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_9__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_9__.PointElement);
+chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_12__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_12__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_12__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_12__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_12__.PointElement);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Layout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
     Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__.Link,
     AddCryptoForm: _Components_AddCryptoForm_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
     AddCryptoBtn: _Components_AddCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    EditCryptoForm: _Components_EditCryptoForm_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    EditCryptoBtn: _Components_EditCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
     DeleteCryptoBtn: _Components_DeleteCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    ModalWindow: _Components_ModalWindow__WEBPACK_IMPORTED_MODULE_6__["default"],
-    LoadingScreen: _Components_LoadingScreen__WEBPACK_IMPORTED_MODULE_7__["default"]
+    ModalWindow: _Components_ModalWindow__WEBPACK_IMPORTED_MODULE_8__["default"],
+    LoadingScreen: _Components_LoadingScreen__WEBPACK_IMPORTED_MODULE_9__["default"]
   },
   props: {
     crypto: {
@@ -31637,13 +31672,27 @@ chart_js__WEBPACK_IMPORTED_MODULE_9__.Chart.register(chart_js__WEBPACK_IMPORTED_
       ath: true,
       atl: true,
       rank: true,
-      price_change_7d: true
+      price_change_7d: true,
+      atl_date: true,
+      ath_date: true,
+      circulating_supply: true,
+      max_supply: true,
+      high_24h: true,
+      low_24h: true,
+      total_worth: true
     }; // CHART DATA
 
     var chartData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]); // ADD CRYPTO FORM STATE AND DATA
 
     var showAddForm = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
-    var cryptoToAdd = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({}); // LOADER SCREEN
+    var cryptoToAdd = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({}); // EDIT FORM
+
+    var _useEditCryptoForm = (0,_Composables_useEditCryptoForm__WEBPACK_IMPORTED_MODULE_10__["default"])(),
+        showEditForm = _useEditCryptoForm.showEditForm,
+        cryptoToEdit = _useEditCryptoForm.cryptoToEdit,
+        disableEditCryptoForm = _useEditCryptoForm.disableEditCryptoForm,
+        activateEditCryptoForm = _useEditCryptoForm.activateEditCryptoForm; // LOADER SCREEN
+
 
     var showLoading = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(true); // DATA STATUS
 
@@ -31654,7 +31703,7 @@ chart_js__WEBPACK_IMPORTED_MODULE_9__.Chart.register(chart_js__WEBPACK_IMPORTED_
       generateLineChart(chartDataUrl);
     });
 
-    var activeAddCryptoForm = function activeAddCryptoForm(crypto) {
+    var activateAddCryptoForm = function activateAddCryptoForm(crypto) {
       cryptoToAdd.value = crypto;
       showAddForm.value = true;
     };
@@ -31671,7 +31720,8 @@ chart_js__WEBPACK_IMPORTED_MODULE_9__.Chart.register(chart_js__WEBPACK_IMPORTED_
         var cryptoName = props.crypto.cg_id;
         var cryptoObj = {};
         cryptoObj[cryptoName] = props.crypto;
-        coin.value = (0,_Helpers_JoinCryptoData__WEBPACK_IMPORTED_MODULE_11__.joinCryptoData)(cryptoObj, res.data[0], options);
+        coin.value = (0,_Helpers_JoinCryptoData__WEBPACK_IMPORTED_MODULE_14__.joinCryptoData)(cryptoObj, res.data[0], options);
+        console.log(coin.value);
       })["catch"](function (e) {
         return console.log(e);
       });
@@ -31682,9 +31732,9 @@ chart_js__WEBPACK_IMPORTED_MODULE_9__.Chart.register(chart_js__WEBPACK_IMPORTED_
         chartData.value = res.data.prices.map(function (price) {
           return price[1];
         });
-        var conf = (0,_Charts_LineChart__WEBPACK_IMPORTED_MODULE_10__.generateLineChartConf)(chartData.value);
+        var conf = (0,_Charts_LineChart__WEBPACK_IMPORTED_MODULE_13__.generateLineChartConf)(chartData.value);
         var htmLineElement = document.getElementById('lineChart');
-        var lineChart = new chart_js__WEBPACK_IMPORTED_MODULE_9__.Chart(htmLineElement, conf);
+        var lineChart = new chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart(htmLineElement, conf);
       })["catch"](function (e) {
         return console.log(e);
       });
@@ -31693,17 +31743,21 @@ chart_js__WEBPACK_IMPORTED_MODULE_9__.Chart.register(chart_js__WEBPACK_IMPORTED_
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(function () {
       return props.crypto;
     }, function () {
-      console.log('watcher props: ', props.crypto);
-      showAddForm.value = false;
+      disableAddCryptoForm();
+      disableEditCryptoForm();
       getCryptoData(cryptoDataUrl);
     });
     return {
       coin: coin,
-      priceColor: _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_8__.priceColor,
+      priceColor: _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_11__.priceColor,
       showAddForm: showAddForm,
       cryptoToAdd: cryptoToAdd,
-      activeAddCryptoForm: activeAddCryptoForm,
+      showEditForm: showEditForm,
+      cryptoToEdit: cryptoToEdit,
+      activateEditCryptoForm: activateEditCryptoForm,
+      activateAddCryptoForm: activateAddCryptoForm,
       disableAddCryptoForm: disableAddCryptoForm,
+      disableEditCryptoForm: disableEditCryptoForm,
       status: status,
       showLoading: showLoading
     };
@@ -31754,14 +31808,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_ModalWindow_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Components/ModalWindow.vue */ "./resources/js/Components/ModalWindow.vue");
 /* harmony import */ var _Components_LoadingScreen_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Components/LoadingScreen.vue */ "./resources/js/Components/LoadingScreen.vue");
 /* harmony import */ var _Components_EditCryptoForm_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Components/EditCryptoForm.vue */ "./resources/js/Components/EditCryptoForm.vue");
-/* harmony import */ var _Components_DeleteCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Components/DeleteCryptoBtn.vue */ "./resources/js/Components/DeleteCryptoBtn.vue");
-/* harmony import */ var _Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Helpers/GenerateCryptoDataArray */ "./resources/js/Helpers/GenerateCryptoDataArray.js");
-/* harmony import */ var _Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Helpers/PortfolioHelperFunctions */ "./resources/js/Helpers/PortfolioHelperFunctions.js");
-/* harmony import */ var _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Helpers/PriceColor */ "./resources/js/Helpers/PriceColor.js");
-/* harmony import */ var _Charts_ChartColors__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../Charts/ChartColors */ "./resources/js/Charts/ChartColors.js");
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
-/* harmony import */ var _Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../Charts/DoughnutChart.js */ "./resources/js/Charts/DoughnutChart.js");
-/* harmony import */ var _Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../Charts/BarChart.js */ "./resources/js/Charts/BarChart.js");
+/* harmony import */ var _Components_EditCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Components/EditCryptoBtn.vue */ "./resources/js/Components/EditCryptoBtn.vue");
+/* harmony import */ var _Components_DeleteCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Components/DeleteCryptoBtn.vue */ "./resources/js/Components/DeleteCryptoBtn.vue");
+/* harmony import */ var _Composables_useEditCryptoForm_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Composables/useEditCryptoForm.js */ "./resources/js/Composables/useEditCryptoForm.js");
+/* harmony import */ var _Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Helpers/GenerateCryptoDataArray */ "./resources/js/Helpers/GenerateCryptoDataArray.js");
+/* harmony import */ var _Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../Helpers/PortfolioHelperFunctions */ "./resources/js/Helpers/PortfolioHelperFunctions.js");
+/* harmony import */ var _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../Helpers/PriceColor */ "./resources/js/Helpers/PriceColor.js");
+/* harmony import */ var _Charts_ChartColors__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../Charts/ChartColors */ "./resources/js/Charts/ChartColors.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
+/* harmony import */ var _Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../Charts/DoughnutChart.js */ "./resources/js/Charts/DoughnutChart.js");
+/* harmony import */ var _Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../Charts/BarChart.js */ "./resources/js/Charts/BarChart.js");
 // Layout
  // Vue
 
@@ -31771,6 +31827,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+ // COMPOSABLES
 
  // Helpers
 
@@ -31783,7 +31842,7 @@ __webpack_require__.r(__webpack_exports__);
 
  // Register Chart dependencies
 
-chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_12__.DoughnutController, chart_js__WEBPACK_IMPORTED_MODULE_12__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_12__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_12__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_12__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_12__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_12__.Tooltip);
+chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_14__.DoughnutController, chart_js__WEBPACK_IMPORTED_MODULE_14__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_14__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_14__.ArcElement, chart_js__WEBPACK_IMPORTED_MODULE_14__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_14__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_14__.Tooltip);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Layout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -31791,8 +31850,9 @@ chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED
     LinkAddCrypto: _Components_LinkAddCrypto_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     LoadingScreen: _Components_LoadingScreen_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
     ModalWindow: _Components_ModalWindow_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    DeleteCryptoBtn: _Components_DeleteCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
-    EditCryptoForm: _Components_EditCryptoForm_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    DeleteCryptoBtn: _Components_DeleteCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
+    EditCryptoForm: _Components_EditCryptoForm_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    EditCryptoBtn: _Components_EditCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
   props: {
     portfolio: {
@@ -31841,9 +31901,13 @@ chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED
     var showLoading = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(true);
     var hasData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false); // EDIT FORM
 
-    var showEditForm = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
-    var cryptoToEdit = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({}); // METHODS
+    var _useEditCryptoForm = (0,_Composables_useEditCryptoForm_js__WEBPACK_IMPORTED_MODULE_9__["default"])(),
+        showEditForm = _useEditCryptoForm.showEditForm,
+        cryptoToEdit = _useEditCryptoForm.cryptoToEdit,
+        disableEditCryptoForm = _useEditCryptoForm.disableEditCryptoForm,
+        activateEditCryptoForm = _useEditCryptoForm.activateEditCryptoForm; // METHODS
     // REQUEST URL
+
 
     var generateRequestCgUrl = function generateRequestCgUrl(cryptoArr) {
       var ids = cryptoArr.map(function (crypto) {
@@ -31856,19 +31920,9 @@ chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED
 
 
     var calculatePortfolioData = function calculatePortfolioData(cryptosData) {
-      portfolioTotalWorth.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_9__.calculateTotalWorth)(cryptosData);
-      portfolioGrowth.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_9__.calculateGrowth)(cryptosData);
-      portfolioGrowthPercentage.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_9__.calculateGrowthPercentage)(portfolioTotalWorth.value, portfolioGrowth.value);
-    }; // EDIT METHODS
-
-
-    var disableEditCryptoForm = function disableEditCryptoForm() {
-      showEditForm.value = false;
-    };
-
-    var editCryptoAmount = function editCryptoAmount(crypto) {
-      cryptoToEdit.value = crypto;
-      showEditForm.value = true;
+      portfolioTotalWorth.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateTotalWorth)(cryptosData);
+      portfolioGrowth.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateGrowth)(cryptosData);
+      portfolioGrowthPercentage.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateGrowthPercentage)(portfolioTotalWorth.value, portfolioGrowth.value);
     }; // CYCLE HOOKS
 
 
@@ -31886,16 +31940,16 @@ chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED
         axios.get(generateRequestCgUrl(props.cryptos)).then(function (res) {
           status.value = 'ready';
           showLoading.value = false;
-          cryptoData.value = (0,_Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_8__.generateCryptoDataArray)(props.cryptos, res.data, options); // CALCULATE PORTFOLIO DATA
+          cryptoData.value = (0,_Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_10__.generateCryptoDataArray)(props.cryptos, res.data, options); // CALCULATE PORTFOLIO DATA
 
           calculatePortfolioData(cryptoData.value); // CALCULATE CHARTS DATA
 
-          cryptoDistribution.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_9__.calculateCryptoDistribution)(cryptoData.value, portfolioTotalWorth.value);
-          topCryptos.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_9__.calculateTopCryptos)(cryptoData.value);
+          cryptoDistribution.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateCryptoDistribution)(cryptoData.value, portfolioTotalWorth.value);
+          topCryptos.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateTopCryptos)(cryptoData.value);
           var doughnutHtmlElement = document.getElementById("doughnutChart");
-          doughnutChart = new chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart(doughnutHtmlElement, (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_13__.generateDoughnutChartConf)(cryptoDistribution.value, cryptoDistribution.value.cryptos.length));
+          doughnutChart = new chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart(doughnutHtmlElement, (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_15__.generateDoughnutChartConf)(cryptoDistribution.value, cryptoDistribution.value.cryptos.length));
           var barHtmlElement = document.getElementById('barChart');
-          barChart = new chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart(barHtmlElement, (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_14__.generateBarChartConf)(topCryptos.value, topCryptos.value.cryptos.length));
+          barChart = new chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart(barHtmlElement, (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_16__.generateBarChartConf)(topCryptos.value, topCryptos.value.cryptos.length));
         })["catch"](function (e) {
           return console.log(e);
         });
@@ -31905,7 +31959,7 @@ chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(function () {
       return props.cryptos;
     }, function () {
-      showEditForm.value = false;
+      disableEditCryptoForm();
 
       if (props.cryptos.length == 0) {
         hasData.value = false;
@@ -31920,14 +31974,14 @@ chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED
         axios.get(generateRequestCgUrl(props.cryptos)).then(function (res) {
           status.value = 'ready';
           showLoading.value = false;
-          cryptoData.value = (0,_Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_8__.generateCryptoDataArray)(props.cryptos, res.data, options); // CALCULATE PORTFOLIO DATA
+          cryptoData.value = (0,_Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_10__.generateCryptoDataArray)(props.cryptos, res.data, options); // CALCULATE PORTFOLIO DATA
 
           calculatePortfolioData(cryptoData.value); // CALCULATE CHARTS DATA
 
-          cryptoDistribution.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_9__.calculateCryptoDistribution)(cryptoData.value, portfolioTotalWorth.value);
-          topCryptos.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_9__.calculateTopCryptos)(cryptoData.value);
-          (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_13__.updateDoughnutChart)(doughnutChart, cryptoDistribution.value);
-          (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_14__.updateBarChart)(barChart, topCryptos.value);
+          cryptoDistribution.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateCryptoDistribution)(cryptoData.value, portfolioTotalWorth.value);
+          topCryptos.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateTopCryptos)(cryptoData.value);
+          (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_15__.updateDoughnutChart)(doughnutChart, cryptoDistribution.value);
+          (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_16__.updateBarChart)(barChart, topCryptos.value);
         })["catch"](function (e) {
           return console.log(e);
         });
@@ -31939,14 +31993,14 @@ chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED
       portfolioGrowth: portfolioGrowth,
       portfolioGrowthPercentage: portfolioGrowthPercentage,
       cryptoDistribution: cryptoDistribution,
-      priceColor: _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_10__.priceColor,
-      chartColors: _Charts_ChartColors__WEBPACK_IMPORTED_MODULE_11__.chartColors,
+      priceColor: _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_12__.priceColor,
+      chartColors: _Charts_ChartColors__WEBPACK_IMPORTED_MODULE_13__.chartColors,
       disableEditCryptoForm: disableEditCryptoForm,
       status: status,
       showLoading: showLoading,
       showEditForm: showEditForm,
       cryptoToEdit: cryptoToEdit,
-      editCryptoAmount: editCryptoAmount,
+      activateEditCryptoForm: activateEditCryptoForm,
       hasData: hasData
     };
   }
@@ -32493,20 +32547,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "flex text-lg"
-}, " + ", -1
-/* HOISTED */
-);
-
+var _hoisted_1 = {
+  "class": "flex sm:text-sm md:text-base font-black"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_font_awesome_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("font-awesome-icon");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
     onClick: _cache[1] || (_cache[1] = function () {
       return $setup.addCrypto && $setup.addCrypto.apply($setup, arguments);
     }),
-    "class": "flex p-2 h-6 w-6 justify-center items-center bg-indigo-900 text-white text-sm font-bold rounded-full"
-  }, [_hoisted_1]);
+    "class": "flex p-2 h-6 w-6 justify-center items-center bg-indigo-900 text-white font-bold rounded-full sm:h-8 sm:w-8"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
+    icon: ['fas', 'plus']
+  })])]);
 }
 
 /***/ }),
@@ -32625,20 +32679,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "flex text-base"
-}, " X ", -1
-/* HOISTED */
-);
-
+var _hoisted_1 = {
+  "class": "flex sm:text-sm md:text-base font-black"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_font_awesome_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("font-awesome-icon");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $setup.removeCrypto();
     }),
-    "class": "flex p-2 h-6 w-6 justify-center items-center bg-indigo-900 text-white text-sm font-bold rounded-full"
-  }, [_hoisted_1]);
+    "class": "flex p-2 h-6 w-6 justify-center items-center bg-indigo-900 text-white font-bold rounded-full sm:h-8 sm:w-8"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
+    icon: ['fas', 'times']
+  })])]);
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/EditCryptoBtn.vue?vue&type=template&id=86620394":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/EditCryptoBtn.vue?vue&type=template&id=86620394 ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_font_awesome_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("font-awesome-icon");
+
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $setup.emitEditCryptoEvent();
+    }),
+    "class": "bg-blue-900 font-bold text-sm rounded-md text-white px-2 ml-1"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
+    icon: ['fas', 'pencil-alt']
+  })]);
 }
 
 /***/ }),
@@ -34203,13 +34285,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "min-h-screen bg-gray-100"
+  "class": "min-h-screen bg-white"
 };
 var _hoisted_2 = {
   "class": "bg-white border-b border-gray-100"
 };
 var _hoisted_3 = {
-  "class": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+  "class": "max-w-7xl mx-auto w-11/12"
 };
 var _hoisted_4 = {
   "class": "flex justify-between h-16"
@@ -34478,10 +34560,10 @@ var _hoisted_62 = {
   "class": "max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8"
 };
 var _hoisted_63 = {
-  "class": "bg-gray-800"
+  "class": "bg-gray-800 mt-8"
 };
 var _hoisted_64 = {
-  "class": "flex flex-col w-8/12 mx-auto py-8 text-white"
+  "class": "flex flex-col w-10/12 mx-auto py-8 text-white"
 };
 var _hoisted_65 = {
   "class": "flex flex-col mx-auto"
@@ -34502,7 +34584,7 @@ var _hoisted_68 = {
   "class": "flex items-baseline font-bold"
 };
 var _hoisted_69 = {
-  "class": ""
+  "class": "flex items-center text-sm sm:text-base"
 };
 
 var _hoisted_70 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Elvissamir18@gmail.com ");
@@ -34530,30 +34612,54 @@ var _hoisted_77 = {
   href: ""
 };
 var _hoisted_78 = {
-  "class": "flex flex-col mt-2 mx-auto items-center text-center"
+  "class": "flex flex-col mt-3 mx-auto items-center text-center"
 };
 var _hoisted_79 = {
-  "class": "flex flex-wrap font-bold"
+  "class": "flex flex-wrap justify-center font-bold"
 };
 var _hoisted_80 = {
-  "class": "flex items-baseline"
+  "class": "flex flex-wrap items-baseline"
 };
 
 var _hoisted_81 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "ml-1"
-}, "Designed & Developed", -1
+}, "Designed", -1
 /* HOISTED */
 );
 
 var _hoisted_82 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "ml-1"
-}, "by Elvis Carrasco", -1
+}, "&", -1
 /* HOISTED */
 );
 
 var _hoisted_83 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "ml-1"
+}, "Developed", -1
+/* HOISTED */
+);
+
+var _hoisted_84 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "ml-1"
+}, "by", -1
+/* HOISTED */
+);
+
+var _hoisted_85 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "ml-1"
+}, "Elvis Carrasco", -1
+/* HOISTED */
+);
+
+var _hoisted_86 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "font-bold mt-2"
+}, " Crypto Portfolio Tracker ", -1
+/* HOISTED */
+);
+
+var _hoisted_87 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "font-bold"
-}, " Crypto Portfolio Tracker - 2021 ", -1
+}, " CPT - 2021 ", -1
 /* HOISTED */
 );
 
@@ -34926,7 +35032,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     icon: ['fas', 'cog'],
     size: "lg",
     "class": "my-auto"
-  }), _hoisted_81]), _hoisted_82]), _hoisted_83])])])])]);
+  }), _hoisted_81, _hoisted_82, _hoisted_83]), _hoisted_84, _hoisted_85]), _hoisted_86, _hoisted_87])])])])]);
 }
 
 /***/ }),
@@ -36280,102 +36386,126 @@ var _hoisted_1 = {
   "class": "w-full"
 };
 var _hoisted_2 = {
-  "class": "bg-white mx-auto w-11/12 py-2"
+  "class": "bg-white mx-auto w-11/12 md:w-10/12"
 };
 var _hoisted_3 = {
-  "class": "flex flex-col mx-auto w-11/12"
+  "class": "flex flex-col mx-auto w-full mt-6"
 };
 
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-lg font-bold"
+  "class": "text-xl font-bold"
 }, "Crypto's Market Ranks")], -1
 /* HOISTED */
 );
 
 var _hoisted_5 = {
-  "class": "flex "
+  "class": "flex flex-col mt-4 divide-y-2 divide-gray-300 w-full"
 };
 var _hoisted_6 = {
-  "class": "flex flex-col ml-2"
+  "class": "flex order-1 h-5 px-1 bg-black text-white sm:order-1 sm:w-auto sm:h-6 sm:items-center"
 };
 var _hoisted_7 = {
-  "class": "text-sm font-semibold"
+  "class": "text-sm font-black lg:text-base"
 };
 var _hoisted_8 = {
-  "class": "flex"
+  "class": "flex order-2 ml-2 sm:order-2 sm:w-2/12 sm:ml-0"
 };
 var _hoisted_9 = {
-  "class": "flex flex-col w-4/12 sm:w-1/12"
+  "class": "flex flex-col ml-2"
+};
+var _hoisted_10 = {
+  "class": "text-base font-black md:text-base lg:text-lg"
+};
+var _hoisted_11 = {
+  "class": "flex order-3 ml-auto sm:order-5 sm:w-auto sm:justify-end sm:ml-0"
+};
+var _hoisted_12 = {
+  "class": "flex order-4 w-full mt-2 sm:order-3 sm:w-3/12"
+};
+var _hoisted_13 = {
+  "class": "flex w-1/2 sm:flex-col"
 };
 
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-xs"
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "flex items-center text-xs md:text-sm lg:text-base"
 }, "Price: ", -1
 /* HOISTED */
 );
 
-var _hoisted_11 = {
-  "class": "text-sm font-bold"
+var _hoisted_15 = {
+  "class": "text-sm font-bold ml-2 sm:ml-0 md:text-base lg:text-lg"
 };
-var _hoisted_12 = {
-  "class": "flex flex-col w-4/12 sm:w-1/12"
+var _hoisted_16 = {
+  "class": "flex w-1/2 sm:flex-col"
 };
 
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-xs"
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "flex items-center text-xs md:text-sm lg:text-base"
 }, "Amount: ", -1
 /* HOISTED */
 );
 
-var _hoisted_14 = {
+var _hoisted_18 = {
   key: 0,
-  "class": "flex"
+  "class": "flex items-center ml-2 sm:ml-0"
 };
-var _hoisted_15 = {
-  "class": "text-sm font-bold"
-};
-var _hoisted_16 = {
-  "class": "text-sm font-bold ml-1"
-};
-var _hoisted_17 = {
-  key: 1
-};
-
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "-", -1
-/* HOISTED */
-);
-
 var _hoisted_19 = {
-  "class": "flex sm:flex-col sm:w-2/12 items-baseline w-full  mb-2 sm:mb-0"
+  "class": "flex items-center text-sm font-bold md:text-base lg:text-lg"
 };
-
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Change 1h: ", -1
-/* HOISTED */
-);
-
+var _hoisted_20 = {
+  "class": "flex items-center text-sm font-bold ml-1 md:text-base lg:text-lg"
+};
 var _hoisted_21 = {
-  "class": "flex sm:flex-col sm:w-2/12 items-baseline w-full  mb-2 sm:mb-0"
+  key: 1,
+  "class": "flex sm:flex-col"
 };
 
-var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, " Change 24h: ", -1
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "flex text-base ml-2 sm:ml-0 lg:text-lg"
+}, "-", -1
 /* HOISTED */
 );
 
 var _hoisted_23 = {
-  "class": "flex sm:flex-col sm:w-2/12 items-baseline w-full  mb-2 sm:mb-0"
+  "class": "flex order-5 w-full mt-2 sm:order-4 sm:w-5/12"
+};
+var _hoisted_24 = {
+  "class": "flex flex-col w-4/12 items-baseline mb-2 sm:mb-0"
 };
 
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Change 7d: ", -1
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xs md:text-sm lg:text-base"
+}, "Change 1h: ", -1
 /* HOISTED */
 );
 
-var _hoisted_25 = {
-  "class": "flex justify-between w-52 mx-auto"
-};
 var _hoisted_26 = {
+  "class": "flex flex-col w-4/12 items-baseline mb-2 sm:mb-0"
+};
+
+var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xs md:text-sm lg:text-base"
+}, "Change 24h: ", -1
+/* HOISTED */
+);
+
+var _hoisted_28 = {
+  "class": "flex flex-col w-4/12 items-baseline mb-2 sm:mb-0"
+};
+
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xs md:text-sm lg:text-base"
+}, "Change 7d: ", -1
+/* HOISTED */
+);
+
+var _hoisted_30 = {
+  "class": "flex justify-between w-52 mx-auto mt-10"
+};
+var _hoisted_31 = {
   "class": "flex"
 };
-var _hoisted_27 = {
+var _hoisted_32 = {
   "class": "border-2 border-gray-200 font-bold py-1 px-2"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -36416,21 +36546,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["showModal"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.cryptoData, function (crypto, index) {
+      , ["showModal"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [_hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.cryptoData, function (crypto, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
           key: index,
-          "class": "flex flex-wrap sm:max-w-3xl sm:flex-row sm:justify-between w-full py-2"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO MARKET RANK "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.rank) + "#", 1
+          "class": "flex flex-wrap sm:flex-row sm:items-center sm:justify-between w-full py-2"
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO MARKET RANK "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.rank) + "#", 1
         /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO SYMBOL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-          "class": "w-9 h-9",
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO SYMBOL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+          "class": "w-10 h-10 xl:w-12 xl:h-12",
           src: crypto.image
         }, null, 8
         /* PROPS */
-        , ["src"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
+        , ["src"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
-          "class": "underline text-xs font-semibold text-indigo-500",
+          "class": "underline text-xs font-semibold text-indigo-500 md:text-sm lg:text-base",
           href: crypto.url
         }, {
           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -36443,7 +36573,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         }, 1032
         /* PROPS, DYNAMIC_SLOTS */
-        , ["href"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ADD OR DELETE BUTTON"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [crypto.inPortfolio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_DeleteCryptoBtn, {
+        , ["href"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ADD OR DELETE BUTTON"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [crypto.inPortfolio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_DeleteCryptoBtn, {
           key: 0,
           cg_id: crypto.cg_id
         }, null, 8
@@ -36454,39 +36584,39 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           crypto: crypto
         }, null, 8
         /* PROPS */
-        , ["onOpenAddForm", "crypto"]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CURRENT PRICE "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_11, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price), 1
+        , ["onOpenAddForm", "crypto"]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE & AMOUNT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CURRENT PRICE "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_15, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price), 1
         /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AMOUNT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [_hoisted_13, crypto.inPortfolio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.amount), 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AMOUNT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [_hoisted_17, crypto.inPortfolio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.amount), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
         /* TEXT */
-        )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_17, [_hoisted_18]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 1h Change "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-          "class": [$setup.priceColor(crypto.price_change_1h), 'font-bold']
+        )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_21, [_hoisted_22]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE CHANGES "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 1h Change "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+          "class": [[$setup.priceColor(crypto.price_change_1h), 'font-bold'], "text-sm md:text-base lg:text-lg"]
         }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price_change_1h) + "% ", 3
         /* TEXT, CLASS */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 24h Change "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-          "class": [$setup.priceColor(crypto.price_change_24h), 'font-bold']
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 24h Change "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_26, [_hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+          "class": [[$setup.priceColor(crypto.price_change_24h), 'font-bold'], "text-sm md:text-base lg:text-lg"]
         }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price_change_24h) + "% ", 3
         /* TEXT, CLASS */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 7d Change "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-          "class": [$setup.priceColor(crypto.price_change_7d), 'font-bold']
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 7d Change "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+          "class": [[$setup.priceColor(crypto.price_change_7d), 'font-bold'], "text-sm md:text-base lg:text-lg"]
         }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price_change_7d) + "% ", 3
         /* TEXT, CLASS */
-        )])]);
+        )])])]);
       }), 128
       /* KEYED_FRAGMENT */
-      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PAGINATION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+      ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PAGINATION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
         onClick: _cache[1] || (_cache[1] = function () {
           return $setup.goToPrev && $setup.goToPrev.apply($setup, arguments);
         }),
-        "class": "bg-blue-900 text-white font-bold py-1 px-2"
-      }, "Previous"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPage), 1
+        "class": "bg-blue-900 text-white font-bold py-1 px-2 rounded-md lg:text-lg"
+      }, "Prev"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.currentPage), 1
       /* TEXT */
       )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
         onClick: _cache[2] || (_cache[2] = function () {
           return $setup.goToNext && $setup.goToNext.apply($setup, arguments);
         }),
-        "class": "bg-blue-900 text-white font-bold py-1 px-2"
+        "class": "bg-blue-900 text-white font-bold py-1 px-2 rounded-md lg:text-lg"
       }, "Next")])])])])];
     }),
     _: 1
@@ -36517,124 +36647,264 @@ var _hoisted_2 = {
   "class": "flex bg-white w-11/12 mx-auto"
 };
 var _hoisted_3 = {
-  "class": "flex flex-col w-11/12 mx-auto"
+  "class": "flex flex-col w-full mx-auto"
 };
 var _hoisted_4 = {
-  "class": "flex w-8/12 sm:w-2/12"
+  "class": "flex flex-wrap w-full mx-auto mt-6"
 };
 var _hoisted_5 = {
-  "class": "flex flex-col ml-2"
+  "class": "flex w-8/12 sm:order-1 sm:w-auto"
 };
 var _hoisted_6 = {
-  "class": "text-sm font-semibold"
+  "class": "flex flex-col ml-2"
 };
 var _hoisted_7 = {
-  "class": "flex"
+  "class": "text-lg font-black sm:text-xl"
 };
 var _hoisted_8 = {
-  "class": "flex"
+  "class": "flex justify-end ml-auto w-2/12 sm:order-4 sm:ml-0 sm:w-auto"
+};
+var _hoisted_9 = {
+  "class": "flex justify-between items-baseline w-full mt-5 border-gray-300 sm:order-2 sm:ml-1 sm:w-auto sm:mt-1 sm:border-none sm:justify-start"
 };
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Market Cap Rank: ", -1
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base sm:hidden"
+}, "Market Cap Rank: ", -1
 /* HOISTED */
 );
 
-var _hoisted_10 = {
-  "class": "ml-1"
-};
 var _hoisted_11 = {
-  "class": "flex"
+  "class": "text-lg font-black sm:bg-black sm:text-white sm:px-2 sm:ml-2 sm:text-base sm:rounded-md"
+};
+var _hoisted_12 = {
+  "class": "flex justify-between items-baseline w-full border-gray-300 border-t-2 py-2 sm:order-3 sm:mr-5 sm:w-auto sm:ml-auto sm:border-none sm:py-0 sm:justify-start"
 };
 
-var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Price: ", -1
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xl"
+}, "Price: ", -1
 /* HOISTED */
 );
 
-var _hoisted_13 = {
-  "class": "ml-1"
-};
 var _hoisted_14 = {
-  "class": "flex"
+  "class": "text-lg text-green-300 font-black sm:text-2xl sm:ml-4"
 };
 var _hoisted_15 = {
-  "class": "flex"
+  "class": "flex flex-wrap w-full border-gray-300 border-t-2 py-2 sm:order-5 sm:border-t-0 sm:py-0 sm:mt-4 sm:justify-between lg:border-b-2 lg:py-2"
+};
+var _hoisted_16 = {
+  "class": "flex items-baseline justify-between w-full sm:justify-start sm:w-auto"
 };
 
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Change 1h:", -1
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "Amount: ", -1
 /* HOISTED */
 );
 
-var _hoisted_17 = {
-  "class": "flex"
+var _hoisted_18 = {
+  "class": "ml-2"
 };
-
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Change 24h:", -1
-/* HOISTED */
-);
-
 var _hoisted_19 = {
-  "class": "flex"
-};
-
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Change 7d:", -1
-/* HOISTED */
-);
-
-var _hoisted_21 = {
-  "class": "flex"
-};
-
-var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Amount: ", -1
-/* HOISTED */
-);
-
-var _hoisted_23 = {
-  "class": "ml-1"
-};
-var _hoisted_24 = {
   key: 0,
-  "class": "flex"
+  "class": "flex text-lg font-black sm:text-xl"
 };
-var _hoisted_25 = {
+var _hoisted_20 = {
   key: 1
 };
 
-var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "-", -1
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "-", -1
 /* HOISTED */
 );
 
+var _hoisted_22 = {
+  "class": "flex items-baseline justify-between w-full sm:justify-start sm:w-auto"
+};
+
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "Total: ", -1
+/* HOISTED */
+);
+
+var _hoisted_24 = {
+  "class": "flex ml-2"
+};
+var _hoisted_25 = {
+  key: 0
+};
+var _hoisted_26 = {
+  "class": "text-lg font-black sm:text-xl"
+};
 var _hoisted_27 = {
-  "class": "flex"
-};
-var _hoisted_28 = {
-  "class": "flex"
+  key: 1
 };
 
-var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Ath: ", -1
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "-", -1
 /* HOISTED */
 );
 
+var _hoisted_29 = {
+  "class": "flex flex-wrap justify-between items-baseline w-full border-gray-300 border-r-2 border-t-2 py-2 sm:order-6 sm:w-6/12 sm:mb-auto sm:mt-2 lg:border-t-0 lg:border-r-2"
+};
 var _hoisted_30 = {
-  "class": "ml-1"
-};
-var _hoisted_31 = {
-  "class": "flex"
+  "class": "flex justify-between items-baseline w-full sm:justify-start"
 };
 
-var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Atl: ", -1
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "24h low: ", -1
 /* HOISTED */
 );
 
+var _hoisted_32 = {
+  "class": "text-lg font-black ml-2"
+};
 var _hoisted_33 = {
-  "class": "ml-1"
+  "class": "flex justify-between items-baseline w-full sm:justify-start"
 };
 
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "flex flex-col"
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "24h high: ", -1
+/* HOISTED */
+);
+
+var _hoisted_35 = {
+  "class": "text-lg font-black ml-2"
+};
+var _hoisted_36 = {
+  "class": "flex justify-between w-full border-gray-300 border-t-2 py-2 sm:order-7 sm:flex-col sm:mt-2 sm:w-6/12 sm:ml-auto sm:justify-end lg:flex-row lg:border-t-0 lg:justify-around"
+};
+var _hoisted_37 = {
+  "class": "flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col"
+};
+
+var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "Change 1h:", -1
+/* HOISTED */
+);
+
+var _hoisted_39 = {
+  "class": "flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col"
+};
+
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "Change 24h:", -1
+/* HOISTED */
+);
+
+var _hoisted_41 = {
+  "class": "flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col"
+};
+
+var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "Change 7d:", -1
+/* HOISTED */
+);
+
+var _hoisted_43 = {
+  "class": "flex flex-wrap w-full border-gray-300 border-t-2 py-2 sm:order-8 sm:mt-2"
+};
+var _hoisted_44 = {
+  "class": "flex flex-col w-full sm:w-6/12 sm:justify-between"
+};
+var _hoisted_45 = {
+  "class": "flex justify-between items-baseline sm:justify-start"
+};
+
+var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "Atl: ", -1
+/* HOISTED */
+);
+
+var _hoisted_47 = {
+  "class": "ml-1 text-lg font-black sm:ml-2"
+};
+var _hoisted_48 = {
+  "class": "flex justify-between items-baseline sm:justify-start"
+};
+
+var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "Atl Date: ", -1
+/* HOISTED */
+);
+
+var _hoisted_50 = {
+  "class": "ml-1 text-lg font-black sm:ml-2"
+};
+var _hoisted_51 = {
+  "class": "flex flex-col w-full order-last sm:w-6/12"
+};
+var _hoisted_52 = {
+  "class": "flex justify-between items-baseline sm:justify-end"
+};
+
+var _hoisted_53 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "Ath: ", -1
+/* HOISTED */
+);
+
+var _hoisted_54 = {
+  "class": "ml-1 text-lg font-black sm:ml-2"
+};
+var _hoisted_55 = {
+  "class": "flex justify-between items-baseline sm:justify-end"
+};
+
+var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "Ath Date: ", -1
+/* HOISTED */
+);
+
+var _hoisted_57 = {
+  "class": "ml-1 text-lg font-black sm:ml-2"
+};
+var _hoisted_58 = {
+  "class": "flex flex-wrap items-baseline justify-between border-gray-300 border-t-2 w-full py-2 sm:order-9 sm:mt-2"
+};
+var _hoisted_59 = {
+  "class": "flex items-baseline justify-between w-full sm:justify-start sm:w-6/12"
+};
+
+var _hoisted_60 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "Circulating Supply: ", -1
+/* HOISTED */
+);
+
+var _hoisted_61 = {
+  "class": "ml-1 text-lg font-black sm:ml-2"
+};
+var _hoisted_62 = {
+  "class": "flex items-baseline justify-between w-full sm:justify-end sm:w-6/12"
+};
+
+var _hoisted_63 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-base"
+}, "Max Supply: ", -1
+/* HOISTED */
+);
+
+var _hoisted_64 = {
+  "class": "ml-1 text-lg font-black sm:ml-2"
+};
+
+var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "flex flex-col mt-6"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", {
-  "class": "sm:text-lg font-semibold"
+  "class": "sm:text-lg font-black"
 }, " 7 Days Price Chart ")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("canvas", {
-  id: "lineChart"
+  id: "lineChart",
+  "class": "mt-3"
 })], -1
 /* HOISTED */
 );
@@ -36646,11 +36916,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_ModalWindow = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ModalWindow");
 
+  var _component_EditCryptoForm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("EditCryptoForm");
+
   var _component_Link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Link");
 
   var _component_DeleteCryptoBtn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("DeleteCryptoBtn");
 
   var _component_AddCryptoBtn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AddCryptoBtn");
+
+  var _component_EditCryptoBtn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("EditCryptoBtn");
 
   var _component_Layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Layout");
 
@@ -36677,15 +36951,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["showModal"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO SYMBOL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-        "class": "w-9 h-9",
+      , ["showModal"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" EDIT CRYPTO AMOUNT FORM SCREEN "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ModalWindow, {
+        showModal: $setup.showEditForm
+      }, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_EditCryptoForm, {
+            onCloseEditForm: $setup.disableEditCryptoForm,
+            crypto: $setup.cryptoToEdit
+          }, null, 8
+          /* PROPS */
+          , ["onCloseEditForm", "crypto"])];
+        }),
+        _: 1
+        /* STABLE */
+
+      }, 8
+      /* PROPS */
+      , ["showModal"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO CONTENT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO SYMBOL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+        "class": "w-12 h-12 sm:w-14 sm:h-14",
         src: $setup.coin.image
       }, null, 8
       /* PROPS */
-      , ["src"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.symbol), 1
+      , ["src"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.symbol), 1
       /* TEXT */
       ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
-        "class": "underline text-xs font-semibold text-indigo-500",
+        "class": "underline text-sm font-black text-indigo-500 sm:text-base",
         href: $setup.coin.url
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -36698,42 +36988,60 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["href"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ADD OR DELETE BUTTON "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [$setup.coin.inPortfolio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_DeleteCryptoBtn, {
+      , ["href"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ADD OR DELETE BUTTON "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [$setup.coin.inPortfolio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_DeleteCryptoBtn, {
         key: 0,
         cg_id: $setup.coin.cg_id
       }, null, 8
       /* PROPS */
       , ["cg_id"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AddCryptoBtn, {
         key: 1,
-        onOpenAddForm: $setup.activeAddCryptoForm,
+        onOpenAddForm: $setup.activateAddCryptoForm,
         crypto: $setup.coin
       }, null, 8
       /* PROPS */
-      , ["onOpenAddForm", "crypto"]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" RANK "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.rank) + "#", 1
+      , ["onOpenAddForm", "crypto"]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" RANK "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.rank) + "#", 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_13, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_14, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE CHANGES "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-        "class": [$setup.priceColor($setup.coin.price_change_1h), 'font-bold']
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_1h) + "% ", 3
-      /* TEXT, CLASS */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_17, [_hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-        "class": [$setup.priceColor($setup.coin.price_change_24h), 'font-bold', 'ml-1']
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_24h) + "% ", 3
-      /* TEXT, CLASS */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_19, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-        "class": [$setup.priceColor($setup.coin.price_change_7d), 'font-bold', 'ml-1']
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_7d) + "% ", 3
-      /* TEXT, CLASS */
-      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AMOUNT OWNED "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [$setup.coin.inPortfolio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.amount), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AMOUNT OWNED & WORTH "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [$setup.coin.inPortfolio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.amount), 1
       /* TEXT */
       ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.symbol), 1
       /* TEXT */
-      )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_25, [_hoisted_26]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ALL TIME HIGH AND LOW "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_30, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.ath), 1
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_EditCryptoBtn, {
+        onEditCrypto: _cache[1] || (_cache[1] = function ($event) {
+          return $setup.activateEditCryptoForm($setup.coin);
+        })
+      })])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_20, [_hoisted_21]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [$setup.coin.inPortfolio ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_26, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.total_worth), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_31, [_hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_33, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.atl), 1
+      )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_27, [_hoisted_28]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 24H HIGH & LOW "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_30, [_hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_32, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.low_24h), 1
       /* TEXT */
-      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 7d DAYS GRAPH "), _hoisted_34])])])];
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_33, [_hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_35, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.high_24h), 1
+      /* TEXT */
+      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE CHANGES "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_37, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+        "class": [$setup.priceColor($setup.coin.price_change_1h), 'font-black', 'text-lg', 'sm:ml-2', 'lg:ml-0']
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_1h) + "% ", 3
+      /* TEXT, CLASS */
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+        "class": [$setup.priceColor($setup.coin.price_change_24h), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_24h) + "% ", 3
+      /* TEXT, CLASS */
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_41, [_hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+        "class": [$setup.priceColor($setup.coin.price_change_7d), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_7d) + "% ", 3
+      /* TEXT, CLASS */
+      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ALL TIME HIGH AND LOW "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_47, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.atl), 1
+      /* TEXT */
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_48, [_hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.atl_date), 1
+      /* TEXT */
+      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_52, [_hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_54, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.ath), 1
+      /* TEXT */
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_55, [_hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.ath_date), 1
+      /* TEXT */
+      )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CIRCULATING SUPPLY "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_59, [_hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.circulating_supply), 1
+      /* TEXT */
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_62, [_hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.max_supply), 1
+      /* TEXT */
+      )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 7d DAYS GRAPH "), _hoisted_65])])])];
     }),
     _: 1
     /* STABLE */
@@ -36819,7 +37127,7 @@ var _hoisted_4 = {
   "class": "flex flex-col text-white bg-blue-900 w-full mx-auto"
 };
 var _hoisted_5 = {
-  "class": "mx-auto mt-4 w-11/12 lg:w-10/12"
+  "class": "mx-auto mt-6 w-11/12 lg:w-10/12"
 };
 var _hoisted_6 = {
   "class": "w-full"
@@ -37028,7 +37336,7 @@ var _hoisted_56 = {
 };
 
 var _hoisted_57 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "mt-4"
+  "class": "mt-6"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", {
   "class": "sm:text-xl font-black"
 }, " Portfolio Distribution ")], -1
@@ -37059,7 +37367,7 @@ var _hoisted_62 = {
 };
 
 var _hoisted_63 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "mt-16 mb-8 sm:mt-12 lg:mt-20 xl:mt-24"
+  "class": "mt-16 sm:mt-12 lg:mt-20 xl:mt-24"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "flex flex-wrap"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
@@ -37107,7 +37415,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_DeleteCryptoBtn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("DeleteCryptoBtn");
 
-  var _component_font_awesome_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("font-awesome-icon");
+  var _component_EditCryptoBtn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("EditCryptoBtn");
 
   var _component_layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("layout");
 
@@ -37118,7 +37426,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         status: $setup.status
       }, null, 8
       /* PROPS */
-      , ["showLoadingScreen", "status"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" EDIT CRYPTO FORM SCREEN "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ModalWindow, {
+      , ["showLoadingScreen", "status"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" EDIT AMOUNT CRYPTO FORM SCREEN "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ModalWindow, {
         showModal: $setup.showEditForm
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -37187,16 +37495,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-          onClick: function onClick($event) {
-            return $setup.editCryptoAmount(crypto);
-          },
-          "class": "bg-blue-900 font-bold text-sm rounded-md text-white px-2 ml-1"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
-          icon: ['fas', 'pencil-alt']
-        })], 8
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_EditCryptoBtn, {
+          onEditCrypto: function onEditCrypto($event) {
+            return $setup.activateEditCryptoForm(crypto);
+          }
+        }, null, 8
         /* PROPS */
-        , ["onClick"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TOTAL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_51, [_hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_53, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.total_worth), 1
+        , ["onEditCrypto"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TOTAL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_51, [_hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_53, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.total_worth), 1
         /* TEXT */
         )])])]);
       }), 128
@@ -38824,6 +39129,52 @@ var generateLineChartConf = function generateLineChartConf(cryptoData) {
 
 /***/ }),
 
+/***/ "./resources/js/Composables/useEditCryptoForm.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/Composables/useEditCryptoForm.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__() {
+  var showEditForm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+  var cryptoToEdit = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({});
+
+  function disableEditCryptoForm() {
+    showEditForm.value = false;
+  }
+
+  function enableEditCryptoForm() {
+    showEditForm.value = true;
+  }
+
+  function setCryptoToEdit(crypto) {
+    cryptoToEdit.value = crypto;
+  }
+
+  function activateEditCryptoForm(crypto) {
+    enableEditCryptoForm();
+    setCryptoToEdit(crypto);
+  }
+
+  return {
+    showEditForm: showEditForm,
+    cryptoToEdit: cryptoToEdit,
+    enableEditCryptoForm: enableEditCryptoForm,
+    setCryptoToEdit: setCryptoToEdit,
+    disableEditCryptoForm: disableEditCryptoForm,
+    activateEditCryptoForm: activateEditCryptoForm
+  };
+}
+
+/***/ }),
+
 /***/ "./resources/js/Helpers/AddDbCryptoData.js":
 /*!*************************************************!*\
   !*** ./resources/js/Helpers/AddDbCryptoData.js ***!
@@ -38961,8 +39312,14 @@ var joinCryptoData = function joinCryptoData(dbData, cgData, options) {
   };
   (0,_AddDbCryptoData__WEBPACK_IMPORTED_MODULE_0__.addDbCryptoData)(dbData, crypto, options);
   if (options.atl) crypto['atl'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.atl);
-  if (options.ath) crypto['ath'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.atl);
+  if (options.atl_date) crypto['atl_date'] = cgData.atl_date.slice(0, 10);
+  if (options.ath) crypto['ath'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.ath);
+  if (options.ath_date) crypto['ath_date'] = cgData.ath_date.slice(0, 10);
   if (options.rank) crypto['rank'] = cgData.market_cap_rank;
+  if (options.circulating_supply) crypto['circulating_supply'] = cgData.circulating_supply;
+  if (options.max_supply) crypto['max_supply'] = cgData.max_supply;
+  if (options.high_24h) crypto['high_24h'] = cgData.high_24h;
+  if (options.low_24h) crypto['low_24h'] = cgData.low_24h;
   if (options.price_change_1h) crypto['price_change_1h'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.price_change_percentage_1h_in_currency);
   if (options.price_change_24h) crypto['price_change_24h'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.price_change_percentage_24h_in_currency);
   if (options.price_change_7d) crypto['price_change_7d'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.price_change_percentage_7d_in_currency);
@@ -39152,7 +39509,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // Import
 
  // ICONS
 
-var solidIcons = [_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faEnvelope, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faGlobe, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faUser, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faPlus, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faHome, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faCoins, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faSuitcase, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faCog, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faSignOutAlt, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faPencilAlt];
+var solidIcons = [_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faEnvelope, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faGlobe, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faUser, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faPlus, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faHome, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faCoins, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faSuitcase, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faCog, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faSignOutAlt, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faPencilAlt, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faTimes];
 var brandIcons = [_fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faLinkedin, _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faGithub]; // ADD ICONS
 
 solidIcons.forEach(function (icon) {
@@ -74869,6 +75226,32 @@ _DeleteCryptoBtn_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["defau
 
 /***/ }),
 
+/***/ "./resources/js/Components/EditCryptoBtn.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/Components/EditCryptoBtn.vue ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _EditCryptoBtn_vue_vue_type_template_id_86620394__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditCryptoBtn.vue?vue&type=template&id=86620394 */ "./resources/js/Components/EditCryptoBtn.vue?vue&type=template&id=86620394");
+/* harmony import */ var _EditCryptoBtn_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditCryptoBtn.vue?vue&type=script&lang=js */ "./resources/js/Components/EditCryptoBtn.vue?vue&type=script&lang=js");
+
+
+
+_EditCryptoBtn_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _EditCryptoBtn_vue_vue_type_template_id_86620394__WEBPACK_IMPORTED_MODULE_0__.render
+/* hot reload */
+if (false) {}
+
+_EditCryptoBtn_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__file = "resources/js/Components/EditCryptoBtn.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_EditCryptoBtn_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+/***/ }),
+
 /***/ "./resources/js/Components/EditCryptoForm.vue":
 /*!****************************************************!*\
   !*** ./resources/js/Components/EditCryptoForm.vue ***!
@@ -76313,6 +76696,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Components/EditCryptoBtn.vue?vue&type=script&lang=js":
+/*!***************************************************************************!*\
+  !*** ./resources/js/Components/EditCryptoBtn.vue?vue&type=script&lang=js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EditCryptoBtn_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EditCryptoBtn_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EditCryptoBtn.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/EditCryptoBtn.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./resources/js/Components/EditCryptoForm.vue?vue&type=script&lang=js":
 /*!****************************************************************************!*\
   !*** ./resources/js/Components/EditCryptoForm.vue?vue&type=script&lang=js ***!
@@ -77125,6 +77524,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DeleteCryptoBtn_vue_vue_type_template_id_1ae67cf5__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DeleteCryptoBtn_vue_vue_type_template_id_1ae67cf5__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./DeleteCryptoBtn.vue?vue&type=template&id=1ae67cf5 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/DeleteCryptoBtn.vue?vue&type=template&id=1ae67cf5");
+
+
+/***/ }),
+
+/***/ "./resources/js/Components/EditCryptoBtn.vue?vue&type=template&id=86620394":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/Components/EditCryptoBtn.vue?vue&type=template&id=86620394 ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EditCryptoBtn_vue_vue_type_template_id_86620394__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_EditCryptoBtn_vue_vue_type_template_id_86620394__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./EditCryptoBtn.vue?vue&type=template&id=86620394 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/Components/EditCryptoBtn.vue?vue&type=template&id=86620394");
 
 
 /***/ }),

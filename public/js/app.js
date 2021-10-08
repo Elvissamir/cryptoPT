@@ -30047,7 +30047,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   setup: function setup(props, context) {
-    console.log('edit form crypto: ', props.crypto);
     var newAmount = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(props.crypto.amount);
 
     var validAmount = function validAmount(amount) {
@@ -31456,17 +31455,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Layouts/AppLayout */ "./resources/js/Layouts/AppLayout.vue");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
-/* harmony import */ var _Components_LoadingScreen__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Components/LoadingScreen */ "./resources/js/Components/LoadingScreen.vue");
-/* harmony import */ var _Components_ModalWindow_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Components/ModalWindow.vue */ "./resources/js/Components/ModalWindow.vue");
-/* harmony import */ var _Components_AddCryptoForm_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Components/AddCryptoForm.vue */ "./resources/js/Components/AddCryptoForm.vue");
-/* harmony import */ var _Components_AddCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Components/AddCryptoBtn.vue */ "./resources/js/Components/AddCryptoBtn.vue");
-/* harmony import */ var _Components_DeleteCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Components/DeleteCryptoBtn.vue */ "./resources/js/Components/DeleteCryptoBtn.vue");
-/* harmony import */ var _Helpers_FormatNumber_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Helpers/FormatNumber.js */ "./resources/js/Helpers/FormatNumber.js");
-/* harmony import */ var _Helpers_PriceColor_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Helpers/PriceColor.js */ "./resources/js/Helpers/PriceColor.js");
-/* harmony import */ var _Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Helpers/GenerateCryptoDataArray */ "./resources/js/Helpers/GenerateCryptoDataArray.js");
+/* harmony import */ var _Composables_useAddCryptoForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Composables/useAddCryptoForm */ "./resources/js/Composables/useAddCryptoForm.js");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var _Components_LoadingScreen__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Components/LoadingScreen */ "./resources/js/Components/LoadingScreen.vue");
+/* harmony import */ var _Components_ModalWindow_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Components/ModalWindow.vue */ "./resources/js/Components/ModalWindow.vue");
+/* harmony import */ var _Components_AddCryptoForm_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Components/AddCryptoForm.vue */ "./resources/js/Components/AddCryptoForm.vue");
+/* harmony import */ var _Components_AddCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Components/AddCryptoBtn.vue */ "./resources/js/Components/AddCryptoBtn.vue");
+/* harmony import */ var _Components_DeleteCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Components/DeleteCryptoBtn.vue */ "./resources/js/Components/DeleteCryptoBtn.vue");
+/* harmony import */ var _Helpers_FormatNumber_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Helpers/FormatNumber.js */ "./resources/js/Helpers/FormatNumber.js");
+/* harmony import */ var _Helpers_PriceColor_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Helpers/PriceColor.js */ "./resources/js/Helpers/PriceColor.js");
+/* harmony import */ var _Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../Helpers/GenerateCryptoDataArray */ "./resources/js/Helpers/GenerateCryptoDataArray.js");
 // Layout
  // VUE BLOCKS
+
+ // COMPOSABLES
 
  // COMPONENTS
 
@@ -31483,12 +31485,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Layout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
-    LoadingScreen: _Components_LoadingScreen__WEBPACK_IMPORTED_MODULE_3__["default"],
-    Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__.Link,
-    AddCryptoBtn: _Components_AddCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
-    AddCryptoForm: _Components_AddCryptoForm_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    DeleteCryptoBtn: _Components_DeleteCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
-    ModalWindow: _Components_ModalWindow_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    LoadingScreen: _Components_LoadingScreen__WEBPACK_IMPORTED_MODULE_4__["default"],
+    Link: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_3__.Link,
+    AddCryptoBtn: _Components_AddCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
+    AddCryptoForm: _Components_AddCryptoForm_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    DeleteCryptoBtn: _Components_DeleteCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
+    ModalWindow: _Components_ModalWindow_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   props: {
     cryptos: {
@@ -31510,8 +31512,12 @@ __webpack_require__.r(__webpack_exports__);
 
     var currentPage = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(1); // ADD CRYPTO FORM STATE AND DATA
 
-    var showAddForm = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
-    var cryptoToAdd = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({}); // LOADER SCREEN
+    var _useAddCryptoForm = (0,_Composables_useAddCryptoForm__WEBPACK_IMPORTED_MODULE_2__["default"])(),
+        showAddForm = _useAddCryptoForm.showAddForm,
+        cryptoToAdd = _useAddCryptoForm.cryptoToAdd,
+        disableAddCryptoForm = _useAddCryptoForm.disableAddCryptoForm,
+        activateAddCryptoForm = _useAddCryptoForm.activateAddCryptoForm; // LOADER SCREEN
+
 
     var showLoading = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(true); // DATA STATUS
 
@@ -31531,19 +31537,10 @@ __webpack_require__.r(__webpack_exports__);
       status.value = 'fetching';
       axios.get(marketRanksUrl.value).then(function (res) {
         showLoading.value = false;
-        cryptoData.value = (0,_Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_10__.generateCryptoDataArray)(props.cryptos, res.data, options);
+        cryptoData.value = (0,_Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_11__.generateCryptoDataArray)(props.cryptos, res.data, options);
       })["catch"](function (e) {
         return console.log(e);
       });
-    };
-
-    var activeAddCryptoForm = function activeAddCryptoForm(crypto) {
-      cryptoToAdd.value = crypto;
-      showAddForm.value = true;
-    };
-
-    var disableAddCryptoForm = function disableAddCryptoForm() {
-      showAddForm.value = false;
     };
 
     var goToPrev = function goToPrev() {
@@ -31557,23 +31554,23 @@ __webpack_require__.r(__webpack_exports__);
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
       fetchCGData();
     });
-    (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(currentPage, function () {
-      fetchCGData();
-    });
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(function () {
       return props.cryptos;
     }, function () {
       disableAddCryptoForm();
       fetchCGData();
     });
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(currentPage, function () {
+      fetchCGData();
+    });
     return {
       cryptoData: cryptoData,
       currentPage: currentPage,
-      priceColor: _Helpers_PriceColor_js__WEBPACK_IMPORTED_MODULE_9__.priceColor,
-      formatNumber: _Helpers_FormatNumber_js__WEBPACK_IMPORTED_MODULE_8__.formatNumber,
+      priceColor: _Helpers_PriceColor_js__WEBPACK_IMPORTED_MODULE_10__.priceColor,
+      formatNumber: _Helpers_FormatNumber_js__WEBPACK_IMPORTED_MODULE_9__.formatNumber,
       showAddForm: showAddForm,
       cryptoToAdd: cryptoToAdd,
-      activeAddCryptoForm: activeAddCryptoForm,
+      activateAddCryptoForm: activateAddCryptoForm,
       disableAddCryptoForm: disableAddCryptoForm,
       goToPrev: goToPrev,
       goToNext: goToNext,
@@ -31606,11 +31603,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_EditCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Components/EditCryptoBtn.vue */ "./resources/js/Components/EditCryptoBtn.vue");
 /* harmony import */ var _Components_ModalWindow__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Components/ModalWindow */ "./resources/js/Components/ModalWindow.vue");
 /* harmony import */ var _Components_LoadingScreen__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Components/LoadingScreen */ "./resources/js/Components/LoadingScreen.vue");
-/* harmony import */ var _Composables_useEditCryptoForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Composables/useEditCryptoForm */ "./resources/js/Composables/useEditCryptoForm.js");
-/* harmony import */ var _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../Helpers/PriceColor */ "./resources/js/Helpers/PriceColor.js");
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
-/* harmony import */ var _Charts_LineChart__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../Charts/LineChart */ "./resources/js/Charts/LineChart.js");
-/* harmony import */ var _Helpers_JoinCryptoData__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../Helpers/JoinCryptoData */ "./resources/js/Helpers/JoinCryptoData.js");
+/* harmony import */ var _Composables_useAddCryptoForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Composables/useAddCryptoForm */ "./resources/js/Composables/useAddCryptoForm.js");
+/* harmony import */ var _Composables_useEditCryptoForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../Composables/useEditCryptoForm */ "./resources/js/Composables/useEditCryptoForm.js");
+/* harmony import */ var _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../Helpers/PriceColor */ "./resources/js/Helpers/PriceColor.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
+/* harmony import */ var _Charts_LineChart__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../Charts/LineChart */ "./resources/js/Charts/LineChart.js");
+/* harmony import */ var _Helpers_JoinCryptoData__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../Helpers/JoinCryptoData */ "./resources/js/Helpers/JoinCryptoData.js");
 // Layout
 
  // COMPONENTS
@@ -31624,6 +31622,7 @@ __webpack_require__.r(__webpack_exports__);
 
  // COMPOSABLES
 
+
  // HELPERS
 
  // CHART
@@ -31631,7 +31630,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_12__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_12__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_12__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_12__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_12__.PointElement);
+chart_js__WEBPACK_IMPORTED_MODULE_13__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_13__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_13__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_13__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_13__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_13__.PointElement);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     Layout: _Layouts_AppLayout__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -31682,12 +31681,16 @@ chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED
       total_worth: true
     }; // CHART DATA
 
-    var chartData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]); // ADD CRYPTO FORM STATE AND DATA
+    var chartData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]); // ADD FORM 
 
-    var showAddForm = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
-    var cryptoToAdd = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({}); // EDIT FORM
+    var _useAddCryptoForm = (0,_Composables_useAddCryptoForm__WEBPACK_IMPORTED_MODULE_10__["default"])(),
+        showAddForm = _useAddCryptoForm.showAddForm,
+        cryptoToAdd = _useAddCryptoForm.cryptoToAdd,
+        disableAddCryptoForm = _useAddCryptoForm.disableAddCryptoForm,
+        activateAddCryptoForm = _useAddCryptoForm.activateAddCryptoForm; // EDIT FORM 
 
-    var _useEditCryptoForm = (0,_Composables_useEditCryptoForm__WEBPACK_IMPORTED_MODULE_10__["default"])(),
+
+    var _useEditCryptoForm = (0,_Composables_useEditCryptoForm__WEBPACK_IMPORTED_MODULE_11__["default"])(),
         showEditForm = _useEditCryptoForm.showEditForm,
         cryptoToEdit = _useEditCryptoForm.cryptoToEdit,
         disableEditCryptoForm = _useEditCryptoForm.disableEditCryptoForm,
@@ -31703,15 +31706,6 @@ chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED
       generateLineChart(chartDataUrl);
     });
 
-    var activateAddCryptoForm = function activateAddCryptoForm(crypto) {
-      cryptoToAdd.value = crypto;
-      showAddForm.value = true;
-    };
-
-    var disableAddCryptoForm = function disableAddCryptoForm() {
-      showAddForm.value = false;
-    };
-
     var getCryptoData = function getCryptoData(url) {
       status.value = 'fetching';
       showLoading.value = true;
@@ -31720,7 +31714,7 @@ chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED
         var cryptoName = props.crypto.cg_id;
         var cryptoObj = {};
         cryptoObj[cryptoName] = props.crypto;
-        coin.value = (0,_Helpers_JoinCryptoData__WEBPACK_IMPORTED_MODULE_14__.joinCryptoData)(cryptoObj, res.data[0], options);
+        coin.value = (0,_Helpers_JoinCryptoData__WEBPACK_IMPORTED_MODULE_15__.joinCryptoData)(cryptoObj, res.data[0], options);
         console.log(coin.value);
       })["catch"](function (e) {
         return console.log(e);
@@ -31732,9 +31726,9 @@ chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED
         chartData.value = res.data.prices.map(function (price) {
           return price[1];
         });
-        var conf = (0,_Charts_LineChart__WEBPACK_IMPORTED_MODULE_13__.generateLineChartConf)(chartData.value);
+        var conf = (0,_Charts_LineChart__WEBPACK_IMPORTED_MODULE_14__.generateLineChartConf)(chartData.value);
         var htmLineElement = document.getElementById('lineChart');
-        var lineChart = new chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart(htmLineElement, conf);
+        var lineChart = new chart_js__WEBPACK_IMPORTED_MODULE_13__.Chart(htmLineElement, conf);
       })["catch"](function (e) {
         return console.log(e);
       });
@@ -31749,7 +31743,7 @@ chart_js__WEBPACK_IMPORTED_MODULE_12__.Chart.register(chart_js__WEBPACK_IMPORTED
     });
     return {
       coin: coin,
-      priceColor: _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_11__.priceColor,
+      priceColor: _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_12__.priceColor,
       showAddForm: showAddForm,
       cryptoToAdd: cryptoToAdd,
       showEditForm: showEditForm,
@@ -32890,7 +32884,7 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 );
 
 var _hoisted_3 = {
-  "class": "ml-1"
+  "class": "ml-3"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_ModalWindow = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ModalWindow");
@@ -36580,7 +36574,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         /* PROPS */
         , ["cg_id"])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_AddCryptoBtn, {
           key: 1,
-          onOpenAddForm: $setup.activeAddCryptoForm,
+          onOpenAddForm: $setup.activateAddCryptoForm,
           crypto: crypto
         }, null, 8
         /* PROPS */
@@ -36746,7 +36740,7 @@ var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 );
 
 var _hoisted_29 = {
-  "class": "flex flex-wrap justify-between items-baseline w-full border-gray-300 border-r-2 border-t-2 py-2 sm:order-6 sm:w-6/12 sm:mb-auto sm:mt-2 lg:border-t-0 lg:border-r-2"
+  "class": "flex flex-wrap justify-between items-baseline w-full border-gray-300 border-r-2 border-t-2 py-2 sm:order-6 sm:w-6/12 sm:mb-auto sm:mt-2 lg:border-t-0 lg:border-r-2 xl:w-2/12"
 };
 var _hoisted_30 = {
   "class": "flex justify-between items-baseline w-full sm:justify-start"
@@ -36759,146 +36753,152 @@ var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 );
 
 var _hoisted_32 = {
-  "class": "text-lg font-black ml-2"
+  "class": "text-lg text-red-300 font-black ml-2"
 };
 var _hoisted_33 = {
+  "class": "text-red-300 text-2xl ml-1"
+};
+var _hoisted_34 = {
   "class": "flex justify-between items-baseline w-full sm:justify-start"
 };
 
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-base"
 }, "24h high: ", -1
 /* HOISTED */
 );
 
-var _hoisted_35 = {
-  "class": "text-lg font-black ml-2"
-};
 var _hoisted_36 = {
-  "class": "flex justify-between w-full border-gray-300 border-t-2 py-2 sm:order-7 sm:flex-col sm:mt-2 sm:w-6/12 sm:ml-auto sm:justify-end lg:flex-row lg:border-t-0 lg:justify-around"
+  "class": "text-lg text-green-300 font-black ml-2"
 };
 var _hoisted_37 = {
-  "class": "flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col"
+  "class": "text-green-300 text-2xl ml-1"
+};
+var _hoisted_38 = {
+  "class": "flex justify-between w-full border-gray-300 border-t-2 py-2 sm:order-7 sm:flex-col sm:mt-2 sm:w-6/12 sm:ml-auto sm:justify-end lg:flex-row lg:border-t-0 lg:justify-end xl:w-5/12 xl:justify-around xl:border-r-2"
+};
+var _hoisted_39 = {
+  "class": "flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col lg:mx-auto xl:mx-0 xl:items-start"
 };
 
-var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-base"
 }, "Change 1h:", -1
 /* HOISTED */
 );
 
-var _hoisted_39 = {
-  "class": "flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col"
+var _hoisted_41 = {
+  "class": "flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col lg:mr-auto xl:mx-0"
 };
 
-var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-base"
 }, "Change 24h:", -1
 /* HOISTED */
 );
 
-var _hoisted_41 = {
+var _hoisted_43 = {
   "class": "flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col"
 };
 
-var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-base"
 }, "Change 7d:", -1
 /* HOISTED */
 );
 
-var _hoisted_43 = {
-  "class": "flex flex-wrap w-full border-gray-300 border-t-2 py-2 sm:order-8 sm:mt-2"
-};
-var _hoisted_44 = {
-  "class": "flex flex-col w-full sm:w-6/12 sm:justify-between"
-};
 var _hoisted_45 = {
+  "class": "flex flex-wrap w-full border-gray-300 border-t-2 py-2 sm:order-8 sm:mt-2 xl:border-t-0 xl:w-5/12 xl:justify-end"
+};
+var _hoisted_46 = {
+  "class": "flex flex-col w-full sm:w-6/12 sm:justify-between xl:w-auto xl:mx-auto"
+};
+var _hoisted_47 = {
   "class": "flex justify-between items-baseline sm:justify-start"
 };
 
-var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-base"
 }, "Atl: ", -1
 /* HOISTED */
 );
 
-var _hoisted_47 = {
+var _hoisted_49 = {
   "class": "ml-1 text-lg font-black sm:ml-2"
 };
-var _hoisted_48 = {
+var _hoisted_50 = {
   "class": "flex justify-between items-baseline sm:justify-start"
 };
 
-var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-base"
 }, "Atl Date: ", -1
 /* HOISTED */
 );
 
-var _hoisted_50 = {
+var _hoisted_52 = {
   "class": "ml-1 text-lg font-black sm:ml-2"
 };
-var _hoisted_51 = {
-  "class": "flex flex-col w-full order-last sm:w-6/12"
+var _hoisted_53 = {
+  "class": "flex flex-col w-full order-last sm:w-6/12 xl:w-auto"
 };
-var _hoisted_52 = {
+var _hoisted_54 = {
   "class": "flex justify-between items-baseline sm:justify-end"
 };
 
-var _hoisted_53 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_55 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-base"
 }, "Ath: ", -1
 /* HOISTED */
 );
 
-var _hoisted_54 = {
+var _hoisted_56 = {
   "class": "ml-1 text-lg font-black sm:ml-2"
 };
-var _hoisted_55 = {
+var _hoisted_57 = {
   "class": "flex justify-between items-baseline sm:justify-end"
 };
 
-var _hoisted_56 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_58 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-base"
 }, "Ath Date: ", -1
 /* HOISTED */
 );
 
-var _hoisted_57 = {
+var _hoisted_59 = {
   "class": "ml-1 text-lg font-black sm:ml-2"
 };
-var _hoisted_58 = {
+var _hoisted_60 = {
   "class": "flex flex-wrap items-baseline justify-between border-gray-300 border-t-2 w-full py-2 sm:order-9 sm:mt-2"
 };
-var _hoisted_59 = {
+var _hoisted_61 = {
   "class": "flex items-baseline justify-between w-full sm:justify-start sm:w-6/12"
 };
 
-var _hoisted_60 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_62 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-base"
 }, "Circulating Supply: ", -1
 /* HOISTED */
 );
 
-var _hoisted_61 = {
+var _hoisted_63 = {
   "class": "ml-1 text-lg font-black sm:ml-2"
 };
-var _hoisted_62 = {
+var _hoisted_64 = {
   "class": "flex items-baseline justify-between w-full sm:justify-end sm:w-6/12"
 };
 
-var _hoisted_63 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "text-base"
 }, "Max Supply: ", -1
 /* HOISTED */
 );
 
-var _hoisted_64 = {
+var _hoisted_66 = {
   "class": "ml-1 text-lg font-black sm:ml-2"
 };
 
-var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_67 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "flex flex-col mt-6"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", {
   "class": "sm:text-lg font-black"
@@ -36925,6 +36925,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_AddCryptoBtn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AddCryptoBtn");
 
   var _component_EditCryptoBtn = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("EditCryptoBtn");
+
+  var _component_font_awesome_icon = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("font-awesome-icon");
 
   var _component_Layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Layout");
 
@@ -37015,33 +37017,37 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* TEXT */
       )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_27, [_hoisted_28]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 24H HIGH & LOW "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_30, [_hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_32, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.low_24h), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_33, [_hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_35, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.high_24h), 1
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
+        icon: ['fas', 'angle-down']
+      })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_34, [_hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_36, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.high_24h), 1
       /* TEXT */
-      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE CHANGES "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_37, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
+        icon: ['fas', 'angle-up']
+      })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE CHANGES "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
         "class": [$setup.priceColor($setup.coin.price_change_1h), 'font-black', 'text-lg', 'sm:ml-2', 'lg:ml-0']
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_1h) + "% ", 3
       /* TEXT, CLASS */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_41, [_hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
         "class": [$setup.priceColor($setup.coin.price_change_24h), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_24h) + "% ", 3
       /* TEXT, CLASS */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_41, [_hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_43, [_hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
         "class": [$setup.priceColor($setup.coin.price_change_7d), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_7d) + "% ", 3
       /* TEXT, CLASS */
-      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ALL TIME HIGH AND LOW "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_47, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.atl), 1
+      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ALL TIME HIGH AND LOW "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_47, [_hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_49, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.atl), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_48, [_hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.atl_date), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_50, [_hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.atl_date), 1
       /* TEXT */
-      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_52, [_hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_54, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.ath), 1
+      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_54, [_hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_56, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.ath), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_55, [_hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.ath_date), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_57, [_hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.ath_date), 1
       /* TEXT */
-      )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CIRCULATING SUPPLY "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_59, [_hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.circulating_supply), 1
+      )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CIRCULATING SUPPLY "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_61, [_hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.circulating_supply), 1
       /* TEXT */
-      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_62, [_hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.max_supply), 1
+      )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_64, [_hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_66, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.max_supply), 1
       /* TEXT */
-      )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 7d DAYS GRAPH "), _hoisted_65])])])];
+      )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 7d DAYS GRAPH "), _hoisted_67])])])];
     }),
     _: 1
     /* STABLE */
@@ -37139,7 +37145,7 @@ var _hoisted_7 = {
 var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "w-6/12 flex flex-wrap"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
-  "class": "sm:text-xl font-black"
+  "class": "sm:text-xl font-black lg:text-2xl"
 }, "My Portfolio")], -1
 /* HOISTED */
 );
@@ -37149,7 +37155,7 @@ var _hoisted_9 = {
 };
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-sm sm:text-md mr-2"
+  "class": "text-sm sm:text-base mr-2"
 }, "Total: ", -1
 /* HOISTED */
 );
@@ -37168,39 +37174,39 @@ var _hoisted_14 = {
 };
 
 var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "sm:text-sm text-xs my-auto"
+  "class": "text-xs my-auto sm:text-base"
 }, "Number of cryptos: ", -1
 /* HOISTED */
 );
 
 var _hoisted_16 = {
-  "class": "sm:text-sm text-sm font-bold ml-2"
+  "class": "text-sm font-bold ml-2 sm:text-lg"
 };
 var _hoisted_17 = {
   "class": "flex"
 };
 
 var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "sm:text-sm text-xs my-auto"
+  "class": "text-xs my-auto sm:text-base"
 }, "Created: ", -1
 /* HOISTED */
 );
 
 var _hoisted_19 = {
-  "class": "sm:text-sm text-sm font-bold ml-2"
+  "class": "text-sm font-bold ml-2 sm:text-lg"
 };
 var _hoisted_20 = {
   "class": "flex"
 };
 
 var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "sm:text-sm text-xs my-auto"
+  "class": "text-xs my-auto sm:text-base"
 }, "Modified: ", -1
 /* HOISTED */
 );
 
 var _hoisted_22 = {
-  "class": "sm:text-md text-sm font-bold ml-2"
+  "class": "text-sm font-bold ml-2 sm:text-lg"
 };
 var _hoisted_23 = {
   "class": "flex flex-col items-end w-6/12"
@@ -37210,7 +37216,7 @@ var _hoisted_24 = {
 };
 
 var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "sm:text-sm text-xs my-auto"
+  "class": "text-xs my-auto sm:text-base"
 }, "Growth % (24h): ", -1
 /* HOISTED */
 );
@@ -37220,7 +37226,7 @@ var _hoisted_26 = {
 };
 
 var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "sm:text-sm text-xs my-auto"
+  "class": "text-xs my-auto sm:text-base"
 }, "Growth (24h):", -1
 /* HOISTED */
 );
@@ -37250,105 +37256,118 @@ var _hoisted_33 = {
   "class": "flex flex-col mt-4 divide-y-2 divide-gray-300 border-b-2 border-t-2 border-gray-300 lg:mb-12"
 };
 var _hoisted_34 = {
-  "class": "flex sm:w-3/12 lg:order-1"
+  "class": "flex sm:w-3/12 lg:order-1 lg:w-auto 2xl:w-3/12"
 };
 var _hoisted_35 = {
   "class": "flex flex-col ml-2"
 };
 var _hoisted_36 = {
-  "class": "text-sm font-black"
+  "class": "text-sm font-black md:text-lg"
 };
 var _hoisted_37 = {
-  "class": "flex rounded justify-end ml-auto sm:order-6 sm:ml-0 sm:w-1/12 sm:items-center lg:order-2 lg:ml-auto xl:ml-0 xl:order-4"
+  "class": "flex rounded justify-end ml-auto sm:order-6 sm:ml-0 sm:w-1/12 sm:items-center lg:order-3 lg:ml-auto lg:w-auto lg:items-start 2xl:order-2 2xl:items-center"
 };
 var _hoisted_38 = {
-  "class": "flex items-baseline w-full mt-1 mb-2 sm:my-0 sm:flex-col sm:w-2/12 lg:w-full lg:mt-1 lg:mb-2 lg:flex-row lg:order-3 xl:flex-col xl:w-2/12 xl:mt-0 xl:mb-0 xl:order-2"
+  "class": "flex items-baseline w-full mt-1 mb-2 sm:my-0 sm:flex-col sm:w-2/12 lg:w-auto lg:ml-2 lg:flex-row lg:order-2 2xl:w-3/12 2xl:flex-col 2xl:items-start"
 };
 
 var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-xs"
+  "class": "hidden lg:flex 2xl:hidden"
+}, "(", -1
+/* HOISTED */
+);
+
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xs md:text-base lg:text-sm"
 }, "Added: ", -1
 /* HOISTED */
 );
 
-var _hoisted_40 = {
-  "class": "text-sm font-bold ml-2 sm:ml-0 lg:ml-2 xl:ml-0"
-};
 var _hoisted_41 = {
-  "class": "flex w-full sm:w-5/12 lg:w-full lg:order-4 xl:order-3 xl:w-5/12"
-};
-var _hoisted_42 = {
-  "class": "flex flex-col"
+  "class": "text-sm font-bold ml-2 sm:ml-0 lg:ml-1 md:text-lg lg:text-base 2xl:ml-0"
 };
 
-var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-xs"
+var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "hidden lg:flex 2xl:hidden"
+}, ")", -1
+/* HOISTED */
+);
+
+var _hoisted_43 = {
+  "class": "flex w-full sm:w-5/12 justify-between lg:w-full lg:order-4 2xl:w-7/12 2xl:justify-start"
+};
+var _hoisted_44 = {
+  "class": "flex flex-col sm:w-4/12 lg:w-auto xl:flex-row xl:items-baseline 2xl:w-4/12 2xl:items-start"
+};
+
+var _hoisted_45 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xs md:text-base"
 }, "Price: ", -1
 /* HOISTED */
 );
 
-var _hoisted_44 = {
-  "class": "text-sm font-bold"
+var _hoisted_46 = {
+  "class": "text-sm font-bold md:text-lg xl:ml-1 2xl:ml-0"
 };
-var _hoisted_45 = {
-  "class": "flex flex-col mx-auto"
+var _hoisted_47 = {
+  "class": "flex flex-col sm:w-4/12 lg:w-auto xl:flex-row xl:items-baseline 2xl:w-4/12 2xl:items-start"
 };
 
-var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-xs"
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xs md:text-base"
 }, "Amount: ", -1
 /* HOISTED */
 );
 
-var _hoisted_47 = {
-  "class": "flex"
-};
-var _hoisted_48 = {
-  "class": "flex"
-};
 var _hoisted_49 = {
-  "class": "text-sm font-bold"
+  "class": "flex"
 };
 var _hoisted_50 = {
-  "class": "text-sm font-bold ml-1"
+  "class": "flex"
 };
 var _hoisted_51 = {
-  "class": "flex flex-col"
+  "class": "text-sm font-bold md:text-lg xl:ml-1 2xl:ml-0"
+};
+var _hoisted_52 = {
+  "class": "text-sm font-bold ml-1 md:text-lg"
+};
+var _hoisted_53 = {
+  "class": "flex flex-col items-end sm:w-4/12 lg:w-auto xl:flex-row xl:items-baseline 2xl:w-4/12 2xl:items-end"
 };
 
-var _hoisted_52 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-xs"
+var _hoisted_54 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+  "class": "text-xs md:text-base"
 }, "Total: ", -1
 /* HOISTED */
 );
 
-var _hoisted_53 = {
-  "class": "text-sm font-bold"
-};
-var _hoisted_54 = {
-  "class": "bg-white w-full mx-auto"
-};
 var _hoisted_55 = {
-  "class": "w-11/12 mx-auto lg:w-10/12"
+  "class": "text-sm font-bold md:text-lg xl:ml-1 2xl:ml-0"
 };
 var _hoisted_56 = {
+  "class": "bg-white w-full mx-auto"
+};
+var _hoisted_57 = {
+  "class": "w-11/12 mx-auto lg:w-10/12"
+};
+var _hoisted_58 = {
   "class": "flex flex-col h-40 sm:h-80 lg:h-40 xl:h-80"
 };
 
-var _hoisted_57 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "mt-6"
+var _hoisted_59 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "mt-5"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", {
-  "class": "sm:text-xl font-black"
+  "class": "sm:text-xl font-black lg:text-2xl"
 }, " Portfolio Distribution ")], -1
 /* HOISTED */
 );
 
-var _hoisted_58 = {
-  "class": "flex w-full mt-4 h-40 sm:h-full sm:justify-between lg:h-40 xl:h-80 xl:mt-2 2xl:mt-4"
+var _hoisted_60 = {
+  "class": "flex w-full mt-4 h-40 sm:mt-6 sm:h-full sm:justify-between lg:h-40 xl:h-80 xl:mt-2 2xl:mt-4"
 };
 
-var _hoisted_59 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "w-6/12 sm:h-full sm:w-6/12 lg:w-6/12 lg:h-40 xl:h-80 xl:w-7/12 2xl:w-6/12"
+var _hoisted_61 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "w-8/12 sm:h-full sm:w-7/12 lg:w-6/12 lg:h-40 xl:h-80 xl:w-7/12 2xl:w-6/12"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("canvas", {
   "class": "",
   id: "doughnutChart"
@@ -37356,22 +37375,22 @@ var _hoisted_59 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_60 = {
-  "class": "flex flex-col w-6/12 sm:w-5/12 lg:w-5/12 lg:mt-1 xl:w-4/12 2xl:w-5/12"
-};
-var _hoisted_61 = {
-  "class": "text-xs font-bold ml-1 sm:text-sm"
-};
 var _hoisted_62 = {
-  "class": "text-xs font-bold ml-1 sm:text-sm"
+  "class": "flex flex-col w-4/12 sm:w-4/12 lg:w-5/12 xl:w-4/12 2xl:w-5/12"
+};
+var _hoisted_63 = {
+  "class": "text-xs font-bold ml-2 sm:text-sm md:text-base lg:text-sm"
+};
+var _hoisted_64 = {
+  "class": "text-xs font-bold ml-1 sm:text-sm md:text-base lg:text-sm"
 };
 
-var _hoisted_63 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "mt-16 sm:mt-12 lg:mt-20 xl:mt-24"
+var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "mt-20 sm:mt-24 lg:mt-20 xl:mt-24"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "flex flex-wrap"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "sm:text-xl font-black"
+  "class": "sm:text-xl font-black lg:text-2xl"
 }, " Cryptos Performance "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "sm:text-xl font-black sm:ml-1"
 }, " (% Increase in 7 Days) ")]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
@@ -37383,23 +37402,23 @@ var _hoisted_63 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 /* HOISTED */
 );
 
-var _hoisted_64 = {
+var _hoisted_66 = {
   "class": "flex flex-col justify-center items-center w-11/12 mx-auto h-screen"
 };
 
-var _hoisted_65 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_67 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "font-extrabold text-lg"
 }, " There's no data to show. ", -1
 /* HOISTED */
 );
 
-var _hoisted_66 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_68 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "font-extrabold text-lg mt-2 text-center"
 }, " Please add some cryptos to your portfolio ", -1
 /* HOISTED */
 );
 
-var _hoisted_67 = {
+var _hoisted_69 = {
   "class": "mt-3"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -37451,26 +37470,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_20, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.portfolio.updated_at), 1
       /* TEXT */
       )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-        "class": [[$setup.priceColor($setup.portfolioGrowthPercentage), 'font-bold'], "sm:text-sm text-sm ml-2"]
+        "class": [[$setup.priceColor($setup.portfolioGrowthPercentage), 'font-bold'], "text-sm ml-2 sm:text-lg"]
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.portfolioGrowthPercentage) + "% ", 3
       /* TEXT, CLASS */
       )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_26, [_hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-        "class": [[$setup.priceColor($setup.portfolioGrowth), 'font-bold'], "sm:text-sm text-sm ml-2"]
+        "class": [[$setup.priceColor($setup.portfolioGrowth), 'font-bold'], "text-sm ml-2 sm:text-lg"]
       }, " $" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.portfolioGrowth), 3
       /* TEXT, CLASS */
       )])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MY CRYPTOS SECTION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_30, [_hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LinkAddCrypto)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" LIST OF CRYPTOS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_33, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.cryptoData, function (crypto, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
           key: index,
-          "class": "flex flex-wrap py-2 sm:justify-between lg:justify-start xl:justify-between"
+          "class": "flex flex-wrap py-2 sm:justify-between lg:justify-start"
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTO SYMBOL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-          "class": "w-9 h-9",
+          "class": "w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-10 lg:h-10",
           src: crypto.image
         }, null, 8
         /* PROPS */
         , ["src"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
-          "class": "underline text-xs font-semibold text-indigo-500",
+          "class": "underline text-xs font-semibold text-indigo-500 md:text-base",
           href: crypto.url
         }, {
           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -37487,13 +37506,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           cg_id: crypto.cg_id
         }, null, 8
         /* PROPS */
-        , ["cg_id"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ADDED AT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_38, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.created_at), 1
+        , ["cg_id"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ADDED AT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_38, [_hoisted_39, _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.created_at), 1
         /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_42, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_44, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price), 1
+        ), _hoisted_42]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_44, [_hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_46, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price), 1
         /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AMOUNT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.amount), 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" AMOUNT "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_47, [_hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.amount), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
         /* TEXT */
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_EditCryptoBtn, {
           onEditCrypto: function onEditCrypto($event) {
@@ -37501,32 +37520,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }
         }, null, 8
         /* PROPS */
-        , ["onEditCrypto"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TOTAL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_51, [_hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_53, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.total_worth), 1
+        , ["onEditCrypto"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" TOTAL "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_53, [_hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_55, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.total_worth), 1
         /* TEXT */
         )])])]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CHARTS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PORTFOLIO DISTRIBUTION CHART"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_56, [_hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_58, [_hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_60, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.cryptoDistribution.cryptos, function (c, index) {
+      ))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CHARTS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PORTFOLIO DISTRIBUTION CHART"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_58, [_hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_60, [_hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_62, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.cryptoDistribution.cryptos, function (c, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
           key: index,
-          "class": "flex mt-2"
+          "class": "flex mt-2 md:items-center"
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-          "class": "w-3 h-3 my-auto rounded-full sm:w-5 sm:h-5",
+          "class": "w-3 h-3 my-auto rounded-full sm:w-5 sm:h-5 md:w-7 md:h-7 lg:w-5 lg:h-5",
           style: {
             backgroundColor: $setup.chartColors.backgroundColors[index]
           }
         }, null, 4
         /* STYLE */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(c), 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(c), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.cryptoDistribution.percentages[index]) + "%", 1
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.cryptoDistribution.percentages[index]) + "%", 1
         /* TEXT */
         )]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTOS PERFORMANCE CHART "), _hoisted_63])])])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" CRYPTOS PERFORMANCE CHART "), _hoisted_65])])])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         key: 1
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NO DATA "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_64, [_hoisted_65, _hoisted_66, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LinkAddCrypto)])])], 2112
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NO DATA "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_66, [_hoisted_67, _hoisted_68, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LinkAddCrypto)])])], 2112
       /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
       ))])];
     }),
@@ -39129,6 +39148,42 @@ var generateLineChartConf = function generateLineChartConf(cryptoData) {
 
 /***/ }),
 
+/***/ "./resources/js/Composables/useAddCryptoForm.js":
+/*!******************************************************!*\
+  !*** ./resources/js/Composables/useAddCryptoForm.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__() {
+  var showAddForm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+  var cryptoToAdd = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)({});
+
+  function activateAddCryptoForm(crypto) {
+    cryptoToAdd.value = crypto;
+    showAddForm.value = true;
+  }
+
+  function disableAddCryptoForm() {
+    showAddForm.value = false;
+  }
+
+  return {
+    showAddForm: showAddForm,
+    cryptoToAdd: cryptoToAdd,
+    activateAddCryptoForm: activateAddCryptoForm,
+    disableAddCryptoForm: disableAddCryptoForm
+  };
+}
+
+/***/ }),
+
 /***/ "./resources/js/Composables/useEditCryptoForm.js":
 /*!*******************************************************!*\
   !*** ./resources/js/Composables/useEditCryptoForm.js ***!
@@ -39403,7 +39458,7 @@ var calculateCryptoDistribution = function calculateCryptoDistribution(cryptoDat
   var max = cryptoData.length > 5 ? 5 : cryptoData.length;
   cryptoData.forEach(function (crypto) {
     distribution.percentages.push((0,_FormatNumber__WEBPACK_IMPORTED_MODULE_0__.formatNumber)(crypto.price * crypto.amount / portfolioTotalWorth * 100));
-    distribution.cryptos.push(crypto.cg_id);
+    distribution.cryptos.push(crypto.symbol.toUpperCase());
   });
   topDistribution.percentages = distribution.percentages.map(function (percentage) {
     return percentage;
@@ -39444,7 +39499,7 @@ var calculateTopCryptos = function calculateTopCryptos(cryptoData) {
         var crypto = _step.value;
 
         if (crypto.price_change_percentage_7d == top.percentages[i]) {
-          top.cryptos.push(crypto.cg_id);
+          top.cryptos.push(crypto.symbol.toUpperCase());
           break;
         }
       }
@@ -39509,7 +39564,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // Import
 
  // ICONS
 
-var solidIcons = [_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faEnvelope, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faGlobe, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faUser, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faPlus, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faHome, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faCoins, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faSuitcase, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faCog, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faSignOutAlt, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faPencilAlt, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faTimes];
+var solidIcons = [_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faEnvelope, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faGlobe, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faUser, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faPlus, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faHome, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faCoins, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faSuitcase, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faCog, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faSignOutAlt, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faPencilAlt, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faTimes, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faAngleUp, _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_5__.faAngleDown];
 var brandIcons = [_fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faLinkedin, _fortawesome_free_brands_svg_icons__WEBPACK_IMPORTED_MODULE_6__.faGithub]; // ADD ICONS
 
 solidIcons.forEach(function (icon) {

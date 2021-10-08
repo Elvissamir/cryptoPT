@@ -83,28 +83,30 @@
                     </div>
 
                      <!-- 24H HIGH & LOW -->
-                    <div class="flex flex-wrap justify-between items-baseline w-full border-gray-300 border-r-2 border-t-2 py-2 sm:order-6 sm:w-6/12 sm:mb-auto sm:mt-2 lg:border-t-0 lg:border-r-2">
+                    <div class="flex flex-wrap justify-between items-baseline w-full border-gray-300 border-r-2 border-t-2 py-2 sm:order-6 sm:w-6/12 sm:mb-auto sm:mt-2 lg:border-t-0 lg:border-r-2 xl:w-2/12">
                         <div class="flex justify-between items-baseline w-full sm:justify-start">
                             <p class="text-base">24h low: </p>
-                            <p class="text-lg font-black ml-2">${{ coin.low_24h }}</p>
+                            <p class="text-lg text-red-300 font-black ml-2">${{ coin.low_24h }}</p>
+                            <p class="text-red-300 text-2xl ml-1"><font-awesome-icon :icon="['fas', 'angle-down']" /></p>
                         </div>
 
                         <div class="flex justify-between items-baseline w-full sm:justify-start">
                             <p class="text-base">24h high: </p>
-                            <p class="text-lg font-black ml-2">${{ coin.high_24h }}</p>
+                            <p class="text-lg text-green-300 font-black ml-2">${{ coin.high_24h }}</p>
+                            <p class="text-green-300 text-2xl ml-1"><font-awesome-icon :icon="['fas', 'angle-up']" /></p>
                         </div>
                     </div>
 
                     <!-- PRICE CHANGES --> 
-                    <div class="flex justify-between w-full border-gray-300 border-t-2 py-2 sm:order-7 sm:flex-col sm:mt-2 sm:w-6/12 sm:ml-auto sm:justify-end lg:flex-row lg:border-t-0 lg:justify-around">
-                        <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col">
+                    <div class="flex justify-between w-full border-gray-300 border-t-2 py-2 sm:order-7 sm:flex-col sm:mt-2 sm:w-6/12 sm:ml-auto sm:justify-end lg:flex-row lg:border-t-0 lg:justify-end xl:w-5/12 xl:justify-around xl:border-r-2">
+                        <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col lg:mx-auto xl:mx-0 xl:items-start">
                             <p class="text-base">Change 1h:</p>
                             <p :class="[priceColor(coin.price_change_1h), 'font-black', 'text-lg', 'sm:ml-2', 'lg:ml-0']">
                                 {{ coin.price_change_1h }}%
                             </p>
                         </div>
 
-                        <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col">
+                        <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col lg:mr-auto xl:mx-0">
                             <p class="text-base">Change 24h:</p>
                             <p :class="[priceColor(coin.price_change_24h), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']">
                                 {{ coin.price_change_24h }}%
@@ -120,8 +122,8 @@
                     </div>
 
                     <!-- ALL TIME HIGH AND LOW -->
-                    <div class="flex flex-wrap w-full border-gray-300 border-t-2 py-2 sm:order-8 sm:mt-2">
-                        <div class="flex flex-col w-full sm:w-6/12 sm:justify-between">
+                    <div class="flex flex-wrap w-full border-gray-300 border-t-2 py-2 sm:order-8 sm:mt-2 xl:border-t-0 xl:w-5/12 xl:justify-end">
+                        <div class="flex flex-col w-full sm:w-6/12 sm:justify-between xl:w-auto xl:mx-auto">
                             <div class="flex justify-between items-baseline sm:justify-start">
                                 <p class="text-base">Atl: </p>
                                 <p class="ml-1 text-lg font-black sm:ml-2">${{ coin.atl }}</p>
@@ -133,7 +135,7 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-col w-full order-last sm:w-6/12">
+                        <div class="flex flex-col w-full order-last sm:w-6/12 xl:w-auto">
                             <div class="flex justify-between items-baseline sm:justify-end">
                                 <p class="text-base">Ath: </p>
                                 <p class="ml-1 text-lg font-black sm:ml-2">${{ coin.ath }}</p>
@@ -196,6 +198,7 @@ import ModalWindow from '../../Components/ModalWindow'
 import LoadingScreen from '../../Components/LoadingScreen'
 
 // COMPOSABLES
+import useAddCryptoForm from '../../Composables/useAddCryptoForm'
 import useEditCryptoForm from '../../Composables/useEditCryptoForm'
 
 // HELPERS
@@ -265,11 +268,10 @@ export default {
         // CHART DATA
         const chartData = ref([]);
 
-        // ADD CRYPTO FORM STATE AND DATA
-        const showAddForm = ref(false);
-        const cryptoToAdd = ref({});
+        // ADD FORM 
+       const { showAddForm, cryptoToAdd, disableAddCryptoForm, activateAddCryptoForm } = useAddCryptoForm();
 
-        // EDIT FORM
+        // EDIT FORM 
         const { showEditForm, cryptoToEdit, disableEditCryptoForm, activateEditCryptoForm } = useEditCryptoForm();
 
         // LOADER SCREEN
@@ -283,15 +285,6 @@ export default {
             getCryptoData(cryptoDataUrl);
             generateLineChart(chartDataUrl);
         })
-
-        const activateAddCryptoForm = (crypto) => {
-            cryptoToAdd.value = crypto;
-            showAddForm.value = true;
-        }
-
-        const disableAddCryptoForm = () => {
-            showAddForm.value = false;
-        }
 
         const getCryptoData = (url) => {
 

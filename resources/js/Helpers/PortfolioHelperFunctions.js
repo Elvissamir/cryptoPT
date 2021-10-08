@@ -33,7 +33,7 @@ const calculateCryptoDistribution = (cryptoData, portfolioTotalWorth) => {
     
     cryptoData.forEach(crypto => {
         distribution.percentages.push(formatNumber(((crypto.price * crypto.amount) /  portfolioTotalWorth) * 100));
-        distribution.cryptos.push(crypto.cg_id);
+        distribution.cryptos.push(crypto.symbol.toUpperCase());
     });
 
     topDistribution.percentages = distribution.percentages.map(percentage => percentage)
@@ -70,7 +70,7 @@ const calculateTopCryptos = (cryptoData) => {
         for (const crypto of cryptoData) {
 
             if (crypto.price_change_percentage_7d == top.percentages[i]) {
-                top.cryptos.push(crypto.cg_id);
+                top.cryptos.push(crypto.symbol.toUpperCase());
                 break;
             }
         }

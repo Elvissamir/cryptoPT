@@ -44,7 +44,7 @@
                       <!-- ADD OR DELETE BUTTON-->
                       <div class="flex order-3 ml-auto sm:order-5 sm:w-auto sm:justify-end sm:ml-0">
                         <DeleteCryptoBtn v-if="crypto.inPortfolio" :cg_id="crypto.cg_id"></DeleteCryptoBtn> 
-                        <AddCryptoBtn v-else @open-add-form="activeAddCryptoForm" :crypto="crypto"></AddCryptoBtn> 
+                        <AddCryptoBtn v-else @open-add-form="activateAddCryptoForm" :crypto="crypto"></AddCryptoBtn> 
                       </div>
 
                       <!-- PRICE & AMOUNT --> 
@@ -124,6 +124,9 @@ import Layout from "../../Layouts/AppLayout";
 // VUE BLOCKS
 import { onMounted, ref, watch } from "vue";
 
+// COMPOSABLES
+import useAddCryptoForm from '../../Composables/useAddCryptoForm'
+
 // COMPONENTS
 import { Link } from '@inertiajs/inertia-vue3'
 import LoadingScreen from '../../Components/LoadingScreen'
@@ -171,8 +174,7 @@ export default {
     const currentPage = ref(1);
 
     // ADD CRYPTO FORM STATE AND DATA
-    const showAddForm = ref(false);
-    const cryptoToAdd = ref({});
+    const { showAddForm, cryptoToAdd, disableAddCryptoForm, activateAddCryptoForm } = useAddCryptoForm();
 
     // LOADER SCREEN
     const showLoading = ref(true);
@@ -206,15 +208,6 @@ export default {
 			  .catch((e) => console.log(e));
     }
 
-    const activeAddCryptoForm = (crypto) => {
-      cryptoToAdd.value = crypto;
-      showAddForm.value = true;
-    }
-
-    const disableAddCryptoForm = () => {
-      showAddForm.value = false;
-    }
-
     const goToPrev = () => {
       if (currentPage.value > 1)
         currentPage.value--;
@@ -228,14 +221,15 @@ export default {
       fetchCGData();
 		});
 
-    watch(currentPage, () => {
-      fetchCGData();
-    })
-
     watch(() => props.cryptos, () => {
       disableAddCryptoForm();
       fetchCGData();
     })
+
+    watch(currentPage, () => {
+      fetchCGData();
+    })
+
 
 		return {
       cryptoData, 
@@ -244,7 +238,7 @@ export default {
 		  formatNumber,
       showAddForm,
       cryptoToAdd,
-      activeAddCryptoForm,
+      activateAddCryptoForm,
       disableAddCryptoForm,
       goToPrev,
       goToNext,

@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\PortfolioCryptosController;
-use App\Http\Controllers\CryptoController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\CryptoController;
+use App\Http\Controllers\DemoUserLoginController;
+use App\Http\Controllers\PortfolioCryptosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +27,15 @@ Route::get('/', function () {
     ]);
 });
 
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
 
+
+// CREATE DEMO USER & LOGIN
+Route::post('/loginAsDemo', [DemoUserLoginController::class, 'store'])
+     ->name('demoLogin.store');
 
 // PORTFOLIO ROUTES
 Route::get('/portfolio', [PortfolioCryptosController::class, 'show'])

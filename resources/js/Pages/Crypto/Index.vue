@@ -12,11 +12,11 @@
 
         <!-- MAIN CONTENT --> 
         <div class="w-full">
-            <div class="bg-white mx-auto w-11/12 md:w-10/12">
+            <div class="bg-white mx-auto w-11/12 md:w-10/12 2xl:w-8/12">
 
-              <div class="flex flex-col mx-auto w-full mt-6">
+              <div class="flex flex-col mx-auto w-full mt-8">
                 <div>
-                    <p class="text-xl font-bold">Crypto's Market Ranks</p>
+                    <p class="text-xl font-bold lg:text-2xl">Crypto's Market Ranks</p>
                 </div>
 
                 <!-- CRYPTO -->
@@ -32,9 +32,9 @@
                       <div class="flex order-2 ml-2 sm:order-2 sm:w-2/12 sm:ml-0">
                         <img class="w-10 h-10 xl:w-12 xl:h-12" :src="crypto.image">
                         <div class="flex flex-col ml-2">
-                            <p class="text-base font-black md:text-base lg:text-lg">{{ crypto.symbol }}</p>
+                            <p class="text-base font-black md:text-base lg:text-xl">{{ crypto.symbol }}</p>
                             <Link 
-                              class="underline text-xs font-semibold text-indigo-500 md:text-sm lg:text-base" 
+                              class="underline text-xs font-semibold text-indigo-500 md:text-sm lg:text-lg" 
                               :href="crypto.url">
                                 {{ crypto.name }}
                             </Link>
@@ -52,20 +52,20 @@
                         
                         <!-- CURRENT PRICE -->
                         <div class="flex w-1/2 sm:flex-col">
-                          <p class="flex items-center text-xs md:text-sm lg:text-base">Price: </p>
-                          <p class="text-sm font-bold ml-2 sm:ml-0 md:text-base lg:text-lg">${{ crypto.price }}</p>
+                          <p class="flex items-center text-xs md:text-sm lg:text-lg">Price: </p>
+                          <p class="text-sm font-bold ml-2 sm:ml-0 md:text-base lg:text-xl">${{ crypto.price }}</p>
                         </div>
 
                         <!-- AMOUNT -->
                         <div class="flex w-1/2 sm:flex-col">
-                            <p class="flex items-center text-xs md:text-sm lg:text-base">Amount: </p>                  
+                            <p class="flex items-center text-xs md:text-sm lg:text-lg">Amount: </p>                  
                             <div v-if="crypto.inPortfolio" class="flex items-center ml-2 sm:ml-0">
-                              <p class="flex items-center text-sm font-bold md:text-base lg:text-lg">{{ crypto.amount }}</p>
-                              <p class="flex items-center text-sm font-bold ml-1 md:text-base lg:text-lg">{{ crypto.symbol }}</p>
+                              <p class="flex items-center text-sm font-bold md:text-base lg:text-xl">{{ crypto.amount }}</p>
+                              <p class="flex items-center text-sm font-bold ml-1 md:text-base lg:text-xl">{{ crypto.symbol }}</p>
                             </div>
 
                             <div v-else class="flex sm:flex-col"> 
-                              <p class="flex text-base ml-2 sm:ml-0 lg:text-lg">-</p>
+                              <p class="flex text-base ml-2 sm:ml-0 lg:text-xl">-</p>
                           </div>
                         </div>
                       </div>
@@ -74,25 +74,25 @@
                       <div class="flex order-5 w-full mt-2 sm:order-4 sm:w-5/12">
                           <!-- 1h Change -->
                           <div class="flex flex-col w-4/12 items-baseline mb-2 sm:mb-0">
-                              <p class="text-xs md:text-sm lg:text-base">Change 1h: </p>
+                              <p class="text-xs md:text-sm lg:text-lg">Change 1h: </p>
                               <p 
-                                :class="[priceColor(crypto.price_change_1h), 'font-bold']" class="text-sm md:text-base lg:text-lg">
+                                :class="[priceColor(crypto.price_change_1h), 'font-bold']" class="text-sm md:text-base lg:text-xl">
                                   {{ crypto.price_change_1h }}%
                               </p>
                           </div>   
 
                           <!-- 24h Change -->
                           <div class="flex flex-col w-4/12 items-baseline mb-2 sm:mb-0">
-                              <p class="text-xs md:text-sm lg:text-base">Change 24h: </p>
-                              <p :class="[priceColor(crypto.price_change_24h), 'font-bold']" class="text-sm md:text-base lg:text-lg">
+                              <p class="text-xs md:text-sm lg:text-lg">Change 24h: </p>
+                              <p :class="[priceColor(crypto.price_change_24h), 'font-bold']" class="text-sm md:text-base lg:text-xl">
                                 {{ crypto.price_change_24h }}%
                               </p>
                           </div>
 
                           <!-- 7d Change -->
                           <div class="flex flex-col w-4/12 items-baseline mb-2 sm:mb-0">
-                              <p class="text-xs md:text-sm lg:text-base">Change 7d: </p>
-                              <p :class="[priceColor(crypto.price_change_7d), 'font-bold']" class="text-sm md:text-base lg:text-lg">
+                              <p class="text-xs md:text-sm lg:text-lg">Change 7d: </p>
+                              <p :class="[priceColor(crypto.price_change_7d), 'font-bold']" class="text-sm md:text-base lg:text-xl">
                                   {{ crypto.price_change_7d }}%
                             </p>
                           </div>

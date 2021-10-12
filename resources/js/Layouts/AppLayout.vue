@@ -5,7 +5,7 @@
         <div class="min-h-screen bg-white">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto w-11/12">
+                <div class="mx-auto w-11/12 lg:w-10/12 2xl:w-8/12 py-2">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
@@ -19,21 +19,21 @@
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                                     <div class="flex items-baseline text-base font-black">
-                                        <div class="mr-2">Home</div>
+                                        <div class="mr-2 md:text-lg">Home</div>
                                         <font-awesome-icon :icon="['fas', 'home']"/>
                                     </div>
                                 </jet-nav-link>
 
                                  <jet-nav-link :href="route('portfolioCryptos.show')" :active="route().current('portfolioCryptos.show')">
                                     <div class="flex items-baseline text-base font-black">
-                                        <div class="mr-2">Portfolio</div>
+                                        <div class="mr-2 md:text-lg">Portfolio</div>
                                         <font-awesome-icon :icon="['fas', 'suitcase']"/>
                                     </div>
                                 </jet-nav-link>
 
                                  <jet-nav-link :href="route('cryptos.index')" :active="route().current('cryptos.index')">
                                     <div class="flex items-baseline text-base font-black">
-                                        <div class="mr-2">Cryptos</div>
+                                        <div class="mr-2 md:text-lg">Cryptos</div>
                                         <font-awesome-icon :icon="['fas', 'coins']"/>
                                     </div>
                                 </jet-nav-link>
@@ -160,11 +160,30 @@
 
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
-                        <jet-responsive-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </jet-responsive-nav-link>
+
+                    <div class="flex flex-row w-11/12 mx-auto justify-between mt-1">
+                      <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
+                            <div class="flex items-baseline text-base font-black">
+                                <div class="mr-2 md:text-lg">Home</div>
+                                <font-awesome-icon :icon="['fas', 'home']"/>
+                            </div>
+                      </jet-nav-link>
+
+                      <jet-nav-link :href="route('portfolioCryptos.show')" :active="route().current('portfolioCryptos.show')">
+                          <div class="flex items-baseline text-base font-black">
+                                <div class="mr-2 md:text-lg">Portfolio</div>
+                                <font-awesome-icon :icon="['fas', 'suitcase']"/>
+                          </div>
+                      </jet-nav-link>
+
+                      <jet-nav-link :href="route('cryptos.index')" :active="route().current('cryptos.index')">
+                          <div class="flex items-baseline text-base font-black">
+                                <div class="mr-2 md:text-lg">Cryptos</div>
+                                <font-awesome-icon :icon="['fas', 'coins']"/>
+                          </div>
+                      </jet-nav-link>
                     </div>
+
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">

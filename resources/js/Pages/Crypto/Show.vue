@@ -18,11 +18,11 @@
 
     <!-- MAIN CONTENT --> 
     <div class="flex w-full">
-        <div class="flex bg-white w-11/12 mx-auto">
+        <div class="flex bg-white w-11/12 mx-auto md:w-10/12 2xl:w-8/12">
             <div class="flex flex-col w-full mx-auto">
                 
                 <!-- CRYPTO CONTENT -->
-                <div class="flex flex-wrap w-full mx-auto mt-6">
+                <div class="flex flex-wrap w-full mx-auto mt-8">
                     
                     <!-- CRYPTO SYMBOL -->
                     <div class="flex w-8/12 sm:order-1 sm:w-auto">
@@ -165,7 +165,7 @@
                 <!-- 7d DAYS GRAPH -->
                 <div class="flex flex-col mt-6">
                     <div>
-                        <h2 class="sm:text-lg font-black">
+                        <h2 class="sm:text-lg font-black lg:text-2xl">
                             7 Days Price Chart
                         </h2>
                     </div>

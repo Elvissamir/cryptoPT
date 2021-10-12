@@ -15,12 +15,12 @@
     <div class="w-full">
         <div v-if="hasData" class="w-full">
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-2 lg:bg-gray-300">
+            <div class="grid grid-cols-1">
                 <!-- MY PORTFOLIO DATA & CRYPTOS SECTION -->
                 <div class="flex flex-col text-white bg-blue-900 w-full mx-auto">
 
                     <!-- PORTFOLIO INFO -->
-                    <div class="mx-auto mt-6 w-11/12 lg:w-10/12">
+                    <div class="mx-auto mt-8 w-11/12 lg:w-10/12 2xl:w-8/12">
                         <div class="w-full">
                             <!-- PORTFOLIO DETAILS TOP -->
                             <div class="flex">
@@ -78,10 +78,10 @@
 
                     <!-- MY CRYPTOS SECTION -->
                     <div class="bg-white rounded-t-3xl w-full mt-4 text-black align-bottom lg:h-full">
-                        <div class="w-11/12 mx-auto mt-5 lg:w-10/12">
+                        <div class="w-11/12 mx-auto mt-5 lg:w-10/12 2xl:w-8/12">
                             <div class="flex justify-between">
                                 <div class="">
-                                    <h2 class="sm:text-xl font-black">My Cryptos</h2>
+                                    <h2 class="sm:text-xl font-black lg:text-2xl">My Cryptos</h2>
                                 </div>
                                 <div class="mb-1">
                                     <LinkAddCrypto></LinkAddCrypto>
@@ -89,11 +89,11 @@
                             </div>
 
                             <!-- LIST OF CRYPTOS -->
-                            <div class="flex flex-col mt-4 divide-y-2 divide-gray-300 border-b-2 border-t-2 border-gray-300 lg:mb-12">
+                            <div class="flex flex-col mt-4 divide-y-2 divide-gray-300 border-b-2 border-t-2 border-gray-300">
                                 <div v-for="(crypto, index) in cryptoData" :key="index" class="flex flex-wrap py-2 sm:justify-between lg:justify-start">
                                     <!-- CRYPTO SYMBOL -->
-                                    <div class="flex sm:w-3/12 lg:order-1 lg:w-auto 2xl:w-3/12">
-                                        <img class="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-10 lg:h-10" :src="crypto.image">
+                                    <div class="flex sm:w-3/12">
+                                        <img class="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12" :src="crypto.image">
                                         <div class="flex flex-col ml-2">
                                             <p class="text-sm font-black md:text-lg">{{ crypto.symbol }}</p>
                                             <Link class="underline text-xs font-semibold text-indigo-500 md:text-base" :href="crypto.url">{{ crypto.name }}</Link>
@@ -101,31 +101,29 @@
                                     </div>
 
                                     <!-- DELETE BUTTON-->
-                                    <div class="flex rounded justify-end ml-auto sm:order-6 sm:ml-0 sm:w-1/12 sm:items-center lg:order-3 lg:ml-auto lg:w-auto lg:items-start 2xl:order-2 2xl:items-center">
+                                    <div class="flex rounded justify-end ml-auto sm:order-6 sm:ml-0 sm:w-1/12 sm:items-center md:ml-auto">
                                         <DeleteCryptoBtn :cg_id="crypto.cg_id" ></DeleteCryptoBtn>
                                     </div>
 
                                     <!-- ADDED AT -->
-                                    <div class="flex items-baseline w-full mt-1 mb-2 sm:my-0 sm:flex-col sm:w-2/12 lg:w-auto lg:ml-2 lg:flex-row lg:order-2 2xl:w-3/12 2xl:flex-col 2xl:items-start">
-                                        <p class="hidden lg:flex 2xl:hidden">(</p>
-                                        <p class="text-xs md:text-base lg:text-sm">Added: </p>
-                                        <p class="text-sm font-bold ml-2 sm:ml-0 lg:ml-1 md:text-lg lg:text-base 2xl:ml-0">{{ crypto.created_at }}</p>
-                                        <p class="hidden lg:flex 2xl:hidden">)</p>
+                                    <div class="flex items-baseline w-full mt-1 mb-2 sm:my-0 sm:flex-col sm:w-2/12">
+                                        <p class="text-xs md:text-base">Added: </p>
+                                        <p class="text-sm font-bold ml-2 sm:ml-0 lg:ml-1 md:text-lg">{{ crypto.created_at }}</p>
                                     </div>
 
-                                    <div class="flex w-full sm:w-5/12 justify-between lg:w-full lg:order-4 2xl:w-7/12 2xl:justify-start">
+                                    <div class="flex w-full sm:w-5/12 justify-between">
                                         <!-- PRICE -->
-                                        <div class="flex flex-col sm:w-4/12 lg:w-auto xl:flex-row xl:items-baseline 2xl:w-4/12 2xl:items-start">
+                                        <div class="flex flex-col sm:w-4/12">
                                             <p class="text-xs md:text-base">Price: </p>
-                                            <p class="text-sm font-bold md:text-lg xl:ml-1 2xl:ml-0">${{ crypto.price }}</p>
+                                            <p class="text-sm font-bold md:text-lg">${{ crypto.price }}</p>
                                         </div>
 
                                         <!-- AMOUNT -->
-                                        <div class="flex flex-col sm:w-4/12 lg:w-auto xl:flex-row xl:items-baseline 2xl:w-4/12 2xl:items-start">
+                                        <div class="flex flex-col sm:w-4/12">
                                             <p class="text-xs md:text-base">Amount: </p>
                                             <div class="flex">
                                                 <div class="flex">
-                                                    <p class="text-sm font-bold md:text-lg xl:ml-1 2xl:ml-0">{{ crypto.amount }}</p>
+                                                    <p class="text-sm font-bold md:text-lg">{{ crypto.amount }}</p>
                                                     <p class="text-sm font-bold ml-1 md:text-lg">{{ crypto.symbol }}</p>
                                                     <EditCryptoBtn @edit-crypto="activateEditCryptoForm(crypto)"></EditCryptoBtn>
                                                 </div>
@@ -133,9 +131,9 @@
                                         </div>
 
                                         <!-- TOTAL -->
-                                        <div class="flex flex-col items-end sm:w-4/12 lg:w-auto xl:flex-row xl:items-baseline 2xl:w-4/12 2xl:items-end">
+                                        <div class="flex flex-col items-end sm:w-4/12">
                                             <p class="text-xs md:text-base">Total: </p>                                                    
-                                            <p class="text-sm font-bold md:text-lg xl:ml-1 2xl:ml-0">${{ crypto.total_worth }}</p>
+                                            <p class="text-sm font-bold md:text-lg">${{ crypto.total_worth }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -146,30 +144,30 @@
 
                 <!-- CHARTS -->
                 <div class="bg-white w-full mx-auto">
-                    <div class="w-11/12 mx-auto lg:w-10/12">
+                    <div class="w-11/12 mx-auto lg:w-10/12 lg:flex lg:flex-row lg:mb-16 2xl:w-8/12">
                         <!-- PORTFOLIO DISTRIBUTION CHART-->
-                        <div class="flex flex-col h-40 sm:h-80 lg:h-40 xl:h-80">
-                            <div class="mt-5">
+                        <div class="flex flex-col h-40 sm:h-80 lg:w-7/12 xl:w-6/12">
+                            <div class="mt-6 lg:mt-8">
                                 <h2 class="sm:text-xl font-black lg:text-2xl">
                                     Portfolio Distribution
                                 </h2>
                             </div>
-                            <div class="flex w-full mt-4 h-40 sm:mt-6 sm:h-full sm:justify-between lg:h-40 xl:h-80 xl:mt-2 2xl:mt-4">
-                                <div class="w-8/12 sm:h-full sm:w-7/12 lg:w-6/12 lg:h-40 xl:h-80 xl:w-7/12 2xl:w-6/12">
+                            <div class="flex w-full mt-4 h-40 sm:mt-6 sm:h-full sm:justify-between lg:justify-start">
+                                <div class="w-8/12 sm:h-full sm:w-7/12 lg:w-auto">
                                     <canvas class="" id="doughnutChart"></canvas>
                                 </div>
-                                <div class="flex flex-col w-4/12 sm:w-4/12 lg:w-5/12 xl:w-4/12 2xl:w-5/12">
+                                <div class="flex flex-col w-4/12 sm:w-4/12 lg:w-auto lg:ml-3 xl:ml-4">
                                     <div v-for="(c, index) in cryptoDistribution.cryptos" :key="index" class="flex mt-2 md:items-center">
-                                        <div class="w-3 h-3 my-auto rounded-full sm:w-5 sm:h-5 md:w-7 md:h-7 lg:w-5 lg:h-5" :style="{backgroundColor: chartColors.backgroundColors[index]}"></div>
-                                        <p class="text-xs font-bold ml-2 sm:text-sm md:text-base lg:text-sm">{{ c }}</p>
-                                        <p class="text-xs font-bold ml-1 sm:text-sm md:text-base lg:text-sm">{{ cryptoDistribution.percentages[index] }}%</p>
+                                        <div class="w-3 h-3 my-auto rounded-full sm:w-5 sm:h-5 md:w-7 md:h-7 lg:w-5 lg:h-5 xl:w-7 xl:h-7" :style="{backgroundColor: chartColors.backgroundColors[index]}"></div>
+                                        <p class="text-xs font-bold ml-2 sm:text-sm md:text-base lg:text-sm xl:text-base">{{ c }}</p>
+                                        <p class="text-xs font-bold ml-1 sm:text-sm md:text-base lg:text-sm xl:text-base">{{ cryptoDistribution.percentages[index] }}%</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- CRYPTOS PERFORMANCE CHART -->
-                        <div class="mt-20 sm:mt-24 lg:mt-20 xl:mt-24">
+                        <div class="mt-20 sm:mt-24 lg:w-5/12 lg:mt-8 lg:ml-auto xl:w-6/12">
                             <div class="flex flex-wrap">
                                 <p class="sm:text-xl font-black lg:text-2xl">
                                     Cryptos Performance
@@ -178,7 +176,7 @@
                                     (% Increase in 7 Days)
                                 </p>
                             </div>
-                            <div class="mt-4">
+                            <div class="mt-5">
                                 <canvas class="" id="barChart"></canvas>
                             </div>
                         </div>
@@ -198,7 +196,7 @@
                 Please add some cryptos to your portfolio
             </p>
 
-            <div class="mt-3">
+            <div class="mt-5">
                 <LinkAddCrypto></LinkAddCrypto>
             </div>
         </div>

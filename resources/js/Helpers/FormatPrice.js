@@ -1,6 +1,6 @@
 
- // Format the number to show in the view
- const formatNumber = function (value) {
+ // Format price
+ const formatPrice = function (value) {
             
     if (isNaN(value))
         return 0;
@@ -17,4 +17,4 @@
 };
 
 
-export { formatNumber }
+export { formatPrice }

@@ -31466,9 +31466,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_AddCryptoForm_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Components/AddCryptoForm.vue */ "./resources/js/Components/AddCryptoForm.vue");
 /* harmony import */ var _Components_AddCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../Components/AddCryptoBtn.vue */ "./resources/js/Components/AddCryptoBtn.vue");
 /* harmony import */ var _Components_DeleteCryptoBtn_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Components/DeleteCryptoBtn.vue */ "./resources/js/Components/DeleteCryptoBtn.vue");
-/* harmony import */ var _Helpers_FormatNumber_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Helpers/FormatNumber.js */ "./resources/js/Helpers/FormatNumber.js");
-/* harmony import */ var _Helpers_PriceColor_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Helpers/PriceColor.js */ "./resources/js/Helpers/PriceColor.js");
-/* harmony import */ var _Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../Helpers/GenerateCryptoDataArray */ "./resources/js/Helpers/GenerateCryptoDataArray.js");
+/* harmony import */ var _Helpers_PriceColor_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Helpers/PriceColor.js */ "./resources/js/Helpers/PriceColor.js");
+/* harmony import */ var _Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Helpers/GenerateCryptoDataArray */ "./resources/js/Helpers/GenerateCryptoDataArray.js");
 // Layout
  // VUE BLOCKS
 
@@ -31482,7 +31481,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
  // HELPERS
-
 
 
 
@@ -31541,7 +31539,7 @@ __webpack_require__.r(__webpack_exports__);
       status.value = 'fetching';
       axios.get(marketRanksUrl.value).then(function (res) {
         showLoading.value = false;
-        cryptoData.value = (0,_Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_11__.generateCryptoDataArray)(props.cryptos, res.data, options);
+        cryptoData.value = (0,_Helpers_GenerateCryptoDataArray__WEBPACK_IMPORTED_MODULE_10__.generateCryptoDataArray)(props.cryptos, res.data, options);
       })["catch"](function (e) {
         return console.log(e);
       });
@@ -31570,8 +31568,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       cryptoData: cryptoData,
       currentPage: currentPage,
-      priceColor: _Helpers_PriceColor_js__WEBPACK_IMPORTED_MODULE_10__.priceColor,
-      formatNumber: _Helpers_FormatNumber_js__WEBPACK_IMPORTED_MODULE_9__.formatNumber,
+      priceColor: _Helpers_PriceColor_js__WEBPACK_IMPORTED_MODULE_9__.priceColor,
       showAddForm: showAddForm,
       cryptoToAdd: cryptoToAdd,
       activateAddCryptoForm: activateAddCryptoForm,
@@ -31814,8 +31811,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../Helpers/PriceColor */ "./resources/js/Helpers/PriceColor.js");
 /* harmony import */ var _Charts_ChartColors__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../Charts/ChartColors */ "./resources/js/Charts/ChartColors.js");
 /* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
-/* harmony import */ var _Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../Charts/DoughnutChart.js */ "./resources/js/Charts/DoughnutChart.js");
-/* harmony import */ var _Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../Charts/BarChart.js */ "./resources/js/Charts/BarChart.js");
+/* harmony import */ var _Helpers_FormatAmount__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../Helpers/FormatAmount */ "./resources/js/Helpers/FormatAmount.js");
+/* harmony import */ var _Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../Charts/DoughnutChart.js */ "./resources/js/Charts/DoughnutChart.js");
+/* harmony import */ var _Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../Charts/BarChart.js */ "./resources/js/Charts/BarChart.js");
 // Layout
  // Vue
 
@@ -31835,6 +31833,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
  // Charts
+
 
 
 
@@ -31945,9 +31944,9 @@ chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart.register(chart_js__WEBPACK_IMPORTED
           cryptoDistribution.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateCryptoDistribution)(cryptoData.value, portfolioTotalWorth.value);
           topCryptos.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateTopCryptos)(cryptoData.value);
           var doughnutHtmlElement = document.getElementById("doughnutChart");
-          doughnutChart = new chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart(doughnutHtmlElement, (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_15__.generateDoughnutChartConf)(cryptoDistribution.value, cryptoDistribution.value.cryptos.length));
+          doughnutChart = new chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart(doughnutHtmlElement, (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_16__.generateDoughnutChartConf)(cryptoDistribution.value, cryptoDistribution.value.cryptos.length));
           var barHtmlElement = document.getElementById('barChart');
-          barChart = new chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart(barHtmlElement, (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_16__.generateBarChartConf)(topCryptos.value, topCryptos.value.cryptos.length));
+          barChart = new chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart(barHtmlElement, (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_17__.generateBarChartConf)(topCryptos.value, topCryptos.value.cryptos.length));
         })["catch"](function (e) {
           return console.log(e);
         });
@@ -31978,8 +31977,8 @@ chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart.register(chart_js__WEBPACK_IMPORTED
 
           cryptoDistribution.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateCryptoDistribution)(cryptoData.value, portfolioTotalWorth.value);
           topCryptos.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateTopCryptos)(cryptoData.value);
-          (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_15__.updateDoughnutChart)(doughnutChart, cryptoDistribution.value);
-          (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_16__.updateBarChart)(barChart, topCryptos.value);
+          (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_16__.updateDoughnutChart)(doughnutChart, cryptoDistribution.value);
+          (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_17__.updateBarChart)(barChart, topCryptos.value);
         })["catch"](function (e) {
           return console.log(e);
         });
@@ -39338,20 +39337,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addDbCryptoData": () => (/* binding */ addDbCryptoData)
 /* harmony export */ });
-/* harmony import */ var _FormatNumber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormatNumber */ "./resources/js/Helpers/FormatNumber.js");
+/* harmony import */ var _FormatPrice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormatPrice */ "./resources/js/Helpers/FormatPrice.js");
+/* harmony import */ var _FormatAmount__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormatAmount */ "./resources/js/Helpers/FormatAmount.js");
+
 
 
 var addDbCryptoData = function addDbCryptoData(dbData, crypto, options) {
   if (dbData[crypto.cg_id]) {
     if (dbData[crypto.cg_id].amount) {
       crypto['inPortfolio'] = true;
-      crypto['amount'] = dbData[crypto.cg_id].amount;
+      crypto['amount'] = (0,_FormatAmount__WEBPACK_IMPORTED_MODULE_1__.formatAmount)(dbData[crypto.cg_id].amount);
       if (options.created_at) crypto['created_at'] = dbData[crypto.cg_id].created_at;
-      if (options.total_worth) crypto['total_worth'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_0__.formatNumber)(dbData[crypto.cg_id].amount * crypto.price);
+      if (options.total_worth) crypto['total_worth'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice)(dbData[crypto.cg_id].amount * crypto.price);
     }
   } else {
     crypto['inPortfolio'] = false;
   }
+};
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Helpers/ClearZeros.js":
+/*!********************************************!*\
+  !*** ./resources/js/Helpers/ClearZeros.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "clearZeros": () => (/* binding */ clearZeros)
+/* harmony export */ });
+var clearZeros = function clearZeros(str) {
+  var i = 0;
+
+  for (i = str.length - 1; i > 1; i--) {
+    if (str[i] != 0) break;
+  }
+
+  return str.slice(0, i + 1);
 };
 
 
@@ -39381,19 +39407,43 @@ var convertArrayToObj = function convertArrayToObj(arr) {
 
 /***/ }),
 
-/***/ "./resources/js/Helpers/FormatNumber.js":
+/***/ "./resources/js/Helpers/FormatAmount.js":
 /*!**********************************************!*\
-  !*** ./resources/js/Helpers/FormatNumber.js ***!
+  !*** ./resources/js/Helpers/FormatAmount.js ***!
   \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "formatNumber": () => (/* binding */ formatNumber)
+/* harmony export */   "formatAmount": () => (/* binding */ formatAmount)
 /* harmony export */ });
-// Format the number to show in the view
-var formatNumber = function formatNumber(value) {
+/* harmony import */ var _FormatToDecimal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormatToDecimal */ "./resources/js/Helpers/FormatToDecimal.js");
+
+
+var formatAmount = function formatAmount(value) {
+  if (isNaN(value)) return 0;
+  if (value % 1 == 0) return Math.trunc(value);
+  return (0,_FormatToDecimal__WEBPACK_IMPORTED_MODULE_0__.formatToDecimal)(value);
+};
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Helpers/FormatPrice.js":
+/*!*********************************************!*\
+  !*** ./resources/js/Helpers/FormatPrice.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "formatPrice": () => (/* binding */ formatPrice)
+/* harmony export */ });
+// Format price
+var formatPrice = function formatPrice(value) {
   if (isNaN(value)) return 0;
 
   if (value % 1 != 0) {
@@ -39402,6 +39452,31 @@ var formatNumber = function formatNumber(value) {
   }
 
   return Math.trunc(value);
+};
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Helpers/FormatToDecimal.js":
+/*!*************************************************!*\
+  !*** ./resources/js/Helpers/FormatToDecimal.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "formatToDecimal": () => (/* binding */ formatToDecimal)
+/* harmony export */ });
+/* harmony import */ var _ClearZeros__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ClearZeros */ "./resources/js/Helpers/ClearZeros.js");
+
+
+var formatToDecimal = function formatToDecimal(value) {
+  var value_string = value.toString().split('.');
+  var intPart = value_string[0];
+  var decPart = (0,_ClearZeros__WEBPACK_IMPORTED_MODULE_0__.clearZeros)(value_string[1]);
+  return parseFloat("".concat(intPart, ".").concat(decPart));
 };
 
 
@@ -39449,7 +39524,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "joinCryptoData": () => (/* binding */ joinCryptoData)
 /* harmony export */ });
 /* harmony import */ var _AddDbCryptoData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddDbCryptoData */ "./resources/js/Helpers/AddDbCryptoData.js");
-/* harmony import */ var _FormatNumber__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormatNumber */ "./resources/js/Helpers/FormatNumber.js");
+/* harmony import */ var _FormatPrice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormatPrice */ "./resources/js/Helpers/FormatPrice.js");
 
 
 
@@ -39460,23 +39535,23 @@ var joinCryptoData = function joinCryptoData(dbData, cgData, options) {
     image: cgData.image,
     symbol: cgData.symbol.toUpperCase(),
     url: "/cryptos/".concat(cgData.id),
-    price: (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.current_price)
+    price: (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.current_price)
   };
   (0,_AddDbCryptoData__WEBPACK_IMPORTED_MODULE_0__.addDbCryptoData)(dbData, crypto, options);
-  if (options.atl) crypto['atl'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.atl);
+  if (options.atl) crypto['atl'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.atl);
   if (options.atl_date) crypto['atl_date'] = cgData.atl_date.slice(0, 10);
-  if (options.ath) crypto['ath'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.ath);
+  if (options.ath) crypto['ath'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.ath);
   if (options.ath_date) crypto['ath_date'] = cgData.ath_date.slice(0, 10);
   if (options.rank) crypto['rank'] = cgData.market_cap_rank;
   if (options.circulating_supply) crypto['circulating_supply'] = cgData.circulating_supply;
   if (options.max_supply) crypto['max_supply'] = cgData.max_supply;
   if (options.high_24h) crypto['high_24h'] = cgData.high_24h;
   if (options.low_24h) crypto['low_24h'] = cgData.low_24h;
-  if (options.price_change_1h) crypto['price_change_1h'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.price_change_percentage_1h_in_currency);
-  if (options.price_change_24h) crypto['price_change_24h'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.price_change_percentage_24h_in_currency);
-  if (options.price_change_7d) crypto['price_change_7d'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.price_change_percentage_7d_in_currency);
-  if (options.price_change_percentage_24h) crypto['price_change_percentage_24h'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.price_change_percentage_24h_in_currency);
-  if (options.price_change_percentage_7d) crypto['price_change_percentage_7d'] = (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_1__.formatNumber)(cgData.price_change_percentage_7d_in_currency);
+  if (options.price_change_1h) crypto['price_change_1h'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_percentage_1h_in_currency);
+  if (options.price_change_24h) crypto['price_change_24h'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_percentage_24h_in_currency);
+  if (options.price_change_7d) crypto['price_change_7d'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_percentage_7d_in_currency);
+  if (options.price_change_percentage_24h) crypto['price_change_percentage_24h'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_percentage_24h_in_currency);
+  if (options.price_change_percentage_7d) crypto['price_change_percentage_7d'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_percentage_7d_in_currency);
   return crypto;
 };
 
@@ -39518,7 +39593,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "calculateCryptoDistribution": () => (/* binding */ calculateCryptoDistribution),
 /* harmony export */   "calculateTopCryptos": () => (/* binding */ calculateTopCryptos)
 /* harmony export */ });
-/* harmony import */ var _FormatNumber__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormatNumber */ "./resources/js/Helpers/FormatNumber.js");
+/* harmony import */ var _FormatPrice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormatPrice */ "./resources/js/Helpers/FormatPrice.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -39534,13 +39609,13 @@ var calculateTotalWorth = function calculateTotalWorth(cryptosData) {
 };
 
 var calculateGrowth = function calculateGrowth(cryptosData) {
-  return (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_0__.formatNumber)(cryptosData.reduce(function (growth, crypto) {
+  return (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice)(cryptosData.reduce(function (growth, crypto) {
     return growth + crypto.price_change_24h * crypto.amount;
   }, 0));
 };
 
 var calculateGrowthPercentage = function calculateGrowthPercentage(portfolioTotalWorth, portfolioGrowth) {
-  return (0,_FormatNumber__WEBPACK_IMPORTED_MODULE_0__.formatNumber)(portfolioGrowth / (portfolioTotalWorth - portfolioGrowth) * 100);
+  return (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice)(portfolioGrowth / (portfolioTotalWorth - portfolioGrowth) * 100);
 };
 
 var calculateCryptoDistribution = function calculateCryptoDistribution(cryptoData, portfolioTotalWorth) {
@@ -39554,7 +39629,7 @@ var calculateCryptoDistribution = function calculateCryptoDistribution(cryptoDat
   };
   var max = cryptoData.length > 5 ? 5 : cryptoData.length;
   cryptoData.forEach(function (crypto) {
-    distribution.percentages.push((0,_FormatNumber__WEBPACK_IMPORTED_MODULE_0__.formatNumber)(crypto.price * crypto.amount / portfolioTotalWorth * 100));
+    distribution.percentages.push((0,_FormatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice)(crypto.price * crypto.amount / portfolioTotalWorth * 100));
     distribution.cryptos.push(crypto.symbol.toUpperCase());
   });
   topDistribution.percentages = distribution.percentages.map(function (percentage) {

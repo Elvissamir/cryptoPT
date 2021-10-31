@@ -1,5 +1,5 @@
 
-import { formatNumber } from './FormatNumber'
+import { formatPrice } from './FormatPrice'
 
 const calculateTotalWorth = (cryptosData) => { 
     return cryptosData.reduce((total, crypto) => {
@@ -8,13 +8,13 @@ const calculateTotalWorth = (cryptosData) => {
 }
 
 const calculateGrowth = (cryptosData) => {
-    return formatNumber(cryptosData.reduce((growth, crypto) => {
+    return formatPrice(cryptosData.reduce((growth, crypto) => {
         return growth + (crypto.price_change_24h * crypto.amount);
     }, 0));
 }
 
 const calculateGrowthPercentage = (portfolioTotalWorth, portfolioGrowth) => {
-    return formatNumber((portfolioGrowth / (portfolioTotalWorth - portfolioGrowth)) * 100);
+    return formatPrice((portfolioGrowth / (portfolioTotalWorth - portfolioGrowth)) * 100);
 }
 
 const calculateCryptoDistribution = (cryptoData, portfolioTotalWorth) => {
@@ -32,7 +32,7 @@ const calculateCryptoDistribution = (cryptoData, portfolioTotalWorth) => {
     let max = (cryptoData.length > 5)? 5 : cryptoData.length;
     
     cryptoData.forEach(crypto => {
-        distribution.percentages.push(formatNumber(((crypto.price * crypto.amount) /  portfolioTotalWorth) * 100));
+        distribution.percentages.push(formatPrice(((crypto.price * crypto.amount) /  portfolioTotalWorth) * 100));
         distribution.cryptos.push(crypto.symbol.toUpperCase());
     });
 

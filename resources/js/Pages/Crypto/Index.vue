@@ -136,7 +136,6 @@ import AddCryptoBtn from '../../Components/AddCryptoBtn.vue'
 import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 
 // HELPERS
-import { formatNumber } from '../../Helpers/FormatNumber.js'
 import { priceColor } from '../../Helpers/PriceColor.js'
 import { generateCryptoDataArray } from '../../Helpers/GenerateCryptoDataArray';
 
@@ -235,7 +234,6 @@ export default {
       cryptoData, 
       currentPage,
       priceColor,
-		  formatNumber,
       showAddForm,
       cryptoToAdd,
       activateAddCryptoForm,

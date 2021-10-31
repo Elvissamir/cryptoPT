@@ -249,6 +249,8 @@ import {
     CategoryScale,
     } from 'chart.js'
 
+import { formatAmount } from '../../Helpers/FormatAmount'
+
 import { generateDoughnutChartConf, updateDoughnutChart } from '../../Charts/DoughnutChart.js'
 import { generateBarChartConf, updateBarChart } from '../../Charts/BarChart.js'
 

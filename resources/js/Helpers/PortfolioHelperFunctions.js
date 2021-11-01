@@ -1,10 +1,11 @@
 
+import { formatPercentage } from './FormatPercentage';
 import { formatPrice } from './FormatPrice'
 
 const calculateTotalWorth = (cryptosData) => { 
-    return cryptosData.reduce((total, crypto) => {
+    return formatPrice(cryptosData.reduce((total, crypto) => {
         return total + (crypto.price * crypto.amount)
-    }, 0);
+    }, 0));
 }
 
 const calculateGrowth = (cryptosData) => {
@@ -14,7 +15,7 @@ const calculateGrowth = (cryptosData) => {
 }
 
 const calculateGrowthPercentage = (portfolioTotalWorth, portfolioGrowth) => {
-    return formatPrice((portfolioGrowth / (portfolioTotalWorth - portfolioGrowth)) * 100);
+    return formatPercentage((portfolioGrowth / (portfolioTotalWorth - portfolioGrowth)) * 100);
 }
 
 const calculateCryptoDistribution = (cryptoData, portfolioTotalWorth) => {

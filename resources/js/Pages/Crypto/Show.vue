@@ -101,22 +101,22 @@
                     <div class="flex justify-between w-full border-gray-300 border-t-2 py-2 sm:order-7 sm:flex-col sm:mt-2 sm:w-6/12 sm:ml-auto sm:justify-end lg:flex-row lg:border-t-0 lg:justify-end xl:w-5/12 xl:justify-around xl:border-r-2">
                         <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col lg:mx-auto xl:mx-0 xl:items-start">
                             <p class="text-base">Change 1h:</p>
-                            <p :class="[priceColor(coin.price_change_1h), 'font-black', 'text-lg', 'sm:ml-2', 'lg:ml-0']">
-                                {{ coin.price_change_1h }}%
+                            <p :class="[priceColor(coin.price_change_percentage_1h), 'font-black', 'text-lg', 'sm:ml-2', 'lg:ml-0']">
+                                {{ coin.price_change_percentage_1h }}%
                             </p>
                         </div>
 
                         <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col lg:mr-auto xl:mx-0">
                             <p class="text-base">Change 24h:</p>
-                            <p :class="[priceColor(coin.price_change_24h), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']">
-                                {{ coin.price_change_24h }}%
+                            <p :class="[priceColor(coin.price_change_percentage_24h), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']">
+                                {{ coin.price_change_percentage_24h }}%
                             </p>
                         </div>
 
                         <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col">
                             <p class="text-base">Change 7d:</p>
-                            <p :class="[priceColor(coin.price_change_7d), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']">
-                                {{ coin.price_change_7d }}%
+                            <p :class="[priceColor(coin.price_change_percentage_7d), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']">
+                                {{ coin.price_change_percentage_7d }}%
                             </p>
                         </div>
                     </div>
@@ -250,12 +250,12 @@ export default {
         });
 
         const options = {
-            price_change_1h: true, 
-            price_change_24h: true,
+            price_change_percentage_1h: true, 
+            price_change_percentage_24h: true,
+            price_change_percentage_7d: true,
             ath: true,
             atl: true,
             rank: true,
-            price_change_7d: true,
             atl_date: true,
             ath_date: true,
             circulating_supply: true,
@@ -293,6 +293,8 @@ export default {
 
             axios.get(url)
                 .then(res => {
+
+                    console.log(res.data);
 
                     showLoading.value = false;
                     

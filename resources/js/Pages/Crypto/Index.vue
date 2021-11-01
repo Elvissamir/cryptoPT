@@ -76,24 +76,24 @@
                           <div class="flex flex-col w-4/12 items-baseline mb-2 sm:mb-0">
                               <p class="text-xs md:text-sm lg:text-lg">Change 1h: </p>
                               <p 
-                                :class="[priceColor(crypto.price_change_1h), 'font-bold']" class="text-sm md:text-base lg:text-xl">
-                                  {{ crypto.price_change_1h }}%
+                                :class="[priceColor(crypto.price_change_percentage_1h), 'font-bold']" class="text-sm md:text-base lg:text-xl">
+                                  {{ crypto.price_change_percentage_1h }}%
                               </p>
                           </div>   
 
                           <!-- 24h Change -->
                           <div class="flex flex-col w-4/12 items-baseline mb-2 sm:mb-0">
                               <p class="text-xs md:text-sm lg:text-lg">Change 24h: </p>
-                              <p :class="[priceColor(crypto.price_change_24h), 'font-bold']" class="text-sm md:text-base lg:text-xl">
-                                {{ crypto.price_change_24h }}%
+                              <p :class="[priceColor(crypto.price_change_percentage_24h), 'font-bold']" class="text-sm md:text-base lg:text-xl">
+                                {{ crypto.price_change_percentage_24h }}%
                               </p>
                           </div>
 
                           <!-- 7d Change -->
                           <div class="flex flex-col w-4/12 items-baseline mb-2 sm:mb-0">
                               <p class="text-xs md:text-sm lg:text-lg">Change 7d: </p>
-                              <p :class="[priceColor(crypto.price_change_7d), 'font-bold']" class="text-sm md:text-base lg:text-xl">
-                                  {{ crypto.price_change_7d }}%
+                              <p :class="[priceColor(crypto.price_change_percentage_7d), 'font-bold']" class="text-sm md:text-base lg:text-xl">
+                                  {{ crypto.price_change_percentage_7d }}%
                             </p>
                           </div>
                       </div>
@@ -184,9 +184,9 @@ export default {
      // JOIN DATA OPTIONS
     let options = {
       rank: true,
-      price_change_1h: true, 
-      price_change_24h: true,
-      price_change_7d: true,
+      price_change_percentage_1h: true, 
+      price_change_percentage_24h: true,
+      price_change_percentage_7d: true,
     };
 
     // METHODS

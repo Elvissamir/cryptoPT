@@ -31527,9 +31527,9 @@ __webpack_require__.r(__webpack_exports__);
 
     var options = {
       rank: true,
-      price_change_1h: true,
-      price_change_24h: true,
-      price_change_7d: true
+      price_change_percentage_1h: true,
+      price_change_percentage_24h: true,
+      price_change_percentage_7d: true
     }; // METHODS
 
     var fetchCGData = function fetchCGData() {
@@ -31667,12 +31667,12 @@ chart_js__WEBPACK_IMPORTED_MODULE_13__.Chart.register(chart_js__WEBPACK_IMPORTED
       url: ''
     });
     var options = {
-      price_change_1h: true,
-      price_change_24h: true,
+      price_change_percentage_1h: true,
+      price_change_percentage_24h: true,
+      price_change_percentage_7d: true,
       ath: true,
       atl: true,
       rank: true,
-      price_change_7d: true,
       atl_date: true,
       ath_date: true,
       circulating_supply: true,
@@ -31711,6 +31711,7 @@ chart_js__WEBPACK_IMPORTED_MODULE_13__.Chart.register(chart_js__WEBPACK_IMPORTED
       status.value = 'fetching';
       showLoading.value = true;
       axios.get(url).then(function (res) {
+        console.log(res.data);
         showLoading.value = false;
         var cryptoName = props.crypto.cg_id;
         var cryptoObj = {};
@@ -31811,9 +31812,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Helpers_PriceColor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../Helpers/PriceColor */ "./resources/js/Helpers/PriceColor.js");
 /* harmony import */ var _Charts_ChartColors__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../Charts/ChartColors */ "./resources/js/Charts/ChartColors.js");
 /* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
-/* harmony import */ var _Helpers_FormatAmount__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../Helpers/FormatAmount */ "./resources/js/Helpers/FormatAmount.js");
-/* harmony import */ var _Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../Charts/DoughnutChart.js */ "./resources/js/Charts/DoughnutChart.js");
-/* harmony import */ var _Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../Charts/BarChart.js */ "./resources/js/Charts/BarChart.js");
+/* harmony import */ var _Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../Charts/DoughnutChart.js */ "./resources/js/Charts/DoughnutChart.js");
+/* harmony import */ var _Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../Charts/BarChart.js */ "./resources/js/Charts/BarChart.js");
 // Layout
  // Vue
 
@@ -31833,7 +31833,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
  // Charts
-
 
 
 
@@ -31944,9 +31943,9 @@ chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart.register(chart_js__WEBPACK_IMPORTED
           cryptoDistribution.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateCryptoDistribution)(cryptoData.value, portfolioTotalWorth.value);
           topCryptos.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateTopCryptos)(cryptoData.value);
           var doughnutHtmlElement = document.getElementById("doughnutChart");
-          doughnutChart = new chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart(doughnutHtmlElement, (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_16__.generateDoughnutChartConf)(cryptoDistribution.value, cryptoDistribution.value.cryptos.length));
+          doughnutChart = new chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart(doughnutHtmlElement, (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_15__.generateDoughnutChartConf)(cryptoDistribution.value, cryptoDistribution.value.cryptos.length));
           var barHtmlElement = document.getElementById('barChart');
-          barChart = new chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart(barHtmlElement, (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_17__.generateBarChartConf)(topCryptos.value, topCryptos.value.cryptos.length));
+          barChart = new chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart(barHtmlElement, (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_16__.generateBarChartConf)(topCryptos.value, topCryptos.value.cryptos.length));
         })["catch"](function (e) {
           return console.log(e);
         });
@@ -31977,8 +31976,8 @@ chart_js__WEBPACK_IMPORTED_MODULE_14__.Chart.register(chart_js__WEBPACK_IMPORTED
 
           cryptoDistribution.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateCryptoDistribution)(cryptoData.value, portfolioTotalWorth.value);
           topCryptos.value = (0,_Helpers_PortfolioHelperFunctions__WEBPACK_IMPORTED_MODULE_11__.calculateTopCryptos)(cryptoData.value);
-          (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_16__.updateDoughnutChart)(doughnutChart, cryptoDistribution.value);
-          (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_17__.updateBarChart)(barChart, topCryptos.value);
+          (0,_Charts_DoughnutChart_js__WEBPACK_IMPORTED_MODULE_15__.updateDoughnutChart)(doughnutChart, cryptoDistribution.value);
+          (0,_Charts_BarChart_js__WEBPACK_IMPORTED_MODULE_16__.updateBarChart)(barChart, topCryptos.value);
         })["catch"](function (e) {
           return console.log(e);
         });
@@ -36694,16 +36693,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.symbol), 1
         /* TEXT */
         )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_21, [_hoisted_22]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE CHANGES "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 1h Change "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [_hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-          "class": [[$setup.priceColor(crypto.price_change_1h), 'font-bold'], "text-sm md:text-base lg:text-xl"]
-        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price_change_1h) + "% ", 3
+          "class": [[$setup.priceColor(crypto.price_change_percentage_1h), 'font-bold'], "text-sm md:text-base lg:text-xl"]
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price_change_percentage_1h) + "% ", 3
         /* TEXT, CLASS */
         )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 24h Change "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_26, [_hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-          "class": [[$setup.priceColor(crypto.price_change_24h), 'font-bold'], "text-sm md:text-base lg:text-xl"]
-        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price_change_24h) + "% ", 3
+          "class": [[$setup.priceColor(crypto.price_change_percentage_24h), 'font-bold'], "text-sm md:text-base lg:text-xl"]
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price_change_percentage_24h) + "% ", 3
         /* TEXT, CLASS */
         )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 7d Change "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-          "class": [[$setup.priceColor(crypto.price_change_7d), 'font-bold'], "text-sm md:text-base lg:text-xl"]
-        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price_change_7d) + "% ", 3
+          "class": [[$setup.priceColor(crypto.price_change_percentage_7d), 'font-bold'], "text-sm md:text-base lg:text-xl"]
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(crypto.price_change_percentage_7d) + "% ", 3
         /* TEXT, CLASS */
         )])])]);
       }), 128
@@ -37133,16 +37132,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_font_awesome_icon, {
         icon: ['fas', 'angle-up']
       })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" PRICE CHANGES "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-        "class": [$setup.priceColor($setup.coin.price_change_1h), 'font-black', 'text-lg', 'sm:ml-2', 'lg:ml-0']
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_1h) + "% ", 3
+        "class": [$setup.priceColor($setup.coin.price_change_percentage_1h), 'font-black', 'text-lg', 'sm:ml-2', 'lg:ml-0']
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_percentage_1h) + "% ", 3
       /* TEXT, CLASS */
       )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_41, [_hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-        "class": [$setup.priceColor($setup.coin.price_change_24h), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_24h) + "% ", 3
+        "class": [$setup.priceColor($setup.coin.price_change_percentage_24h), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_percentage_24h) + "% ", 3
       /* TEXT, CLASS */
       )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_43, [_hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-        "class": [$setup.priceColor($setup.coin.price_change_7d), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_7d) + "% ", 3
+        "class": [$setup.priceColor($setup.coin.price_change_percentage_7d), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.price_change_percentage_7d) + "% ", 3
       /* TEXT, CLASS */
       )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" ALL TIME HIGH AND LOW "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_47, [_hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_49, "$" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.coin.atl), 1
       /* TEXT */
@@ -39431,6 +39430,25 @@ var formatAmount = function formatAmount(value) {
 
 /***/ }),
 
+/***/ "./resources/js/Helpers/FormatPercentage.js":
+/*!**************************************************!*\
+  !*** ./resources/js/Helpers/FormatPercentage.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "formatPercentage": () => (/* binding */ formatPercentage)
+/* harmony export */ });
+var formatPercentage = function formatPercentage(value) {
+  return parseFloat(value.toFixed(2));
+};
+
+
+
+/***/ }),
+
 /***/ "./resources/js/Helpers/FormatPrice.js":
 /*!*********************************************!*\
   !*** ./resources/js/Helpers/FormatPrice.js ***!
@@ -39445,13 +39463,8 @@ __webpack_require__.r(__webpack_exports__);
 // Format price
 var formatPrice = function formatPrice(value) {
   if (isNaN(value)) return 0;
-
-  if (value % 1 != 0) {
-    var string = value.toString().split(".")[1];
-    if (string.length > 2) return Math.round(value * 100) / 100;
-  }
-
-  return Math.trunc(value);
+  if (value >= 0.01) return parseFloat(value.toFixed(2));
+  return value;
 };
 
 
@@ -39525,6 +39538,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _AddDbCryptoData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddDbCryptoData */ "./resources/js/Helpers/AddDbCryptoData.js");
 /* harmony import */ var _FormatPrice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormatPrice */ "./resources/js/Helpers/FormatPrice.js");
+/* harmony import */ var _FormatPercentage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FormatPercentage */ "./resources/js/Helpers/FormatPercentage.js");
+
 
 
 
@@ -39547,11 +39562,12 @@ var joinCryptoData = function joinCryptoData(dbData, cgData, options) {
   if (options.max_supply) crypto['max_supply'] = cgData.max_supply;
   if (options.high_24h) crypto['high_24h'] = cgData.high_24h;
   if (options.low_24h) crypto['low_24h'] = cgData.low_24h;
-  if (options.price_change_1h) crypto['price_change_1h'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_percentage_1h_in_currency);
-  if (options.price_change_24h) crypto['price_change_24h'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_percentage_24h_in_currency);
-  if (options.price_change_7d) crypto['price_change_7d'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_percentage_7d_in_currency);
-  if (options.price_change_percentage_24h) crypto['price_change_percentage_24h'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_percentage_24h_in_currency);
-  if (options.price_change_percentage_7d) crypto['price_change_percentage_7d'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_percentage_7d_in_currency);
+  if (options.price_change_1h) crypto['price_change_1h'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_1h);
+  if (options.price_change_24h) crypto['price_change_24h'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_24h);
+  if (options.price_change_7d) crypto['price_change_7d'] = (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cgData.price_change_7d);
+  if (options.price_change_percentage_1h) crypto['price_change_percentage_1h'] = (0,_FormatPercentage__WEBPACK_IMPORTED_MODULE_2__.formatPercentage)(cgData.price_change_percentage_1h_in_currency);
+  if (options.price_change_percentage_24h) crypto['price_change_percentage_24h'] = (0,_FormatPercentage__WEBPACK_IMPORTED_MODULE_2__.formatPercentage)(cgData.price_change_percentage_24h_in_currency);
+  if (options.price_change_percentage_7d) crypto['price_change_percentage_7d'] = (0,_FormatPercentage__WEBPACK_IMPORTED_MODULE_2__.formatPercentage)(cgData.price_change_percentage_7d_in_currency);
   return crypto;
 };
 
@@ -39593,7 +39609,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "calculateCryptoDistribution": () => (/* binding */ calculateCryptoDistribution),
 /* harmony export */   "calculateTopCryptos": () => (/* binding */ calculateTopCryptos)
 /* harmony export */ });
-/* harmony import */ var _FormatPrice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormatPrice */ "./resources/js/Helpers/FormatPrice.js");
+/* harmony import */ var _FormatPercentage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FormatPercentage */ "./resources/js/Helpers/FormatPercentage.js");
+/* harmony import */ var _FormatPrice__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormatPrice */ "./resources/js/Helpers/FormatPrice.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -39602,20 +39619,21 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
+
 var calculateTotalWorth = function calculateTotalWorth(cryptosData) {
-  return cryptosData.reduce(function (total, crypto) {
+  return (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cryptosData.reduce(function (total, crypto) {
     return total + crypto.price * crypto.amount;
-  }, 0);
+  }, 0));
 };
 
 var calculateGrowth = function calculateGrowth(cryptosData) {
-  return (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice)(cryptosData.reduce(function (growth, crypto) {
+  return (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cryptosData.reduce(function (growth, crypto) {
     return growth + crypto.price_change_24h * crypto.amount;
   }, 0));
 };
 
 var calculateGrowthPercentage = function calculateGrowthPercentage(portfolioTotalWorth, portfolioGrowth) {
-  return (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice)(portfolioGrowth / (portfolioTotalWorth - portfolioGrowth) * 100);
+  return (0,_FormatPercentage__WEBPACK_IMPORTED_MODULE_0__.formatPercentage)(portfolioGrowth / (portfolioTotalWorth - portfolioGrowth) * 100);
 };
 
 var calculateCryptoDistribution = function calculateCryptoDistribution(cryptoData, portfolioTotalWorth) {
@@ -39629,7 +39647,7 @@ var calculateCryptoDistribution = function calculateCryptoDistribution(cryptoDat
   };
   var max = cryptoData.length > 5 ? 5 : cryptoData.length;
   cryptoData.forEach(function (crypto) {
-    distribution.percentages.push((0,_FormatPrice__WEBPACK_IMPORTED_MODULE_0__.formatPrice)(crypto.price * crypto.amount / portfolioTotalWorth * 100));
+    distribution.percentages.push((0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(crypto.price * crypto.amount / portfolioTotalWorth * 100));
     distribution.cryptos.push(crypto.symbol.toUpperCase());
   });
   topDistribution.percentages = distribution.percentages.map(function (percentage) {

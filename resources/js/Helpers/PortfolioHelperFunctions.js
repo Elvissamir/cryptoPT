@@ -10,6 +10,9 @@ const calculateTotalWorth = (cryptosData) => {
 
 const calculateGrowth = (cryptosData) => {
     return formatPrice(cryptosData.reduce((growth, crypto) => {
+
+        console.log(growth);
+
         return growth + (crypto.price_change_24h * crypto.amount);
     }, 0));
 }

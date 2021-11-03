@@ -31711,13 +31711,11 @@ chart_js__WEBPACK_IMPORTED_MODULE_13__.Chart.register(chart_js__WEBPACK_IMPORTED
       status.value = 'fetching';
       showLoading.value = true;
       axios.get(url).then(function (res) {
-        console.log(res.data);
         showLoading.value = false;
         var cryptoName = props.crypto.cg_id;
         var cryptoObj = {};
         cryptoObj[cryptoName] = props.crypto;
         coin.value = (0,_Helpers_JoinCryptoData__WEBPACK_IMPORTED_MODULE_15__.joinCryptoData)(cryptoObj, res.data[0], options);
-        console.log(coin.value);
       })["catch"](function (e) {
         return console.log(e);
       });
@@ -32575,7 +32573,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "flex flex-col bg-white h-44 py-4 px-4 rounded-md"
+  "class": "flex flex-col bg-white h-44 md:h-48 py-4 px-4 rounded-md"
 };
 var _hoisted_2 = {
   "class": "flex justify-between"
@@ -32587,41 +32585,48 @@ var _hoisted_4 = {
   "class": "flex flex-col ml-2"
 };
 var _hoisted_5 = {
-  "class": "text-sm font-bold"
+  "class": "text-sm font-bold md:text-base"
 };
 var _hoisted_6 = {
-  "class": "underline text-xs font-bold text-indigo-500"
+  "class": "underline text-xs font-bold text-indigo-500 md:text-base"
 };
 var _hoisted_7 = {
   "class": "flex"
 };
-var _hoisted_8 = {
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "text-center"
+}, "X", -1
+/* HOISTED */
+);
+
+var _hoisted_9 = {
   "class": "flex items-baseline justify-between mt-4"
 };
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "class": "flex items-end",
   "for": "amount"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-sm"
+  "class": "text-sm md:text-base"
 }, "Amount")], -1
 /* HOISTED */
 );
 
-var _hoisted_10 = {
+var _hoisted_11 = {
   "class": "flex justify-between mt-auto w-full"
 };
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
   type: "submit",
-  "class": "px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold"
+  "class": "px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold md:text-base"
 }, " Add ", -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-    "class": "w-9 h-9",
+    "class": "w-9 h-9 md:w-11 md:h-11",
     src: $props.crypto.image
   }, null, 8
   /* PROPS */
@@ -32633,14 +32638,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = function () {
       return $setup.closeForm && $setup.closeForm.apply($setup, arguments);
     }),
-    "class": "flex p-2 h-6 w-6 justify-center items-center rounded-full bg-indigo-900 text-white text-sm font-bold"
-  }, " x ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
+    "class": "flex p-2 h-8 w-8 justify-center items-center rounded-full bg-indigo-900 text-white text-base font-bold md:h-8 md:w-8 md:text-xl"
+  }, [_hoisted_8])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
     onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $setup.addCrypto && $setup.addCrypto.apply($setup, arguments);
     }, ["prevent"])),
     "class": "flex flex-col items-end h-full"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    "class": "ml-2 border-2 h-6 w-9/12",
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    "class": "ml-2 border-2 h-6 w-9/12 md:h-8",
     type: "number",
     step: ".0001",
     id: "amount",
@@ -32649,12 +32654,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.amount]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.amount]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
     onClick: _cache[3] || (_cache[3] = function () {
       return $setup.closeForm && $setup.closeForm.apply($setup, arguments);
     }),
     type: "button",
-    "class": "px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold"
+    "class": "px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold md:text-base"
   }, " Cancel ")])], 32
   /* HYDRATE_EVENTS */
   )]);
@@ -32735,7 +32740,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "flex flex-col bg-white h-44 py-4 px-4 rounded-md"
+  "class": "flex flex-col bg-white h-44 md:h-48 py-4 px-4 rounded-md"
 };
 var _hoisted_2 = {
   "class": "flex justify-between"
@@ -32747,41 +32752,48 @@ var _hoisted_4 = {
   "class": "flex flex-col ml-2"
 };
 var _hoisted_5 = {
-  "class": "text-sm font-bold"
+  "class": "text-sm font-bold md:text-base"
 };
 var _hoisted_6 = {
-  "class": "underline text-xs font-bold text-indigo-500"
+  "class": "underline text-xs font-bold text-indigo-500 md:text-base"
 };
 var _hoisted_7 = {
   "class": "flex"
 };
-var _hoisted_8 = {
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+  "class": "text-center"
+}, "X", -1
+/* HOISTED */
+);
+
+var _hoisted_9 = {
   "class": "flex items-baseline justify-between mt-4"
 };
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
   "class": "flex items-end",
   "for": "amount"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
-  "class": "text-sm"
+  "class": "text-sm md:text-base"
 }, "Amount")], -1
 /* HOISTED */
 );
 
-var _hoisted_10 = {
+var _hoisted_11 = {
   "class": "flex justify-between mt-auto w-full"
 };
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
   type: "submit",
-  "class": "px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold"
+  "class": "px-3 py-2 mb-1 bg-blue-900 rounded-md text-sm text-white font-bold md:text-base"
 }, " Save ", -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-    "class": "w-9 h-9",
+    "class": "w-9 h-9 md:w-11 md:h-11",
     src: $props.crypto.image
   }, null, 8
   /* PROPS */
@@ -32793,14 +32805,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = function () {
       return $setup.closeEditForm && $setup.closeEditForm.apply($setup, arguments);
     }),
-    "class": "flex p-2 h-6 w-6 justify-center items-center rounded-full bg-indigo-900 text-white text-sm font-bold"
-  }, " x ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
+    "class": "flex p-2 h-8 w-8 justify-center items-center rounded-full bg-indigo-900 text-white text-base font-bold md:h-8 md:w-8 md:text-xl"
+  }, [_hoisted_8])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("form", {
     onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $setup.saveChanges && $setup.saveChanges.apply($setup, arguments);
     }, ["prevent"])),
     "class": "flex flex-col items-end h-full"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
-    "class": "ml-2 border-2 h-6 w-9/12",
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    "class": "ml-2 border-2 h-6 w-9/12 md:h-8 ",
     type: "number",
     step: ".0001",
     id: "amount",
@@ -32809,12 +32821,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.newAmount]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.newAmount]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [_hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
     onClick: _cache[3] || (_cache[3] = function () {
       return $setup.closeEditForm && $setup.closeEditForm.apply($setup, arguments);
     }),
     type: "button",
-    "class": "px-3 py-2 mb-1 bg-blue-900 rounded-md sm:text-sm text-xs text-white font-bold"
+    "class": "px-3 py-2 mb-1 bg-blue-900 rounded-md text-sm text-white font-bold md:text-base"
   }, " Cancel ")])], 32
   /* HYDRATE_EVENTS */
   )]);
@@ -36848,7 +36860,7 @@ var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 );
 
 var _hoisted_29 = {
-  "class": "flex flex-wrap justify-between items-baseline w-full border-gray-300 border-r-2 border-t-2 py-2 sm:order-6 sm:w-6/12 sm:mb-auto sm:mt-2 lg:border-t-0 lg:border-r-2 xl:w-2/12"
+  "class": "flex flex-wrap justify-between items-baseline w-full border-gray-300 border-t-2 py-2 sm:order-6 sm:w-6/12 sm:mb-auto sm:mt-2 lg:border-t-0 lg:border-r-2 xl:w-2/12"
 };
 var _hoisted_30 = {
   "class": "flex justify-between items-baseline w-full sm:justify-start"
@@ -36883,7 +36895,7 @@ var _hoisted_37 = {
   "class": "text-green-300 text-2xl ml-1"
 };
 var _hoisted_38 = {
-  "class": "flex justify-between w-full border-gray-300 border-t-2 py-2 sm:order-7 sm:flex-col sm:mt-2 sm:w-6/12 sm:ml-auto sm:justify-end lg:flex-row lg:border-t-0 lg:justify-end xl:w-5/12 xl:justify-around xl:border-r-2"
+  "class": "flex justify-between items-baseline w-full border-gray-300 border-t-2 py-2 sm:order-7 sm:flex-col sm:mt-2 sm:w-6/12 sm:ml-auto sm:justify-end lg:flex-row lg:border-t-0 lg:justify-end xl:w-5/12 xl:justify-around xl:border-r-2"
 };
 var _hoisted_39 = {
   "class": "flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col lg:mx-auto xl:mx-0 xl:items-start"
@@ -39463,7 +39475,7 @@ __webpack_require__.r(__webpack_exports__);
 // Format price
 var formatPrice = function formatPrice(value) {
   if (isNaN(value)) return 0;
-  if (value >= 0.01) return parseFloat(value.toFixed(2));
+  if (value >= 0.01 || Math.sign(value) == -1) return parseFloat(value.toFixed(2));
   return value;
 };
 
@@ -39628,6 +39640,7 @@ var calculateTotalWorth = function calculateTotalWorth(cryptosData) {
 
 var calculateGrowth = function calculateGrowth(cryptosData) {
   return (0,_FormatPrice__WEBPACK_IMPORTED_MODULE_1__.formatPrice)(cryptosData.reduce(function (growth, crypto) {
+    console.log(growth);
     return growth + crypto.price_change_24h * crypto.amount;
   }, 0));
 };

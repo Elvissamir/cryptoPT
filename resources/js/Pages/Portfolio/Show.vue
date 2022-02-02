@@ -30,8 +30,8 @@
 
                                     <div class="w-6/12 flex justify-end items-baseline">
                                         <p class="text-sm sm:text-base mr-2">Total: </p>
-                                        <p class="sm:text-xl font-black text-green-300">
-                                                ${{ portfolioTotalWorth }}
+                                        <p class="sm:text-xl font-black up">
+                                            ${{ portfolioTotalWorth }}
                                         </p>
                                     </div>
                             </div>
@@ -58,16 +58,16 @@
                                     <div class="flex flex-col items-end w-6/12">
                                         <div class="flex">
                                             <p class="text-xs my-auto sm:text-base">Growth % (24h): </p>
-                                            <p :class="[priceColor(portfolioGrowthPercentage), 'font-bold']"
-                                                class="text-sm ml-2 sm:text-lg">
+                                            <p :class="[(Math.sign(portfolioGrowthPercentage) >= 0)? 'up':'down']"
+                                                class="text-sm ml-2 sm:text-lg font-black">
                                                     {{ portfolioGrowthPercentage }}%
                                             </p>
                                         </div>
 
                                         <div class="flex">
                                             <p class="text-xs my-auto sm:text-base">Growth (24h):</p>
-                                            <p :class="[priceColor(portfolioGrowth), 'font-bold']"
-                                                class="text-sm ml-2 sm:text-lg">
+                                            <p :class="[(Math.sign(portfolioGrowth) >= 0)? 'up':'down']"
+                                                class="text-sm ml-2 sm:text-lg font-black">
                                                 ${{ portfolioGrowth }}
                                             </p>
                                         </div>
@@ -153,7 +153,7 @@
                                 </h2>
                             </div>
                             <div class="flex w-full mt-4 h-40 sm:mt-6 sm:h-full sm:justify-between lg:justify-start">
-                                <div class="w-8/12 sm:h-full sm:w-7/12 lg:w-auto">
+                                <div class="w-8/12 sm:h-full sm:w-7/12 lg:w-5/12">
                                     <canvas class="" id="doughnutChart"></canvas>
                                 </div>
                                 <div class="flex flex-col w-4/12 sm:w-4/12 lg:w-auto lg:ml-3 xl:ml-4">
@@ -234,7 +234,6 @@ import {
     calculateCryptoDistribution,
     calculateTopCryptos,
 } from '../../Helpers/PortfolioHelperFunctions'
-import { priceColor } from '../../Helpers/PriceColor'
 import { chartColors } from '../../Charts/ChartColors'
 
 // Charts
@@ -433,7 +432,6 @@ export default {
             portfolioGrowth,
             portfolioGrowthPercentage,
             cryptoDistribution,
-            priceColor,
             chartColors,
             disableEditCryptoForm,
             status,

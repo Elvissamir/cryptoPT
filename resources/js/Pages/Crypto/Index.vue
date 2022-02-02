@@ -76,7 +76,7 @@
                           <div class="flex flex-col w-4/12 items-baseline mb-2 sm:mb-0">
                               <p class="text-xs md:text-sm lg:text-lg">Change 1h: </p>
                               <p 
-                                :class="[priceColor(crypto.price_change_percentage_1h), 'font-bold']" class="text-sm md:text-base lg:text-xl">
+                                :class="[(Math.sign(crypto.price_change_percentage_1h) >= 0)? 'up':'down']" class="font-black text-sm md:text-base lg:text-xl">
                                   {{ crypto.price_change_percentage_1h }}%
                               </p>
                           </div>   
@@ -84,7 +84,7 @@
                           <!-- 24h Change -->
                           <div class="flex flex-col w-4/12 items-baseline mb-2 sm:mb-0">
                               <p class="text-xs md:text-sm lg:text-lg">Change 24h: </p>
-                              <p :class="[priceColor(crypto.price_change_percentage_24h), 'font-bold']" class="text-sm md:text-base lg:text-xl">
+                              <p :class="[(Math.sign(crypto.price_change_percentage_24h) >= 0)? 'up':'down']" class="font-black text-sm md:text-base lg:text-xl">
                                 {{ crypto.price_change_percentage_24h }}%
                               </p>
                           </div>
@@ -92,7 +92,7 @@
                           <!-- 7d Change -->
                           <div class="flex flex-col w-4/12 items-baseline mb-2 sm:mb-0">
                               <p class="text-xs md:text-sm lg:text-lg">Change 7d: </p>
-                              <p :class="[priceColor(crypto.price_change_percentage_7d), 'font-bold']" class="text-sm md:text-base lg:text-xl">
+                              <p :class="[(Math.sign(crypto.price_change_percentage_7d) >= 0)? 'up':'down']" class="font-black text-sm md:text-base lg:text-xl">
                                   {{ crypto.price_change_percentage_7d }}%
                             </p>
                           </div>
@@ -136,7 +136,6 @@ import AddCryptoBtn from '../../Components/AddCryptoBtn.vue'
 import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 
 // HELPERS
-import { priceColor } from '../../Helpers/PriceColor.js'
 import { generateCryptoDataArray } from '../../Helpers/GenerateCryptoDataArray';
 
 export default {
@@ -233,7 +232,6 @@ export default {
 		return {
       cryptoData, 
       currentPage,
-      priceColor,
       showAddForm,
       cryptoToAdd,
       activateAddCryptoForm,

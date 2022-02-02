@@ -5,4 +5,5 @@
 @import 'tailwindcss/utilities';
 
 /* LOADER ANIMATIONS */
-@import './loaderAnimations.css'
+@import './loaderAnimations.css';
+@import './price.css';

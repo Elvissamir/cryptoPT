@@ -1,0 +1,8 @@
+
+.up {
+    @apply text-green-400;
+}
+
+.down {
+    @apply text-red-600;
+}

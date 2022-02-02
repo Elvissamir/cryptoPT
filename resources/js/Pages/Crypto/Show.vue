@@ -48,7 +48,7 @@
                      <!-- PRICE -->
                     <div class="flex justify-between items-baseline w-full border-gray-300 border-t-2 py-2 sm:order-3 sm:mr-5 sm:w-auto sm:ml-auto sm:border-none sm:py-0 sm:justify-start">
                         <p class="text-xl">Price: </p>
-                        <p class="text-lg text-green-300 font-black sm:text-2xl sm:ml-4">${{ coin.price }}</p>    
+                        <p class="text-lg up font-black sm:text-2xl sm:ml-4">${{ coin.price }}</p>    
                     </div> 
 
                     <!-- AMOUNT OWNED & WORTH --> 
@@ -86,14 +86,14 @@
                     <div class="flex flex-wrap justify-between items-baseline w-full border-gray-300 border-t-2 py-2 sm:order-6 sm:w-6/12 sm:mb-auto sm:mt-2 lg:border-t-0 lg:border-r-2 xl:w-2/12">
                         <div class="flex justify-between items-baseline w-full sm:justify-start">
                             <p class="text-base">24h low: </p>
-                            <p class="text-lg text-red-300 font-black ml-2">${{ coin.low_24h }}</p>
-                            <p class="text-red-300 text-2xl ml-1"><font-awesome-icon :icon="['fas', 'angle-down']" /></p>
+                            <p class="text-lg down font-black ml-2">${{ coin.low_24h }}</p>
+                            <p class="down text-2xl ml-1"><font-awesome-icon :icon="['fas', 'angle-down']" /></p>
                         </div>
 
                         <div class="flex justify-between items-baseline w-full sm:justify-start">
                             <p class="text-base">24h high: </p>
-                            <p class="text-lg text-green-300 font-black ml-2">${{ coin.high_24h }}</p>
-                            <p class="text-green-300 text-2xl ml-1"><font-awesome-icon :icon="['fas', 'angle-up']" /></p>
+                            <p class="text-lg up font-black ml-2">${{ coin.high_24h }}</p>
+                            <p class="up text-2xl ml-1"><font-awesome-icon :icon="['fas', 'angle-up']" /></p>
                         </div>
                     </div>
 
@@ -101,21 +101,21 @@
                     <div class="flex justify-between items-baseline w-full border-gray-300 border-t-2 py-2 sm:order-7 sm:flex-col sm:mt-2 sm:w-6/12 sm:ml-auto sm:justify-end lg:flex-row lg:border-t-0 lg:justify-end xl:w-5/12 xl:justify-around xl:border-r-2">
                         <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col lg:mx-auto xl:mx-0 xl:items-start">
                             <p class="text-base">Change 1h:</p>
-                            <p :class="[priceColor(coin.price_change_percentage_1h), 'font-black', 'text-lg', 'sm:ml-2', 'lg:ml-0']">
+                            <p :class="[(Math.sign(coin.price_change_percentage_1h) >= 0)? 'up':'down']" class="font-black text-lg sm:ml-2 lg:ml-0">
                                 {{ coin.price_change_percentage_1h }}%
                             </p>
                         </div>
 
                         <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col lg:mr-auto xl:mx-0">
                             <p class="text-base">Change 24h:</p>
-                            <p :class="[priceColor(coin.price_change_percentage_24h), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']">
+                            <p :class="[(Math.sign(coin.price_change_percentage_24h) >= 0)? 'up':'down']" class="font-black text-lg sm:ml-2 lg:ml-0">
                                 {{ coin.price_change_percentage_24h }}%
                             </p>
                         </div>
 
                         <div class="flex flex-col items-baseline sm:flex-row sm:justify-end lg:flex-col">
                             <p class="text-base">Change 7d:</p>
-                            <p :class="[priceColor(coin.price_change_percentage_7d), 'font-black', 'ml-2', 'text-lg', 'lg:ml-0']">
+                            <p :class="[(Math.sign(coin.price_change_percentage_7d) >= 0)? 'up':'down']" class="font-black text-lg sm:ml-2 lg:ml-0">
                                 {{ coin.price_change_percentage_7d }}%
                             </p>
                         </div>
@@ -200,9 +200,6 @@ import LoadingScreen from '../../Components/LoadingScreen'
 // COMPOSABLES
 import useAddCryptoForm from '../../Composables/useAddCryptoForm'
 import useEditCryptoForm from '../../Composables/useEditCryptoForm'
-
-// HELPERS
-import { priceColor } from '../../Helpers/PriceColor'
 
 // CHART
 import { Chart, LineElement, LineController, LinearScale, CategoryScale, PointElement } from 'chart.js'
@@ -331,7 +328,6 @@ export default {
 
         return {
             coin,
-            priceColor,
             showAddForm,
             cryptoToAdd,
             showEditForm,

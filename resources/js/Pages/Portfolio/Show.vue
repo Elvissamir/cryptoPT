@@ -320,7 +320,7 @@ export default {
 
         // EDIT FORM
        const { showEditForm, cryptoToEdit, disableEditCryptoForm, activateEditCryptoForm } = useEditCryptoForm();
-
+     
         // METHODS
         // REQUEST URL
         const generateRequestCgUrl = (cryptoArr) => {
@@ -345,6 +345,8 @@ export default {
 
         // CYCLE HOOKS
         onMounted(() => {
+
+            document.title = 'CPT - My portfolio'
 
             if (props.cryptos.length == 0)
             {

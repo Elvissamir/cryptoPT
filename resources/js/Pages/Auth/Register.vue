@@ -1,8 +1,8 @@
 <template>
     <jet-authentication-card>
-        <template #logo>
-            <jet-authentication-card-logo />
-        </template>
+        <div class="flex justify-center mx-auto mt-3 mb-5">
+           <Logo></Logo>
+        </div>
 
         <jet-validation-errors class="mb-4" />
 
@@ -60,6 +60,7 @@
     import JetCheckbox from "@/Jetstream/Checkbox";
     import JetLabel from '@/Jetstream/Label'
     import JetValidationErrors from '@/Jetstream/ValidationErrors'
+    import Logo from '../../Components/Logo.vue'
 
     export default {
         components: {
@@ -69,7 +70,8 @@
             JetInput,
             JetCheckbox,
             JetLabel,
-            JetValidationErrors
+            JetValidationErrors,
+            Logo,
         },
 
         data() {
@@ -83,7 +85,9 @@
                 })
             }
         },
-
+        mounted() {
+            document.title = "CPT - Register";
+        },
         methods: {
             submit() {
                 this.form.post(this.route('register'), {

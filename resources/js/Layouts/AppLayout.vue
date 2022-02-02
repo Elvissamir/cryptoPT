@@ -10,20 +10,11 @@
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex-shrink-0 flex items-center">
-                                <inertia-link :href="route('dashboard')">
-                                    <jet-application-mark class="block h-9 w-auto" />
-                                </inertia-link>
+                                <Logo></Logo>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                                    <div class="flex items-baseline text-base font-black">
-                                        <div class="mr-2 md:text-lg">Home</div>
-                                        <font-awesome-icon :icon="['fas', 'home']"/>
-                                    </div>
-                                </jet-nav-link>
-
                                  <jet-nav-link :href="route('portfolioCryptos.show')" :active="route().current('portfolioCryptos.show')">
                                     <div class="flex items-baseline text-base font-black">
                                         <div class="mr-2 md:text-lg">Portfolio</div>
@@ -162,13 +153,6 @@
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
 
                     <div class="flex flex-row w-11/12 mx-auto justify-between mt-1">
-                      <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                            <div class="flex items-baseline text-base font-black">
-                                <div class="mr-2 md:text-lg">Home</div>
-                                <font-awesome-icon :icon="['fas', 'home']"/>
-                            </div>
-                      </jet-nav-link>
-
                       <jet-nav-link :href="route('portfolioCryptos.show')" :active="route().current('portfolioCryptos.show')">
                           <div class="flex items-baseline text-base font-black">
                                 <div class="mr-2 md:text-lg">Portfolio</div>
@@ -341,6 +325,8 @@
     import JetNavLink from '@/Jetstream/NavLink'
     import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink'
 
+    import Logo from '../Components/Logo.vue'
+
     export default {
         components: {
             JetApplicationMark,
@@ -349,14 +335,13 @@
             JetDropdownLink,
             JetNavLink,
             JetResponsiveNavLink,
+            Logo,
         },
-
         data() {
             return {
                 showingNavigationDropdown: false,
             }
         },
-
         methods: {
             switchToTeam(team) {
                 this.$inertia.put(route('current-team.update'), {

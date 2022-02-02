@@ -19,19 +19,8 @@ use App\Http\Controllers\PortfolioCryptosController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect(route('portfolioCryptos.show'));
 });
-
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
-
 
 // CREATE DEMO USER & LOGIN
 Route::post('/loginAsDemo', [DemoUserLoginController::class, 'store'])

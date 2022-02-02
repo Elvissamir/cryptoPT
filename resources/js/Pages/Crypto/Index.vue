@@ -216,6 +216,7 @@ export default {
     }
 
 		onMounted(() => {
+      document.title = 'CPT - Cryptos'
       fetchCGData();
 		});
 

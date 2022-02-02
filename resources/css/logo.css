@@ -1,0 +1,4 @@
+
+.logo {
+    @apply flex text-2xl text-blue-900 font-black h-16 w-16 border-2 border-blue-900 justify-center items-center rounded-full bg-white;
+}

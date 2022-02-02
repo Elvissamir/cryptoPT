@@ -1,13 +1,28 @@
 <template>
     <jet-authentication-card>
-        <template #logo>
-            <jet-authentication-card-logo />
-        </template>
+        <div class="flex justify-center mx-auto mt-3 mb-5">
+           <Logo></Logo>
+        </div>
 
         <jet-validation-errors class="mb-4" />
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
+        </div>
+
+        <div class="flex flex-col justify-center mt-5 mb-3">
+            <p class="mt-3 mx-auto text-lg text-blue-900">Login as Demo User:</p>
+            <div class="flex flex-col mt-4 mx-auto justify-center">
+                <p class="mx-auto text-lg font-black">
+                    <font-awesome-icon :icon="['fas', 'user']" :size="lg" />
+                </p>
+                <Link class="mt-2 bg-blue-900 text-lg px-4 py-2 font-black text-white rounded-md" method="post" as="button" type="button" :href="loginAsDemoUrl">Demo</Link>
+            </div>
+        </div>
+
+        <div class="flex flex-col justify-center mt-8">
+            <hr class="w-11/12 mx-auto">
+            <p class="mt-3 mx-auto text-lg">Or Login:</p>
         </div>
 
         <form @submit.prevent="submit">
@@ -39,18 +54,6 @@
             </div>
         </form>
 
-        <!-- LOGIN AS DEMO -->
-        <div class="flex flex-col justify-center mt-5 mb-3">
-            <hr class="w-11/12 mx-auto">
-            <p class="mt-3 mx-auto">Or login as a Demo user:</p>
-            <div class="flex flex-col mt-4 mx-auto justify-center">
-                <p class="mx-auto text-lg font-black">
-                    <font-awesome-icon :icon="['fas', 'user']" :size="lg" />
-                </p>
-                <Link class="mt-2 bg-blue-900 px-4 py-2 text-white rounded-md" method="post" as="button" type="button" :href="loginAsDemoUrl">Demo</Link>
-            </div>
-        </div>
-
     </jet-authentication-card>
 </template>
 
@@ -63,7 +66,8 @@
     import JetLabel from '@/Jetstream/Label'
     import JetValidationErrors from '@/Jetstream/ValidationErrors'
 
-    import { Link } from '@inertiajs/inertia-vue3'
+    import Logo from '../../Components/Logo.vue'
+    import {Link} from '@inertiajs/inertia-vue3'
 
     export default {
         components: {
@@ -74,6 +78,7 @@
             JetCheckbox,
             JetLabel,
             JetValidationErrors,
+            Logo,
             Link,
         },
 
@@ -92,7 +97,9 @@
                 loginAsDemoUrl: '/loginAsDemo'
             }
         },
-
+        mounted() {
+            document.title = "CPT - Login";
+        },
         methods: {
             submit() {
                 this.form

@@ -279,6 +279,9 @@ export default {
 
         // HOOKS
         onMounted(() => {
+
+            document.title = `CPT - ${props.crypto.cg_id}`
+
             getCryptoData(cryptoDataUrl);
             generateLineChart(chartDataUrl);
         })

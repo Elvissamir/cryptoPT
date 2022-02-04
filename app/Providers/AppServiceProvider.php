@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use App\Http\Resources\CryptoResource;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         CryptoResource::withoutWrapping();
+
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
     }
 }

@@ -1,12 +1,10 @@
+import Chart from './Chart'
 
-
-const generateLineChartConf = (cryptoData) => {
-    
-    // LINE
+const generateLineChartConf = (data) => {
     const lineData = {
         labels: ['7d', '6d', '5d', '4d', '3d', '2d', '1d', 'today'],
         datasets: [{
-            data: cryptoData,
+            data: data,
             fill: false,
             borderColor: 'rgb(0, 150, 250)',
             tension: 0.1,
@@ -26,7 +24,11 @@ const generateLineChartConf = (cryptoData) => {
     return lineConf;
 }
 
+const createLineChart = (element, data) => {
+    return new Chart(element, generateLineChartConf(data))
+}
 
 export {
     generateLineChartConf,
+    createLineChart,
 }

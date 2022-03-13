@@ -187,6 +187,9 @@ import Layout from "../../Layouts/AppLayout";
 
 import { ref, onMounted, watch } from 'vue'
 
+// Services
+import { getCryptoById, getCryptoChartDataById } from '../../Services/cryptoApiService'
+
 // COMPONENTS
 import { Link } from '@inertiajs/inertia-vue3'
 import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
@@ -200,13 +203,11 @@ import LoadingScreen from '../../Components/LoadingScreen'
 // COMPOSABLES
 import useAddCryptoForm from '../../Composables/useAddCryptoForm'
 import useEditCryptoForm from '../../Composables/useEditCryptoForm'
+import { useToast } from 'vue-toastification';
 
 // CHART
-import { Chart, LineElement, LineController, LinearScale, CategoryScale, PointElement } from 'chart.js'
-import { generateLineChartConf } from '../../Charts/LineChart';
+import { createLineChart } from '../../Charts/LineChart';
 import { joinCryptoData } from '../../Helpers/JoinCryptoData';
-
-Chart.register(LineElement, LineController, LinearScale, CategoryScale, PointElement);
 
 export default {
     components: {
@@ -228,20 +229,10 @@ export default {
     },
     setup(props) {
 
-        // URL 
-        const baseUrl = ' https://api.coingecko.com/api/v3/coins';
-        const currency = 'usd';
-        const cryptoId = props.crypto.cg_id;
-        const order = 'market_cap_desc';
-        const sparkline = false;
-        const price_change = '1h%2C24h%2C7d';
-        const days = 7;
-        const interval = 'daily';
+        let lineChart = null
+        const toast = useToast()
+        const cryptoCGid = props.crypto.cg_id
 
-        const cryptoDataUrl = `${baseUrl}/markets?vs_currency=${currency}&ids=${cryptoId}&order=${order}&per_page=1&page=1&${sparkline}&price_change_percentage=${price_change}`;
-        const chartDataUrl = `${baseUrl}/${cryptoId}/market_chart?vs_currency=${currency}&days=${days}&interval=${interval}`;
-
-        // CRYPTO DATA
         let coin = ref({
             url: ''
         });
@@ -262,71 +253,73 @@ export default {
             total_worth: true,
         };
 
-        // CHART DATA
-        const chartData = ref([]);
-
-        // ADD FORM 
-       const { showAddForm, cryptoToAdd, disableAddCryptoForm, activateAddCryptoForm } = useAddCryptoForm();
-
-        // EDIT FORM 
-        const { showEditForm, cryptoToEdit, disableEditCryptoForm, activateEditCryptoForm } = useEditCryptoForm();
-
-        // LOADER SCREEN
+        const chartData = ref([])
+        const status = ref('loading');
         const showLoading = ref(true);
 
-        // DATA STATUS
-        const status = ref('loading');
+        const { showAddForm, cryptoToAdd, disableAddCryptoForm, activateAddCryptoForm } = useAddCryptoForm();
+        const { showEditForm, cryptoToEdit, disableEditCryptoForm, activateEditCryptoForm } = useEditCryptoForm();
 
-        // HOOKS
+        const setCoin = (data) => {
+            let cryptoObj = {};
+            cryptoObj[cryptoCGid] = props.crypto;
+            coin.value = joinCryptoData(cryptoObj, data[0], options);  
+        }
+          
+        const fetchCryptoData = async (afterFetch) => {
+            try {
+                status.value = 'fetching';
+                showLoading.value = true;
+                
+                const { data } = await getCryptoById(cryptoCGid)
+                status.value = 'ready'
+                showLoading.value = false;
+                
+                afterFetch(data)
+            }
+            catch (ex) {
+                status.value = 'ready'
+                showLoading.value = false
+
+                if (ex.response && ex.response.status >= 400 && ex.response.status < 500)
+                    toast.error(`${ex.response.status} ${ex.response.data}`)
+            }
+        }
+
+        const generateLineChart = (data) => {
+            chartData.value = data.prices.map(price => price[1]);
+
+            const htmLineElement = document.getElementById('lineChart');
+            lineChart = createLineChart(htmLineElement, chartData.value)
+        }
+
+        const fetchCryptoChartData = async (afterFetch) => {
+            try {
+                const { data } = await getCryptoChartDataById(cryptoCGid)
+                afterFetch(data)
+            }
+            catch (ex) {
+                status.value = 'ready'
+                showLoading.value = false
+
+                if (ex.response && ex.response.status >= 400 && ex.response.status < 500)
+                    toast.error(`${ex.response.status} ${ex.response.data}`)
+            }
+        }
+
         onMounted(() => {
+             document.title = `CPT - ${cryptoCGid}`
 
-            document.title = `CPT - ${props.crypto.cg_id}`
-
-            getCryptoData(cryptoDataUrl);
-            generateLineChart(chartDataUrl);
+            fetchCryptoData(setCoin);
+            fetchCryptoChartData(generateLineChart)
         })
-
-        const getCryptoData = (url) => {
-
-            status.value = 'fetching';
-            showLoading.value = true;
-
-            axios.get(url)
-                .then(res => {
-
-                    showLoading.value = false;
-                    
-                    const cryptoName = props.crypto.cg_id;
-
-                    let cryptoObj = {};
-                    cryptoObj[cryptoName] = props.crypto;
-
-                    coin.value = joinCryptoData(cryptoObj, res.data[0], options);   
-                    
-                })
-                .catch(e => console.log(e));
-        }
-
-        const generateLineChart = (url) => {
-             axios.get(url)
-                .then(res => {
-
-                    chartData.value = res.data.prices.map(price => price[1]);
-
-                    const conf = generateLineChartConf(chartData.value);
-                    const htmLineElement = document.getElementById('lineChart');
-
-                    const lineChart = new Chart(htmLineElement, conf);
-                })
-                .catch(e => console.log(e));
-        }
 
         watch(() => props.crypto, () => {
             
             disableAddCryptoForm();
             disableEditCryptoForm();
 
-            getCryptoData(cryptoDataUrl);
+            fetchCryptoData(setCoin);
         });
 
         return {

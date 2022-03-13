@@ -4,7 +4,7 @@
     <layout>
 
     <!-- LOADER SCREEN -->
-    <LoadingScreen :showLoadingScreen="showLoading" :status="status"></LoadingScreen>
+    <LoadingScreen :showLoadingScreen="showLoading" status="status"></LoadingScreen>
 
     <!-- EDIT AMOUNT CRYPTO FORM SCREEN -->
     <ModalWindow :showModal="showEditForm">
@@ -14,7 +14,6 @@
     <!-- MAIN -->
     <div class="w-full">
         <div v-if="hasData" class="w-full">
-
             <div class="grid grid-cols-1">
                 <!-- MY PORTFOLIO DATA & CRYPTOS SECTION -->
                 <div class="flex flex-col text-white bg-blue-900 w-full mx-auto">
@@ -24,54 +23,54 @@
                         <div class="w-full">
                             <!-- PORTFOLIO DETAILS TOP -->
                             <div class="flex">
-                                    <div class="w-6/12 flex flex-wrap">
-                                        <h1 class="sm:text-xl font-black lg:text-2xl">My Portfolio</h1>
-                                    </div>
+                                <div class="w-6/12 flex flex-wrap">
+                                    <h1 class="sm:text-xl font-black lg:text-2xl">My Portfolio</h1>
+                                </div>
 
-                                    <div class="w-6/12 flex justify-end items-baseline">
-                                        <p class="text-sm sm:text-base mr-2">Total: </p>
-                                        <p class="sm:text-xl font-black up">
-                                            ${{ portfolioTotalWorth }}
-                                        </p>
-                                    </div>
+                                <div class="w-6/12 flex justify-end items-baseline">
+                                    <p class="text-sm sm:text-base mr-2">Total: </p>
+                                    <p class="sm:text-xl font-black up">
+                                        ${{ portfolioTotalWorth }}
+                                    </p>
+                                </div>
                             </div>
 
                             <!-- PORTFOLIO DETAILS CONTENT -->
                             <div class="flex mt-2">
-                                    <div class="flex flex-col w-6/12">
-                                        <div class="flex">
-                                            <p class="text-xs my-auto sm:text-base">Number of cryptos: </p>
-                                            <p class="text-sm font-bold ml-2 sm:text-lg">{{ cryptoData.length }}</p>
-                                        </div>
-
-                                        <div class="flex">
-                                            <p class="text-xs my-auto sm:text-base">Created: </p>
-                                            <p class="text-sm font-bold ml-2 sm:text-lg">{{ portfolio.created_at }}</p>
-                                        </div>
-
-                                        <div class="flex">
-                                            <p class="text-xs my-auto sm:text-base">Modified: </p>
-                                            <p class="text-sm font-bold ml-2 sm:text-lg">{{ portfolio.updated_at }}</p>
-                                        </div>
+                                <div class="flex flex-col w-6/12">
+                                    <div class="flex">
+                                        <p class="text-xs my-auto sm:text-base">Number of cryptos: </p>
+                                        <p class="text-sm font-bold ml-2 sm:text-lg">{{ cryptoData.length }}</p>
                                     </div>
 
-                                    <div class="flex flex-col items-end w-6/12">
-                                        <div class="flex">
-                                            <p class="text-xs my-auto sm:text-base">Growth % (24h): </p>
-                                            <p :class="[(Math.sign(portfolioGrowthPercentage) >= 0)? 'up':'down']"
-                                                class="text-sm ml-2 sm:text-lg font-black">
-                                                    {{ portfolioGrowthPercentage }}%
-                                            </p>
-                                        </div>
-
-                                        <div class="flex">
-                                            <p class="text-xs my-auto sm:text-base">Growth (24h):</p>
-                                            <p :class="[(Math.sign(portfolioGrowth) >= 0)? 'up':'down']"
-                                                class="text-sm ml-2 sm:text-lg font-black">
-                                                ${{ portfolioGrowth }}
-                                            </p>
-                                        </div>
+                                    <div class="flex">
+                                        <p class="text-xs my-auto sm:text-base">Created: </p>
+                                        <p class="text-sm font-bold ml-2 sm:text-lg">{{ portfolio.created_at }}</p>
                                     </div>
+
+                                    <div class="flex">
+                                        <p class="text-xs my-auto sm:text-base">Modified: </p>
+                                        <p class="text-sm font-bold ml-2 sm:text-lg">{{ portfolio.updated_at }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col items-end w-6/12">
+                                    <div class="flex">
+                                        <p class="text-xs my-auto sm:text-base">Growth % (24h): </p>
+                                        <p :class="[(Math.sign(portfolioGrowthPercentage) >= 0)? 'up':'down']"
+                                            class="text-sm ml-2 sm:text-lg font-black">
+                                                {{ portfolioGrowthPercentage }}%
+                                        </p>
+                                    </div>
+
+                                    <div class="flex">
+                                        <p class="text-xs my-auto sm:text-base">Growth (24h):</p>
+                                        <p :class="[(Math.sign(portfolioGrowth) >= 0)? 'up':'down']"
+                                            class="text-sm ml-2 sm:text-lg font-black">
+                                            ${{ portfolioGrowth }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -214,7 +213,7 @@ import Layout from '../../Layouts/AppLayout'
 import { ref, onMounted, watch } from 'vue'
 
 // Services
-import httpService from '../../Services/httpService'
+import { getCryptosById } from '../../Services/cryptoApiService'
 import { useToast } from 'vue-toastification'
 
 // COMPONENTS
@@ -226,11 +225,12 @@ import EditCryptoForm from '../../Components/EditCryptoForm.vue'
 import EditCryptoBtn from '../../Components/EditCryptoBtn.vue'
 import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 
-// COMPOSABLES
+// Composables
 import useEditCryptoForm from '../../Composables/useEditCryptoForm.js'
 
 // Helpers
 import { generateCryptoDataArray } from '../../Helpers/GenerateCryptoDataArray'
+import getIdsFromArray from '../../Helpers/GetIdsFromArray'
 import {
     calculateTotalWorth,
     calculateGrowth,
@@ -241,22 +241,8 @@ import {
 import { chartColors } from '../../Charts/ChartColors'
 
 // Charts
-import {
-    Chart,
-    BarController,
-    DoughnutController,
-    ArcElement,
-    BarElement,
-    Tooltip,
-    LinearScale,
-    CategoryScale,
-    } from 'chart.js'
-
-import { generateDoughnutChartConf, updateDoughnutChart } from '../../Charts/DoughnutChart.js'
-import { generateBarChartConf, updateBarChart } from '../../Charts/BarChart.js'
-
-// Register Chart dependencies
-Chart.register(DoughnutController, BarController, BarElement, ArcElement, CategoryScale, LinearScale, Tooltip);
+import { createDoughnutChart, updateDoughnutChart } from '../../Charts/DoughnutChart.js'
+import { createBarChart, updateBarChart } from '../../Charts/BarChart.js'
 
 export default {
   components: {
@@ -284,19 +270,10 @@ export default {
         const toast = useToast()
 
         // Properties
-        let cryptoData = ref([]);
+        const cryptoData = ref([]);
 
         let doughnutChart = null;
         let barChart = null;
-
-        // Request Parameters
-        let main_url = "https://api.coingecko.com/api/v3/coins/";
-        let currency = 'usd';
-        let order = "market_cap_desc";
-        let per_page = "100";
-        let page = 1;
-        let sparkline = false;
-        let price_change_percentage = '7d%2C%2024h';
 
         // JOIN DATA OPTIONS
         let options = {
@@ -326,19 +303,6 @@ export default {
 
         // EDIT FORM
        const { showEditForm, cryptoToEdit, disableEditCryptoForm, activateEditCryptoForm } = useEditCryptoForm();
-     
-        // METHODS
-        // REQUEST URL
-        const generateRequestCgUrl = (cryptoArr) => {
-            let ids = cryptoArr.map(crypto => {
-                return crypto.cg_id
-            });
-
-            let allIds = ids.join('%2C%20');
-
-            // Request URL
-            return `${main_url}markets?vs_currency=${currency}&ids=${allIds}&order=${order}&per_page=${per_page}&page=${page}&sparkline=${sparkline}&price_change_percentage=${price_change_percentage}`;
-        }
 
         // PORTFOLIO DATA
         const calculatePortfolioData = (cryptosData) => {
@@ -348,11 +312,10 @@ export default {
         }
 
         // CYCLE HOOKS
-        onMounted(() => {
+        onMounted(async () => {
             document.title = 'CPT - My portfolio'
 
-            if (props.cryptos.length == 0)
-            {
+            if (props.cryptos.length == 0) {
                 hasData.value = false;
                 showLoading.value = false;
                 status.value = 'ready';
@@ -360,35 +323,37 @@ export default {
                 calculatePortfolioData(cryptoData.value);
             }
             else {
-
                 hasData.value = true;
                 status.value = 'fetching';
 
-                // DATA OF ALL CRYPTOS INFORMATION
-                axios.get(generateRequestCgUrl(props.cryptos))
-                     .then(res => {
+                const ids = getIdsFromArray(props.cryptos)
+                
+                try {
+                    const { data } = await getCryptosById(ids)
 
-                        status.value = 'ready';
-                        showLoading.value = false;
+                    status.value = 'ready'
+                    showLoading.value = false
 
-                        toast.success('Ya!')
+                    cryptoData.value = generateCryptoDataArray(props.cryptos, data, options);
 
-                        cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
+                    calculatePortfolioData(cryptoData.value);
 
-                        // CALCULATE PORTFOLIO DATA
-                        calculatePortfolioData(cryptoData.value);
+                    cryptoDistribution.value = calculateCryptoDistribution(cryptoData.value, portfolioTotalWorth.value);
+                    topCryptos.value = calculateTopCryptos(cryptoData.value);
 
-                        // CALCULATE CHARTS DATA
-                        cryptoDistribution.value = calculateCryptoDistribution(cryptoData.value, portfolioTotalWorth.value);
-                        topCryptos.value = calculateTopCryptos(cryptoData.value);
+                    const doughnutHtmlElement = document.getElementById("doughnutChart");
+                    doughnutChart = createDoughnutChart(doughnutHtmlElement, cryptoDistribution.value)
 
-                        const doughnutHtmlElement = document.getElementById("doughnutChart");
-                        doughnutChart = new Chart(doughnutHtmlElement, generateDoughnutChartConf(cryptoDistribution.value, cryptoDistribution.value.cryptos.length));
+                    const barHtmlElement = document.getElementById('barChart');
+                    barChart = createBarChart(barHtmlElement, topCryptos.value)
+                }
+                catch (ex) {
+                    status.value = 'ready'
+                    showLoading.value = false
 
-                        const barHtmlElement = document.getElementById('barChart');
-                        barChart = new Chart(barHtmlElement, generateBarChartConf(topCryptos.value, topCryptos.value.cryptos.length));
-                })
-                .catch(e => console.log(e));
+                    if (ex.response && ex.response.status >= 400 && ex.response.status < 500)
+                        toast.error(`${ex.response.status} ${ex.response.data}`)
+                }
             }
         });
 
@@ -410,21 +375,16 @@ export default {
                 hasData.value = true;
                 status.value = 'fetching';
 
-                // DATA OF ALL CRYPTOS INFORMATION
                 axios.get(generateRequestCgUrl(props.cryptos))
                      .then(res => {
 
                         status.value = 'ready';
                         showLoading.value = false;
 
-                        toast.success('Ya!')
-
                         cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
 
-                        // CALCULATE PORTFOLIO DATA
                         calculatePortfolioData(cryptoData.value);
 
-                        // CALCULATE CHARTS DATA
                         cryptoDistribution.value = calculateCryptoDistribution(cryptoData.value, portfolioTotalWorth.value);
                         topCryptos.value = calculateTopCryptos(cryptoData.value);
 

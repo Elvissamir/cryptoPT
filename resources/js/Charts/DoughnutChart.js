@@ -1,18 +1,18 @@
-
+import Chart from './Chart'
 import { chartColors } from "./ChartColors";
 import { maxCryptos } from '../Helpers/MaxChartCryptos';
 
-const generateDoughnutChartConf = (portfolioCryptoDistribution) => {
+const generateDoughnutChartConf = (data) => {
 
-    const max = maxCryptos(portfolioCryptoDistribution.cryptos);
+    const max = maxCryptos(data.cryptos);
 
     const doughnutChartColors = chartColors.backgroundColors.map(color => color).slice(0, max);
 
     // DOUGHNUT
     const dataDoughnut = {
-        labels: portfolioCryptoDistribution.cryptos,
+        labels: data.cryptos,
         datasets: [{
-            data: portfolioCryptoDistribution.percentages,
+            data: data.percentages,
             backgroundColor: doughnutChartColors,
             hoverOffset: 4
         }]
@@ -35,6 +35,9 @@ const generateDoughnutChartConf = (portfolioCryptoDistribution) => {
     return doughnutConf;
 }
 
+const createDoughnutChart = (element, data) => {
+    return new Chart(element, generateDoughnutChartConf(data));
+}
 
 const updateDoughnutChart = (chart, portfolioCryptoDistribution) => {
 
@@ -42,8 +45,7 @@ const updateDoughnutChart = (chart, portfolioCryptoDistribution) => {
 
     const max = maxCryptos(portfolioCryptoDistribution.cryptos);
     
-    const doughnutChartColors = chartColors.backgroundColors.map(color => color)
-                                                            .slice(0, max);
+    const doughnutChartColors = chartColors.backgroundColors.map(color => color).slice(0, max);
 
     chart.data.datasets.forEach(dataset => {
         dataset.data = portfolioCryptoDistribution.percentages;
@@ -55,5 +57,6 @@ const updateDoughnutChart = (chart, portfolioCryptoDistribution) => {
 
 export {
     generateDoughnutChartConf, 
+    createDoughnutChart,
     updateDoughnutChart,
 }

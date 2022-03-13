@@ -1,9 +1,9 @@
+import Chart from './Chart'
 import { chartColors } from "./ChartColors";
 import { maxCryptos } from '../Helpers/MaxChartCryptos';
 
-const generateBarChartConf = (portfolioTopCryptos) => {
-
-    const max =  maxCryptos(portfolioTopCryptos.cryptos);
+const generateBarChartConf = (data) => {
+    const max =  maxCryptos(data.cryptos);
 
     const barChartColors = {
         backgroundColors: chartColors.backgroundColors.map(color => color).slice(0, max),
@@ -13,9 +13,9 @@ const generateBarChartConf = (portfolioTopCryptos) => {
      // BAR
     const dataBar = {
         legend: 'Top 5 Cryptos % growth',
-        labels: portfolioTopCryptos.cryptos,
+        labels: data.cryptos,
         datasets: [{
-            data: portfolioTopCryptos.percentages,
+            data: data.percentages,
             backgroundColor: barChartColors.backgroundColors,
             borderColor: barChartColors.borderColor,
             borderWith: 1,
@@ -40,6 +40,10 @@ const generateBarChartConf = (portfolioTopCryptos) => {
     return barConf;
 }
 
+const createBarChart = (element, data) => {
+    return new Chart(element, generateBarChartConf(data));
+}
+
 const updateBarChart = (chart, topCryptos) => {
 
     chart.data.labels = topCryptos.cryptos;
@@ -60,5 +64,6 @@ const updateBarChart = (chart, topCryptos) => {
 
 export {
     generateBarChartConf,
+    createBarChart,
     updateBarChart,    
 }

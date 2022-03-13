@@ -156,14 +156,13 @@ export default {
   },
   setup(props) {
     
-    let cryptoData = ref([]);
+    const cryptoData = ref([]);
 
 		// REQUEST URL
 		const baseUrl = "https://api.coingecko.com/api/v3/coins";
 		const currency = 'usd';
 		const order = 'market_cap_desc';
 		const perPage = 10;
-		const page = ref(1);
 		const sparkline = false;
 		const price_change = "1h%2C24h%2C7d";
 		const marketRanksUrl = ref('');
@@ -174,11 +173,8 @@ export default {
     // ADD CRYPTO FORM STATE AND DATA
     const { showAddForm, cryptoToAdd, disableAddCryptoForm, activateAddCryptoForm } = useAddCryptoForm();
 
-    // LOADER SCREEN
-    const showLoading = ref(true);
-
-    // DATA STATUS
     const status = ref('loading');
+    const showLoading = ref(true);
 
      // JOIN DATA OPTIONS
     let options = {
@@ -190,8 +186,7 @@ export default {
 
     // METHODS
     const fetchCGData = () => {
-      page.value = currentPage.value;
-      marketRanksUrl.value = `${baseUrl}/markets?vs_currency=${currency}&order=${order}&per_page=${perPage}&page=${page.value}&sparkline=${sparkline}&price_change_percentage=${price_change}`;
+      marketRanksUrl.value = `${baseUrl}/markets?vs_currency=${currency}&order=${order}&per_page=${perPage}&page=${currentPage.value}&sparkline=${sparkline}&price_change_percentage=${price_change}`;
 
       showLoading.value = true;
       status.value = 'fetching';
@@ -228,7 +223,6 @@ export default {
     watch(currentPage, () => {
       fetchCGData();
     })
-
 
 		return {
       cryptoData, 

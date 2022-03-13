@@ -1,5 +1,3 @@
-
-
 import { chartColors } from "./ChartColors";
 import { maxCryptos } from '../Helpers/MaxChartCryptos';
 

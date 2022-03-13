@@ -213,6 +213,10 @@ import Layout from '../../Layouts/AppLayout'
 // Vue
 import { ref, onMounted, watch } from 'vue'
 
+// Services
+import httpService from '../../Services/httpService'
+import { useToast } from 'vue-toastification'
+
 // COMPONENTS
 import { Link } from '@inertiajs/inertia-vue3'
 import LinkAddCrypto from '../../Components/LinkAddCrypto.vue'
@@ -277,6 +281,8 @@ export default {
   },
   setup(props) {
 
+        const toast = useToast()
+
         // Properties
         let cryptoData = ref([]);
 
@@ -324,7 +330,6 @@ export default {
         // METHODS
         // REQUEST URL
         const generateRequestCgUrl = (cryptoArr) => {
-
             let ids = cryptoArr.map(crypto => {
                 return crypto.cg_id
             });
@@ -337,7 +342,6 @@ export default {
 
         // PORTFOLIO DATA
         const calculatePortfolioData = (cryptosData) => {
-
             portfolioTotalWorth.value = calculateTotalWorth(cryptosData);
             portfolioGrowth.value = calculateGrowth(cryptosData);
             portfolioGrowthPercentage.value = calculateGrowthPercentage(portfolioTotalWorth.value, portfolioGrowth.value);
@@ -345,7 +349,6 @@ export default {
 
         // CYCLE HOOKS
         onMounted(() => {
-
             document.title = 'CPT - My portfolio'
 
             if (props.cryptos.length == 0)
@@ -367,6 +370,8 @@ export default {
 
                         status.value = 'ready';
                         showLoading.value = false;
+
+                        toast.success('Ya!')
 
                         cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
 
@@ -411,6 +416,8 @@ export default {
 
                         status.value = 'ready';
                         showLoading.value = false;
+
+                        toast.success('Ya!')
 
                         cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
 

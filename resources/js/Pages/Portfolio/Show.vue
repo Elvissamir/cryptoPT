@@ -269,13 +269,11 @@ export default {
 
         const toast = useToast()
 
-        // Properties
         const cryptoData = ref([]);
 
         let doughnutChart = null;
         let barChart = null;
 
-        // JOIN DATA OPTIONS
         let options = {
             created_at: true,
             total_worth: true,
@@ -283,7 +281,6 @@ export default {
             price_change_percentage_7d: true,
         };
 
-        // PORTFOLIO WORTH
         const portfolioTotalWorth = ref(0);
         const portfolioGrowth = ref(0);
         const portfolioGrowthPercentage = ref(0);
@@ -296,103 +293,87 @@ export default {
             percentage: [],
         });
 
-        // STATUS
         const status = ref('loading');
         const showLoading = ref(true);
         const hasData = ref(false);
 
-        // EDIT FORM
-       const { showEditForm, cryptoToEdit, disableEditCryptoForm, activateEditCryptoForm } = useEditCryptoForm();
+        const { showEditForm, cryptoToEdit, disableEditCryptoForm, activateEditCryptoForm } = useEditCryptoForm();
 
-        // PORTFOLIO DATA
         const calculatePortfolioData = (cryptosData) => {
             portfolioTotalWorth.value = calculateTotalWorth(cryptosData);
             portfolioGrowth.value = calculateGrowth(cryptosData);
             portfolioGrowthPercentage.value = calculateGrowthPercentage(portfolioTotalWorth.value, portfolioGrowth.value);
         }
 
-        // CYCLE HOOKS
-        onMounted(async () => {
-            document.title = 'CPT - My portfolio'
+        const calculateChartsData = (data) => {
+            cryptoDistribution.value = calculateCryptoDistribution(data, portfolioTotalWorth.value);
+            topCryptos.value = calculateTopCryptos(data);
+        }
 
-            if (props.cryptos.length == 0) {
-                hasData.value = false;
-                showLoading.value = false;
-                status.value = 'ready';
-                cryptoData.value = [];
-                calculatePortfolioData(cryptoData.value);
-            }
-            else {
+        const initCharts = () => {
+            const doughnutHtmlElement = document.getElementById("doughnutChart");
+            doughnutChart = createDoughnutChart(doughnutHtmlElement, cryptoDistribution.value)
+
+            const barHtmlElement = document.getElementById('barChart');
+            barChart = createBarChart(barHtmlElement, topCryptos.value)
+        }
+
+        const updateCharts = () => {
+            updateDoughnutChart(doughnutChart, cryptoDistribution.value)
+            updateBarChart(barChart, topCryptos.value)
+        }
+
+        const startWithEmptyData = () => {
+            hasData.value = false;
+            showLoading.value = false;
+            status.value = 'ready';
+            cryptoData.value = [];
+            calculatePortfolioData(cryptoData.value);
+        }
+
+        const fetchCryptoData = async (afterFectch) => {
+            try {
                 hasData.value = true;
                 status.value = 'fetching';
 
                 const ids = getIdsFromArray(props.cryptos)
-                
-                try {
-                    const { data } = await getCryptosById(ids)
+                const { data } = await getCryptosById(ids)
 
-                    status.value = 'ready'
-                    showLoading.value = false
+                status.value = 'ready'
+                showLoading.value = false
 
-                    cryptoData.value = generateCryptoDataArray(props.cryptos, data, options);
+                cryptoData.value = generateCryptoDataArray(props.cryptos, data, options);
 
-                    calculatePortfolioData(cryptoData.value);
+                calculatePortfolioData(cryptoData.value);
+                calculateChartsData(cryptoData.value)
 
-                    cryptoDistribution.value = calculateCryptoDistribution(cryptoData.value, portfolioTotalWorth.value);
-                    topCryptos.value = calculateTopCryptos(cryptoData.value);
-
-                    const doughnutHtmlElement = document.getElementById("doughnutChart");
-                    doughnutChart = createDoughnutChart(doughnutHtmlElement, cryptoDistribution.value)
-
-                    const barHtmlElement = document.getElementById('barChart');
-                    barChart = createBarChart(barHtmlElement, topCryptos.value)
-                }
-                catch (ex) {
-                    status.value = 'ready'
-                    showLoading.value = false
-
-                    if (ex.response && ex.response.status >= 400 && ex.response.status < 500)
-                        toast.error(`${ex.response.status} ${ex.response.data}`)
-                }
+                afterFectch()
             }
+            catch (ex) {
+                status.value = 'ready'
+                showLoading.value = false
+
+                if (ex.response && ex.response.status >= 400 && ex.response.status < 500)
+                    toast.error(`${ex.response.status} ${ex.response.data}`)
+            }
+        }
+
+        onMounted(async () => {
+            document.title = 'CPT - My portfolio'
+
+            if (props.cryptos.length == 0)
+                startWithEmptyData()
+            else 
+                await fetchCryptoData(initCharts)
         });
 
-        // WATCHERS
-        watch(() => props.cryptos, () => {
-
+        watch(() => props.cryptos, async () => {
             disableEditCryptoForm();
 
             if (props.cryptos.length == 0)
-            {
-                hasData.value = false;
-                showLoading.value = false;
-                status.value = 'ready';
-                cryptoData.value = [];
-                calculatePortfolioData(cryptoData.value);
-            }
-            else {
-
-                hasData.value = true;
-                status.value = 'fetching';
-
-                axios.get(generateRequestCgUrl(props.cryptos))
-                     .then(res => {
-
-                        status.value = 'ready';
-                        showLoading.value = false;
-
-                        cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
-
-                        calculatePortfolioData(cryptoData.value);
-
-                        cryptoDistribution.value = calculateCryptoDistribution(cryptoData.value, portfolioTotalWorth.value);
-                        topCryptos.value = calculateTopCryptos(cryptoData.value);
-
-                        updateDoughnutChart(doughnutChart, cryptoDistribution.value);
-                        updateBarChart(barChart, topCryptos.value);
-                })
-                .catch(e => console.log(e));
-            }
+                startWithEmptyData()
+            else 
+                await fetchCryptoData(updateCharts)
         });
 
         return {

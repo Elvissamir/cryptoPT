@@ -17,4 +17,4 @@ RUN docker-php-ext-install bcmath zip pdo pdo_mysql opcache \
 
 COPY --from=composer:2.2.1 /usr/bin/composer /usr/bin/composer
 
-EXPOSE 9000
+EXPOSE 8100

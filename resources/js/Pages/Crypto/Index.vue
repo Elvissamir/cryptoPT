@@ -137,6 +137,8 @@ import DeleteCryptoBtn from '../../Components/DeleteCryptoBtn.vue'
 
 // HELPERS
 import { generateCryptoDataArray } from '../../Helpers/GenerateCryptoDataArray';
+import { getCryptoRankList } from '../../Services/cryptoApiService';
+import { useToast } from 'vue-toastification';
 
 export default {
   components: {
@@ -155,17 +157,10 @@ export default {
     },
   },
   setup(props) {
+
+    const toast = useToast()
     
     const cryptoData = ref([]);
-
-		// REQUEST URL
-		const baseUrl = "https://api.coingecko.com/api/v3/coins";
-		const currency = 'usd';
-		const order = 'market_cap_desc';
-		const perPage = 10;
-		const sparkline = false;
-		const price_change = "1h%2C24h%2C7d";
-		const marketRanksUrl = ref('');
 
     // PAGINATION
     const currentPage = ref(1);
@@ -185,20 +180,24 @@ export default {
     };
 
     // METHODS
-    const fetchCGData = () => {
-      marketRanksUrl.value = `${baseUrl}/markets?vs_currency=${currency}&order=${order}&per_page=${perPage}&page=${currentPage.value}&sparkline=${sparkline}&price_change_percentage=${price_change}`;
-
+    const fetchCGData = async () => {
       showLoading.value = true;
       status.value = 'fetching';
 
-      axios
-        .get(marketRanksUrl.value)
-        .then((res) => {
+      try {
+        const { data } = await getCryptoRankList(currentPage.value)
+        cryptoData.value = generateCryptoDataArray(props.cryptos, data, options);
+        
+        status.value = "ready"
+        showLoading.value = false;
+      } 
+      catch (ex) {
+        status.value = 'ready'
+        showLoading.value = false
 
-          showLoading.value = false;
-          cryptoData.value = generateCryptoDataArray(props.cryptos, res.data, options);
-        })
-			  .catch((e) => console.log(e));
+        if (ex.response && ex.response.status >= 400 && ex.response.status < 500)
+            toast.error(`${ex.response.status} ${ex.response.data}`)
+      }
     }
 
     const goToPrev = () => {

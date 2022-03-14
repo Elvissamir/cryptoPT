@@ -1,6 +1,17 @@
-import Chart from './Chart'
+import {  
+    Chart,
+    DoughnutController,
+    ArcElement,
+    Tooltip,
+   } from 'chart.js'
 import { chartColors } from "./ChartColors";
 import { maxCryptos } from '../Helpers/MaxChartCryptos';
+
+Chart.register( 
+    DoughnutController, 
+    ArcElement , 
+    Tooltip
+);
 
 const generateDoughnutChartConf = (data) => {
 

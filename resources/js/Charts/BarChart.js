@@ -1,6 +1,23 @@
-import Chart from './Chart'
+import {  
+    Chart,
+    BarController,
+    BarElement,
+    Tooltip,
+    LinearScale,
+    CategoryScale,
+    PointElement } from 'chart.js'
 import { chartColors } from "./ChartColors";
 import { maxCryptos } from '../Helpers/MaxChartCryptos';
+
+Chart.register( 
+    BarController, 
+    BarElement , 
+    CategoryScale, 
+    LinearScale, 
+    PointElement,
+    CategoryScale,
+    Tooltip
+);
 
 const generateBarChartConf = (data) => {
     const max =  maxCryptos(data.cryptos);

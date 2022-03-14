@@ -1,4 +1,20 @@
-import Chart from './Chart'
+import {  
+    Chart,
+    CategoryScale,
+    LinearScale,
+    LineElement,
+    LineController,
+    PointElement,
+    Tooltip,
+   } from 'chart.js'
+
+Chart.register(
+    CategoryScale, 
+    LinearScale, 
+    LineElement, 
+    LineController, 
+    PointElement,
+    Tooltip);
 
 const generateLineChartConf = (data) => {
     const lineData = {

@@ -25,8 +25,7 @@ export default {
             type: Boolean,
         },
     },
-    setup() {
-      
+    setup(props) {
         
     },
 }

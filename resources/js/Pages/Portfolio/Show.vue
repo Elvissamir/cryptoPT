@@ -4,7 +4,7 @@
     <layout>
 
     <!-- LOADER SCREEN -->
-    <LoadingScreen :showLoadingScreen="showLoading" status="status"></LoadingScreen>
+    <LoadingScreen :showLoadingScreen="showLoading" :status="status"></LoadingScreen>
 
     <!-- EDIT AMOUNT CRYPTO FORM SCREEN -->
     <ModalWindow :showModal="showEditForm">

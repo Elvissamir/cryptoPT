@@ -12,7 +12,7 @@
 
         <!-- MAIN CONTENT --> 
         <div class="w-full">
-            <div class="bg-white mx-auto w-11/12 md:w-10/12 2xl:w-8/12">
+            <div class="bg-white mx-auto w-11/12 md:w-11/12 lg:w-10/12 2xl:w-8/12">
 
               <div class="flex flex-col mx-auto w-full mt-8">
                 <div>

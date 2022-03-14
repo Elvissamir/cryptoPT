@@ -18,7 +18,7 @@
 
     <!-- MAIN CONTENT --> 
     <div class="flex w-full">
-        <div class="flex bg-white w-11/12 mx-auto md:w-10/12 2xl:w-8/12">
+        <div class="flex bg-white w-11/12 mx-auto md:w-11/12 lg:w-10/12 2xl:w-8/12">
             <div class="flex flex-col w-full mx-auto">
                 
                 <!-- CRYPTO CONTENT -->

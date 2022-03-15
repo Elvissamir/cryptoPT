@@ -9,7 +9,6 @@ services:
         build: 
             context: ./
             dockerfile: Dockerfile
-        image: laravel8-php-fpm-80
         container_name: cryptopt_app
         restart: unless-stopped
         tty: true

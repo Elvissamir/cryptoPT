@@ -13,7 +13,7 @@ https://cpptracker.herokuapp.com/login
 ## Running using Docker for development: 
 1 - Clone repository
 2 - Install npm dependencies: 
-```
+```sh
 sudo npm i
 ```
 3 - Build and start docker containers: 
@@ -26,11 +26,11 @@ sudo docker-compose run --rm app php artisan migrate --seed
 ```
 ## Running locally 
 1 - Clone repository
-2 - Install npm dependencies
+2 - Install npm dependencies:
 ```sh 
 sudo npm i
 ```
-3 - Run migrations with seed data
+3 - Run migrations with seed data:
 ```sh
 sudo docker-compose run --rm app php artisan migrate --seed
 ```

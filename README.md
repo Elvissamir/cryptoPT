@@ -12,32 +12,26 @@ https://cpptracker.herokuapp.com/login
 
 ## Running using Docker for development: 
 1 - Clone repository
-2 - Install npm dependencies: npm i
-3 - Build and start docker containers: sudo docker-compose up --build
+2 - Install npm dependencies: 
+```
+sudo npm i
+```
+3 - Build and start docker containers: 
+```
+sudo docker-compose up --build
+```
 4 - In a separate console tab run the migrations with seed data: 
-    sudo docker-compose run --rm app php artisan migrate --seed
-
+```
+sudo docker-compose run --rm app php artisan migrate --seed
+```
 ## Running locally 
 1 - Clone repository
 2 - Install npm dependencies
-3 - Run the migrations with seed data
-4 - Start the server or use your predefined development environment: laragon, nginx server or xampp.
-
-# Project Details: 
-The models are: 
-- Customers
-- Users
-- Movies
-- Genres
-- Rentals
-
-Available routes: 
-- login
-- register
-- customers/new (GET)
-- customers (GET)
-- movies (GET)
-- movies/new (GET)
-- movies/:id (GET)
-- rentals (GET)
-- rentals/new (GET)
+```sh 
+sudo npm i
+```
+3 - Run migrations with seed data
+```sh
+sudo docker-compose run --rm app php artisan migrate --seed
+```
+4 - Use your favorite development environment: laragon, nginx server or xampp.
